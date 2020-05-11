@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "767997201618",
+    "firebase_url": "https://exchallenger-9b166.firebaseio.com",
+    "project_id": "exchallenger-9b166",
+    "storage_bucket": "exchallenger-9b166.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767997201618:android:af8f175a16858ac0a1710b",
+        "android_client_info": {
+          "package_name": "com.example.exchallenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767997201618-qti8g9alnubhdivq30uto621n0g8m1a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYE0v8wcyLURR1rhucBxT4pXKrefrDNZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767997201618-qti8g9alnubhdivq30uto621n0g8m1a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
