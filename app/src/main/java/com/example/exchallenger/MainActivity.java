@@ -2,13 +2,18 @@ package com.example.exchallenger;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 
 
+import com.example.exchallenger.Fragments.WorkoutFragment;
 import com.example.exchallenger.Helpers.MainHelper;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,32 +32,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testingHelper();
-    }
-
-
-    private void testingHelper()
-    {
-//        db.collection("UserExercises").whereArrayContains("members", "UserID1").get()
-//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                        for (QueryDocumentSnapshot document : queryDocumentSnapshots)
-//                        {
-//                            Log.d(MainHelper.TAG, document.getId() + "=>" + document.getData());
-//                        }
-//                    }
-//                });
-        db.collection("Workout").document("WorkoutID1").collection("miniWorkout")
-                .whereEqualTo("name", "push up").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots)
-                {
-                    Log.d(MainHelper.TAG, document.getId() + "=>" + document.getData());
-                }
-            }
-        });
 
     }
+
+
 }

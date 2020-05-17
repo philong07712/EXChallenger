@@ -1,7 +1,5 @@
 package com.example.exchallenger.Helpers;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.exchallenger.Listeners.AddListener;
@@ -14,15 +12,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class WorkoutHelper {
     FirebaseFirestore db;
 
-    public interface GetChallengeListener
+    public interface getWorkoutListener
     {
-        void onRead(Map<String, Object> map);
+        void onRead(List<Map<String, Object>> list);
+        void onCancel();
     }
 
     public WorkoutHelper()
@@ -30,7 +30,7 @@ public class WorkoutHelper {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void getChallengeWorkout(String userID, GetChallengeListener listener)
+    public void getChallengeWorkout(String userID, getWorkoutListener listener)
     {
         db.collection("Workout").document("WorkoutID1").get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -43,10 +43,10 @@ public class WorkoutHelper {
     public void addWorkout(Map<String, Object> bigWorkout, final List<Map<String, Object>> miniWorkout, final AddListener listener)
     {
         // get the key of the document
-        final String key = db.collection("Workout").document().toString();
+        final String key = db.collection("Workout").document().getId();
         bigWorkout.put("workoutID", key);
         // put the big workout in the collection
-        db.collection("Group").document(key).set(bigWorkout).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("Workout").document(key).set(bigWorkout).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful())
@@ -70,6 +70,10 @@ public class WorkoutHelper {
 
     public void addMiniWorkout(String workoutID, List<Map<String, Object>> miniWorkout, final AddListener listener)
     {
+        if (miniWorkout == null)
+        {
+            return;
+        }
         db.collection("Workout").document(workoutID).collection("miniWorkout").add(miniWorkout)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
@@ -82,4 +86,52 @@ public class WorkoutHelper {
                 });
     }
 
+
+    public void getChallenges(String userID, final getWorkoutListener listener)
+    {
+        db.collection("Workout").whereArrayContains("members", userID).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<Map<String, Object>> list = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Map<String, Object> map = (Map<String, Object>) document.getData();
+                                list.add(map);
+                            }
+                            listener.onRead(list);
+                        }
+                        else
+                        {
+                            listener.onCancel();
+                        }
+                    }
+                });
+    }
+
+    public void getDailyWork( final getWorkoutListener listener)
+    {
+        db.collection("Workout").whereEqualTo("isChallenge", false).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<Map<String, Object>> list = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Map<String, Object> map = (Map<String, Object>) document.getData();
+                                list.add(map);
+                            }
+                            listener.onRead(list);
+                        }
+                        else
+                        {
+                            listener.onCancel();
+                        }
+                    }
+                });
+    }
 }
