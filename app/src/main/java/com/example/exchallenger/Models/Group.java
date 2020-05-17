@@ -1,6 +1,6 @@
 package com.example.exchallenger.Models;
 
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.firestore.FieldValue;
 
 public class Group {
     private String groupKey, key, name, photo;
@@ -14,7 +14,7 @@ public class Group {
         this.key = key;
         this.name = name;
         this.photo = photo;
-        this.timeStamp = ServerValue.TIMESTAMP;
+        this.timeStamp = FieldValue.serverTimestamp();
     }
 
     public Group(Group group)

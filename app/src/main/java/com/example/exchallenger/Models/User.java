@@ -4,12 +4,13 @@ import android.database.DatabaseUtils;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.database.ServerValue;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class User {
-    String email, name, phoneNumber, photo, userID;
-    int totalPoints, numChallenger;
-    Object timeStamp;
+    private String email, name, phoneNumber, photo, userID;
+    private int totalPoints, numChallenger;
+    private Object timeStamp;
 
     public User() {
     }
@@ -22,7 +23,7 @@ public class User {
         this.userID = userID;
         this.totalPoints = 0;
         this.numChallenger = 0;
-        this.timeStamp = ServerValue.TIMESTAMP;
+        this.timeStamp = FieldValue.serverTimestamp();
     }
 
     public User(User user)
@@ -34,7 +35,19 @@ public class User {
         this.userID = user.userID;
         this.totalPoints = user.totalPoints;
         this.numChallenger = user.numChallenger;
-        this.timeStamp = user.timeStamp;
+        if (user.timeStamp == null) {
+            this.timeStamp = FieldValue.serverTimestamp();
+        }
+        else
+            this.timeStamp = user.timeStamp;
+    }
+
+    public Object getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Object timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public String getEmail() {

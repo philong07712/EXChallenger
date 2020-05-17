@@ -72,6 +72,7 @@ public class UserHelper {
         });
     }
 
+    // add new user with unique id auto created
     public void addNewUser(final User user, final AddListener listener)
     {
         DocumentReference docRef = ref.document();
