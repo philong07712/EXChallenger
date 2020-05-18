@@ -45,7 +45,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // rounded image
-    compile 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
     // multi index
     implementation 'com.android.support:multidex:1.0.3'

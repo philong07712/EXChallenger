@@ -41,7 +41,6 @@ public class WorkoutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_workout, container, false);
         initView(view);
         getData();
-        createWorkout();
         return view;
     }
 
@@ -51,32 +50,7 @@ public class WorkoutFragment extends Fragment {
         rv_daily = view.findViewById(R.id.workout_daily_rv);
     }
 
-    private List<Map<String, Object>> initList()
-    {
-        List<Map<String, Object>> listMap = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-        {
-            Map<String, Object> map = new HashMap<>();
-            map.put("name", "Mountain Hiking");
-            map.put("photo", "https://syndlab.com/files/view/5db9b150252346nbDR1gKP3OYNuwBhXsHJerdToc5I0SMLfk7qlv951730.jpeg");
-            listMap.add(map);
-        }
 
-        return listMap;
-    }
-
-    private List<Map<String, Object>> initDailyList()
-    {
-        List<Map<String, Object>> listMap = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-        {
-            Map<String, Object> map = new HashMap<>();
-            map.put("name", "Mountain Hiking");
-            map.put("photo", "https://png.pngtree.com/thumb_back/fw800/back_our/20190620/ourmid/pngtree-national-fitness-background-template-image_162233.jpg");
-            listMap.add(map);
-        }
-        return listMap;
-    }
     private void getData()
     {
         new WorkoutHelper().getChallenges("UserID1", new WorkoutHelper.getWorkoutListener() {
@@ -104,6 +78,7 @@ public class WorkoutFragment extends Fragment {
         });
     }
 
+    // This method will load the recyclerView of Challenges
     private void loadWorkoutChallenges(List<Map<String, Object>> list)
     {
         WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);
@@ -111,6 +86,7 @@ public class WorkoutFragment extends Fragment {
         rv_challenges.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    // This method will load the recyclerView of Daily
     private void loadWorkoutDaily(List<Map<String, Object>> list)
     {
         WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);

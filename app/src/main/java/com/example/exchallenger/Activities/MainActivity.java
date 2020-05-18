@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.example.exchallenger.Fragments.WorkoutFragment;
 import com.example.exchallenger.Helpers.MainHelper;
+import com.example.exchallenger.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

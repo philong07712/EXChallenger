@@ -29,4 +29,19 @@ public class WorkoutFactory {
         return map;
     }
 
+    public Map<String, Object> createMiniWorkout()
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("anim", "animation");
+        map.put("introduction", "https://firebasestorage.googleapis.com/v0/b/exchallenger-9b166.appspot.com/o/Men%20Push%20up%20position%20flat%20vector%403x.png?alt=media&token=850fe2c1-7904-46b7-a7a0-33fc655c103e");
+        map.put("name", "Push up");
+        map.put("photo", "https://firebasestorage.googleapis.com/v0/b/exchallenger-9b166.appspot.com/o/Flat%403x.png?alt=media&token=20bde06e-dd04-4859-abe5-d8eae9a08c77");
+        map.put("point", 15);
+        map.put("rep", 15);
+        map.put("time", 15);
+        map.put("type", "repeat");
+
+        return map;
+    }
+
 }

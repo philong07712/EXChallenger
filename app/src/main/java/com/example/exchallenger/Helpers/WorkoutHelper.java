@@ -40,7 +40,7 @@ public class WorkoutHelper {
                 });
     }
 
-    public void addWorkout(Map<String, Object> bigWorkout, final List<Map<String, Object>> miniWorkout, final AddListener listener)
+    public void addWorkout(Map<String, Object> bigWorkout, final Map<String, Object> miniWorkout, final AddListener listener)
     {
         // get the key of the document
         final String key = db.collection("Workout").document().getId();
@@ -68,22 +68,22 @@ public class WorkoutHelper {
         });
     }
 
-    public void addMiniWorkout(String workoutID, List<Map<String, Object>> miniWorkout, final AddListener listener)
+    public void addMiniWorkout(String workoutID, Map<String, Object> miniWorkout, final AddListener listener)
     {
         if (miniWorkout == null)
         {
             return;
         }
-        db.collection("Workout").document(workoutID).collection("miniWorkout").add(miniWorkout)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        String key = db.collection("Workout").document(workoutID).collection("miniWorkout").document().getId();
+        miniWorkout.put("miniWorkoutID", key);
+        db.collection("Workout").document(workoutID).collection("miniWorkout").document(key).set(miniWorkout)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful())
-                        {
-                            listener.onAdd();
-                        }
+                    public void onSuccess(Void aVoid) {
+                        listener.onAdd();
                     }
                 });
+
     }
 
 
@@ -134,4 +134,29 @@ public class WorkoutHelper {
                     }
                 });
     }
+
+    public void getDetailWorkout(String workoutID, final getWorkoutListener listener)
+    {
+        db.collection("Workout").document(workoutID).collection("miniWorkout").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<Map<String, Object>> list = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Map<String, Object> map = (Map<String, Object>) document.getData();
+                                list.add(map);
+                            }
+                            listener.onRead(list);
+                        }
+                        else
+                        {
+                            listener.onCancel();
+                        }
+                    }
+                });
+    }
+
 }

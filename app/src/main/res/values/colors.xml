@@ -6,4 +6,9 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    
+    
+    <color name="text_detail_color">#1B76FF</color>
+    <color name="grayLine">#9E9E9E</color>
+    <color name="btnBlue">#1B76FF</color>
 </resources>

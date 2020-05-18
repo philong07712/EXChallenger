@@ -1,6 +1,7 @@
 package com.example.exchallenger.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.Activities.WorkoutDetailActivity;
 import com.example.exchallenger.R;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                 .apply(new RequestOptions().transform(new CenterInside(), new RoundedCorners(16)))
                 .into(holder.img);
         holder.tv_name.setText(list.get(position).get("name").toString());
+
+
     }
 
     @Override
@@ -60,6 +63,20 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             img = itemView.findViewById(R.id.row_workout_image);
             tv_name = itemView.findViewById(R.id.row_workout_name);
 
+            // set for the user click the image will turn to activity detail
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, WorkoutDetailActivity.class);
+                    int position = getAdapterPosition();
+
+                    // we will throw the name, image, and the workout ID
+                    intent.putExtra("name", list.get(position).get("name").toString());
+                    intent.putExtra("workoutID", list.get(position).get("workoutID").toString());
+                    intent.putExtra("photo", list.get(position).get("photo").toString());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }
