@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,9 +26,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
     Context mContext;
     List<Map<String, Object>> list;
 
+    private int radius;
+
     public WorkoutAdapter(Context mContext, List<Map<String, Object>> list) {
         this.mContext = mContext;
         this.list = list;
+        radius = mContext.getResources().getDimensionPixelSize(R.dimen.radius_workout);
     }
 
     @NonNull
@@ -42,7 +46,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
         Glide.with(mContext).asBitmap()
                 .load(list.get(position).get("photo").toString())
-                .apply(new RequestOptions().transform(new CenterInside(), new RoundedCorners(16)))
+                .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(radius)))
                 .into(holder.img);
         holder.tv_name.setText(list.get(position).get("name").toString());
 
