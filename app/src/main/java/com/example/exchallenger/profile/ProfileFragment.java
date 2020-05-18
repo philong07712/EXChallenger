@@ -29,8 +29,6 @@ public class ProfileFragment extends BaseFragment {
     CustomTextviewFonts tvMissionCount;
     @BindView(R.id.tv_username)
     CustomTextviewFonts tvUsername;
-    @BindView(R.id.btn_more)
-    ImageView btnMore;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.tab_layout)

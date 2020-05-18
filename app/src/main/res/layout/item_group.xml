@@ -43,8 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:padding="6dp"
         android:layout_marginRight="12dp"
+        android:padding="6dp"
         android:textColor="@color/text_gray"
         android:textSize="14sp"
         app:font_type="@string/medium"
@@ -63,11 +63,4 @@
         app:layout_constraintStart_toStartOf="@id/tv_group"
         app:layout_constraintTop_toBottomOf="@id/tv_group" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="@dimen/height_border"
-        android:background="@color/color_border"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tv_group" />
 </androidx.constraintlayout.widget.ConstraintLayout>

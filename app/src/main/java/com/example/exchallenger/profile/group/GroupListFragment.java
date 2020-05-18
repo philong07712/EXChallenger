@@ -8,6 +8,7 @@ import com.example.exchallenger.R;
 import java.util.Arrays;
 
 import butterknife.BindView;
+
 import com.example.exchallenger.base.BaseFragment;
 
 public class GroupListFragment extends BaseFragment {
@@ -29,6 +30,7 @@ public class GroupListFragment extends BaseFragment {
         groupAdapter = new GroupAdapter(getContext());
         rcvGroup.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         rcvGroup.setAdapter(groupAdapter);
-        groupAdapter.set(Arrays.asList(1, 2, 3, 4));
+        rcvGroup.setNestedScrollingEnabled(false);
+        groupAdapter.set(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
     }
 }

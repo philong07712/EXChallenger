@@ -8,6 +8,7 @@ import com.example.exchallenger.R;
 import java.util.Arrays;
 
 import butterknife.BindView;
+
 import com.example.exchallenger.base.BaseFragment;
 
 public class FriendListFragment extends BaseFragment {
@@ -29,6 +30,6 @@ public class FriendListFragment extends BaseFragment {
         friendAdapter = new FriendAdapter(getContext());
         rcvFriend.setAdapter(friendAdapter);
         rcvFriend.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        friendAdapter.set(Arrays.asList(1, 2, 3, 4, 5, 6));
+        friendAdapter.set(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
     }
 }
