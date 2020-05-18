@@ -57,7 +57,14 @@ public class GroupAdapter extends BaseRecyclerViewAdapter<Object> {
             super.onBind(position);
             tvGroup.setText("Six packs boys");
             tvCount.setText("8");
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getOnItemClickListener()!=null){
+                        getOnItemClickListener().onItemClick(position, mDataList.get(position));
+                    }
+                }
+            });
 
         }
     }

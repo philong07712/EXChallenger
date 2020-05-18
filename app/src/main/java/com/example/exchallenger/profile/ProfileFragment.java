@@ -1,6 +1,10 @@
 package com.example.exchallenger.profile;
 
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -10,8 +14,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
+import com.example.exchallenger.group.CreateGroupFragment;
+import com.example.exchallenger.group.JoinGroupFragment;
 import com.example.exchallenger.stats.StatisticFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.utilityview.customview.CustomTextviewFonts;
 
@@ -33,7 +38,13 @@ public class ProfileFragment extends BaseFragment {
     ViewPager viewPager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+    @BindView(R.id.iv_rank)
+    ImageView ivRank;
+    @BindView(R.id.tv_rank)
+    CustomTextviewFonts tvRank;
+
     private ProfilePagerAdapter profilePagerAdapter;
+    private PopupWindow popup;
 
     public static ProfileFragment newInstance() {
         ProfileFragment profileFragment = new ProfileFragment();
@@ -81,7 +92,7 @@ public class ProfileFragment extends BaseFragment {
 
             }
         });
-
+        createMenuPopup();
         showUserData();
     }
 
@@ -93,10 +104,51 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @OnClick(R.id.btn_more)
-    void onClickMore(){
+    void onClickMore() {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .add(android.R.id.content, StatisticFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @OnClick(R.id.btn_add)
+    public void onClickAddGroup() {
+
+    }
+
+    public void createMenuPopup() {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.popup_group, null);
+        popup = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+        View btnCreateGroup = view.findViewById(R.id.btn_create);
+        View btnJoinGroup = view.findViewById(R.id.btn_join);
+        btnCreateGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                showCreateGroup();
+            }
+        });
+        btnJoinGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                showJoinGroup();
+            }
+        });
+    }
+
+    private void showJoinGroup() {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(android.R.id.content, JoinGroupFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void showCreateGroup() {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(android.R.id.content, CreateGroupFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
     }

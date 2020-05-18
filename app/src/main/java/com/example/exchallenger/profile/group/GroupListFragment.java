@@ -10,6 +10,8 @@ import java.util.Arrays;
 import butterknife.BindView;
 
 import com.example.exchallenger.base.BaseFragment;
+import com.example.exchallenger.base.OnItemClickListener;
+import com.example.exchallenger.group.GroupDetailFragment;
 
 public class GroupListFragment extends BaseFragment {
     @BindView(R.id.rcv_group)
@@ -32,5 +34,20 @@ public class GroupListFragment extends BaseFragment {
         rcvGroup.setAdapter(groupAdapter);
         rcvGroup.setNestedScrollingEnabled(false);
         groupAdapter.set(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
+
+        groupAdapter.setOnItemClickListener(new OnItemClickListener<Object>() {
+            @Override
+            public void onItemClick(int position, Object dataItem) {
+                showGroupDetailFragment();
+            }
+        });
+    }
+
+    private void showGroupDetailFragment() {
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, GroupDetailFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 }
