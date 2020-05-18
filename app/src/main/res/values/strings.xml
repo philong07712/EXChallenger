@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">EXChallenger</string>
+    <string name="facebook_app_id">549797569261829</string> <string name="fb_login_protocol_scheme">fb549797569261829</string>
+    <string name="rank_rat_1">Rat I</string>
+    <string name="rank_rat_2">Rat II</string>
+    <string name="rank_rat_3">Rat III</string>
+    <string name="rank_rat_4">Rat IV</string>
+    <string name="rank_buffalo_1">Buffalo I</string>
+    <string name="rank_buffalo_2">Buffalo II</string>
+    <string name="rank_buffalo_3">Buffalo III</string>
+    <string name="rank_buffalo_4">Buffalo IV</string>
+    <string name="rank_tiger_1">Tiger I</string>
+    <string name="rank_tiger_2">Tiger II</string>
+    <string name="rank_tiger_3">Tiger III</string>
+    <string name="rank_tiger_4">Tiger IV</string>
+    <string name="rank_dragon_1">Dragon I</string>
+    <string name="rank_dragon_2">Dragon II</string>
+    <string name="rank_dragon_3">Dragon III</string>
+    <string name="rank_dragon_4">Dragon IV</string>
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_group"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="12dp"
+        android:src="@drawable/img_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/text_black"
+        android:textSize="20sp"
+        app:font_type="@string/medium"
+        app:layout_constraintStart_toEndOf="@id/iv_group"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Mountain Hiking" />
+
+    <ImageView
+        android:id="@+id/iv_count"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_group_member"
+        app:layout_constraintBottom_toBottomOf="@id/tv_count"
+        app:layout_constraintEnd_toStartOf="@id/tv_count"
+        app:layout_constraintTop_toTopOf="@id/tv_count" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:padding="6dp"
+        android:layout_marginRight="12dp"
+        android:textColor="@color/text_gray"
+        android:textSize="14sp"
+        app:font_type="@string/medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_your_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your rank: 2"
+        android:textColor="@color/color_main"
+        android:textSize="16sp"
+        app:font_type="@string/medium"
+        app:layout_constraintStart_toStartOf="@id/tv_group"
+        app:layout_constraintTop_toBottomOf="@id/tv_group" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_border"
+        android:background="@color/color_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_group" />
+</androidx.constraintlayout.widget.ConstraintLayout>
