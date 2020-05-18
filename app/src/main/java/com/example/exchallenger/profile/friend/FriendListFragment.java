@@ -30,6 +30,7 @@ public class FriendListFragment extends BaseFragment {
         friendAdapter = new FriendAdapter(getContext());
         rcvFriend.setAdapter(friendAdapter);
         rcvFriend.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        rcvFriend.setNestedScrollingEnabled(false);
         friendAdapter.set(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
     }
 }

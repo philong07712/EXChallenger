@@ -8,4 +8,5 @@
     <color name="color_border">#D5D5D5</color>
     <color name="text_gray">#707070</color>
     <color name="background_default">#FAFAFA</color>
+    <color name="blue">#2196F3</color>
 </resources>
