@@ -2,7 +2,7 @@
 <resources>
     <dimen name="height_border">2px</dimen>
     <dimen name="ava_height">64dp</dimen>
-    <dimen name="text_header">24sp</dimen>
+    <dimen name="text_header">20sp</dimen>
 
     <!--dimes for design 3-->
     <dimen name="headerTextSize">22sp</dimen>

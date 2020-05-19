@@ -14,8 +14,6 @@ import com.example.exchallenger.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jakewharton.rxbinding3.widget.RxTextView;
-import com.utilityview.customview.CustomButtonFonts;
-import com.utilityview.customview.CustomEditTextFonts;
 import com.utilityview.customview.CustomTextviewFonts;
 
 import java.util.concurrent.TimeUnit;
@@ -26,10 +24,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class GroupDetailFragment extends BaseFragment {
     @BindView(R.id.iv_back)
     ImageView ivBack;
-    @BindView(R.id.edt_code)
-    CustomEditTextFonts edtCode;
-    @BindView(R.id.btn_done)
-    CustomButtonFonts btnDone;
     @BindView(R.id.tv_group)
     CustomTextviewFonts tvGroup;
     @BindView(R.id.iv_avatar)
@@ -97,31 +91,6 @@ public class GroupDetailFragment extends BaseFragment {
                     getActivity().onBackPressed();
                 }, Throwable::printStackTrace);
 
-        RxView.clicks(btnDone).throttleFirst(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(unit -> {
-                    submitGroupCode();
-                }, Throwable::printStackTrace);
-
-        RxTextView.afterTextChangeEvents(edtCode)
-                .skipInitialValue()
-                .map(event -> event.getEditable().toString().trim().length() > 0)
-                .subscribe(hasText -> btnDone.setEnabled(hasText), Throwable::printStackTrace);
-
-        edtCode.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == EditorInfo.IME_ACTION_GO) {
-                    if (edtCode.getText().toString().trim().isEmpty()) {
-                        return false;
-                    } else {
-                        submitGroupCode();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
     }
 
     private void submitGroupCode() {

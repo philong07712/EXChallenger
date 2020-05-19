@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_trans_press_gray"
     android:paddingLeft="16dp"
+    android:paddingTop="8dp"
     android:paddingRight="16dp">
 
     <com.utilityview.customview.CustomTextviewFonts
         android:id="@+id/tv_pos"
-        android:layout_width="20dp"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="1"
         android:textColor="@color/text_black"
-        android:textSize="24sp"
-        android:gravity="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,9 +23,10 @@
 
     <ImageView
         android:id="@+id/iv_avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/img_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_pos"
@@ -34,26 +37,34 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="32dp"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="Carolyn Guereso"
         android:textColor="@color/color_main"
         android:textSize="18sp"
         app:font_type="@string/medium"
-        android:layout_marginRight="32dp"
-        android:singleLine="true"
-        android:ellipsize="end"
         app:layout_constraintEnd_toStartOf="@id/tv_point"
         app:layout_constraintStart_toEndOf="@id/iv_avatar"
         app:layout_constraintTop_toTopOf="@id/iv_avatar" />
+
     <com.utilityview.customview.CustomTextviewFonts
         android:id="@+id/tv_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
+        android:text="1200"
         android:textColor="@color/text_black"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        app:font_type="@string/medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/color_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/iv_avatar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
