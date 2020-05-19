@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        app:elevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp"
+            app:layout_scrollFlags="scroll">
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="@dimen/ava_height"
+                android:layout_height="@dimen/ava_height"
+                android:layout_margin="16dp"
+                android:src="@drawable/img_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/bg_trans_press_gray"
+                android:src="@drawable/ic_three_dot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:id="@+id/tv_rank_point"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:text="856"
+                android:textColor="#FF1B76"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toTopOf="@id/text1"
+                app:layout_constraintStart_toEndOf="@id/view_rank"
+                app:layout_constraintTop_toTopOf="@id/view_rank"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:id="@+id/text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Total Points"
+                app:layout_constraintBottom_toBottomOf="@id/view_rank"
+                app:layout_constraintEnd_toEndOf="@id/tv_rank_point"
+                app:layout_constraintStart_toStartOf="@id/tv_rank_point"
+                app:layout_constraintTop_toBottomOf="@id/tv_rank_point" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:id="@+id/tv_mission_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="856"
+                android:textColor="#1B76FF"
+                android:textSize="28sp"
+                app:layout_constraintEnd_toStartOf="@id/btn_more"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/tv_rank_point"
+                app:layout_constraintTop_toTopOf="@id/tv_rank_point"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Missions Completed"
+                app:layout_constraintEnd_toEndOf="@id/tv_mission_count"
+                app:layout_constraintStart_toStartOf="@id/tv_mission_count"
+                app:layout_constraintTop_toBottomOf="@id/tv_mission_count" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:id="@+id/tv_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="Joey Tribbiani"
+                android:textColor="@color/text_black"
+                android:textSize="22sp"
+                app:font_type="@string/medium"
+                app:layout_constraintEnd_toStartOf="@id/btn_more"
+                app:layout_constraintStart_toEndOf="@id/iv_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_profile" />
+
+            <com.utilityview.customview.CustomTextviewFonts
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Total workout time: 624 hrs"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                app:font_type="@string/medium"
+                app:layout_constraintStart_toStartOf="@id/tv_username"
+                app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+            <ImageView
+                android:id="@+id/btn_more"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/bg_trans_press_gray"
+                android:padding="4dp"
+                android:src="@drawable/ic_bars"
+                android:textColor="@color/color_main"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/view_rank"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_rank" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_border"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/color_border"
+                app:layout_constraintTop_toBottomOf="@id/iv_profile" />
+
+
+            <LinearLayout
+                android:id="@+id/view_rank"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_white_corner"
+                android:elevation="4dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view2">
+
+                <ImageView
+                    android:id="@+id/iv_rank"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:src="@drawable/rank_tiger"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view2" />
+
+                <com.utilityview.customview.CustomTextviewFonts
+                    android:id="@+id/tv_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiger 1"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"
+                    app:font_type="@string/medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/iv_rank"
+                    app:layout_constraintStart_toStartOf="@id/iv_rank"
+                    app:layout_constraintTop_toBottomOf="@id/iv_rank" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_white_corner_top"
+            android:elevation="8dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/color_border"
+                app:layout_constraintBottom_toBottomOf="@id/tab_layout" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabIndicator="@drawable/indicator_profile_tab"
+                app:tabIndicatorColor="@color/color_main"
+                app:tabIndicatorFullWidth="false"
+                app:tabSelectedTextColor="@color/text_gray"
+                app:tabTextColor="@color/color_main">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/tab_profile"
+                    android:text="Groups" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout="@layout/tab_profile"
+                    android:text="Friends" />
+            </com.google.android.material.tabs.TabLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+
+
+            />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

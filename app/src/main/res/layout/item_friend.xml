@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/img_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/text_black"
+        android:textSize="18sp"
+        app:font_type="@string/medium"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_avatar"
+        tools:text="Mountain Hiking" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_rank_point"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/text_gray"
+        android:textSize="16sp"
+        app:font_type="@string/medium"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        tools:text="Mountain Hiking" />
+
+    <ImageView
+        android:id="@+id/iv_rank"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="24dp"
+        android:src="@drawable/rank_tiger"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/tv_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="Dragon 1"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        app:font_type="@string/medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/iv_rank"
+        app:layout_constraintStart_toStartOf="@id/iv_rank"
+        app:layout_constraintTop_toBottomOf="@id/iv_rank" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/height_border"
+        android:background="@color/color_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/iv_rank"
+        app:layout_constraintStart_toStartOf="@id/tv_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
