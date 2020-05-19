@@ -24,4 +24,5 @@
     <color name="text_detail_color">#1B76FF</color>
     <color name="grayLine">#9E9E9E</color>
     <color name="btnBlue">#1B76FF</color>
+    <color name="pink_danger">#FF1B76</color>
 </resources>

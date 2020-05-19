@@ -1,5 +1,8 @@
 package com.example.exchallenger.Helpers;
 
+import android.util.Log;
+import android.widget.ArrayAdapter;
+
 import androidx.annotation.NonNull;
 
 import com.example.exchallenger.Listeners.AddListener;
@@ -12,6 +15,13 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserHelper {
 
@@ -20,7 +30,13 @@ public class UserHelper {
     // We will use custom interface here
     public interface GetUserInfo
     {
-        void onRead(User user);
+        void onRead(Map<String, Object> user);
+    }
+
+    public interface GetGroupListener
+    {
+        void onRead(List<Map<String, Object>> groups, List<String> keys);
+        void onCancel(String message);
     }
 
     public UserHelper()
@@ -39,8 +55,7 @@ public class UserHelper {
                 if (task.isSuccessful())
                 {
                     DocumentSnapshot document = task.getResult();
-                    User user = document.toObject(User.class);
-                    listener.onRead(user);
+                    listener.onRead(document.getData());
                 }
                 else
                 {
@@ -83,5 +98,63 @@ public class UserHelper {
                 listener.onAdd();
             }
         });
+    }
+
+    public void addFinishWorkout(String userID, Map<String, Object> map, AddListener listener)
+    {
+        DocumentReference docRef = database.collection("Users").document(userID);
+       docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> userData = documentSnapshot.getData();
+
+                // plus point to totalPoint
+                int totalPoint = Integer.parseInt(userData.get("totalPoints").toString());
+                totalPoint += Integer.parseInt(map.get("totalPoints").toString());
+                // plus Challenge
+                int numChallenge = Integer.parseInt(userData.get("numChallenge").toString());
+                numChallenge += 1;
+                int totalTimes = Integer.parseInt(userData.get("totalTimes").toString());
+                totalTimes += Integer.parseInt(map.get("totalTimes").toString());
+                // now we will update the user data
+                Map<String, Object> newInfo = new HashMap<>();
+                newInfo.put("totalPoints", totalPoint);
+                newInfo.put("numChallenge", numChallenge);
+                newInfo.put("totalTimes", totalTimes);
+                docRef.update(newInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.onAdd();
+                    }
+                });
+            }
+        });
+    }
+
+    public void getGroupOfUser(String userID, GetGroupListener listener)
+    {
+        database.collection("Groups").whereArrayContains("members", userID).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<Map<String, Object>> list = new ArrayList<>();
+                            List<String> keys = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                Map<String, Object> group = document.getData();
+                                list.add(group);
+                                keys.add(document.getId());
+                            }
+                            Log.d(MainHelper.TAG, list.toString());
+                            listener.onRead(list, keys);
+                        }
+                        else
+                        {
+                            listener.onCancel(task.getException().getMessage());
+                        }
+                    }
+                });
     }
 }
