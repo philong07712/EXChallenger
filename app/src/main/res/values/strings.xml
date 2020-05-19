@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">EXChallenger</string>
+    <string name="workout">Workout</string>
+    <string name="start">Start</string>
+    <string name="relax">Relax</string>
+    <string name="working">Working</string>
+    <string name="relax_s">Relax: %s</string>
+    <string name="work_s">Work: %s</string>
+    <string name="title_time_relax">It\'s time to relax</string>
+    <string name="des_time_relax">Do some workout to relax</string>
+    <string name="title_time_work">Back to your work now</string>
+    <string name="des_time_work">Focus on your work</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="morning">Morning</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="lunch_break">Lunch Break</string>
+    <string name="save">Save</string>
+    <string name="time_is_invalid">Time is invalid</string>
+    <string name="your_data_saved">Your data is saved</string>
+    <string name="tell_me_your_work_time">Tell me your work time</string>
 </resources>
