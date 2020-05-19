@@ -11,8 +11,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.DocumentType;
 
@@ -34,6 +36,12 @@ public class GroupHelper {
         void onRead(List<String> groupsID);
     }
 
+    public interface GroupJoinListener
+    {
+        void onSuccess();
+        void onCancel(String message);
+    }
+
     public void getGroups(String userID, final getGroupsListener listener) {
         DocumentReference docRef = database.collection("Users_Groups").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -53,4 +61,27 @@ public class GroupHelper {
         });
     }
 
+    public void joinGroup(String userID, String groupKey, GroupJoinListener listener)
+    {
+        //Todo: get group with that key
+        DocumentReference docRef = database.collection("Groups").document(groupKey);
+        docRef.update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful())
+                {
+                    listener.onSuccess();
+                }
+                else
+                {
+                    listener.onCancel(task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+    public void addUserToRanking(String userID, String groupKey, GroupJoinListener listener)
+    {
+        database.collection("Groups").document(groupKey).collection("Ranking");
+    }
 }

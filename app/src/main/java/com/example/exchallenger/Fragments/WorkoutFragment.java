@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.exchallenger.Adapters.WorkoutAdapter;
 import com.example.exchallenger.Factories.WorkoutFactory;
+import com.example.exchallenger.Helpers.GroupHelper;
+import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.R;
