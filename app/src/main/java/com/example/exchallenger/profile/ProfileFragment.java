@@ -1,5 +1,6 @@
 package com.example.exchallenger.profile;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.group.CreateGroupFragment;
 import com.example.exchallenger.group.JoinGroupFragment;
 import com.example.exchallenger.stats.StatisticFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.utilityview.customview.CustomTextviewFonts;
 
@@ -42,6 +44,8 @@ public class ProfileFragment extends BaseFragment {
     ImageView ivRank;
     @BindView(R.id.tv_rank)
     CustomTextviewFonts tvRank;
+    @BindView(R.id.btn_add)
+    FloatingActionButton btnAdd;
 
     private ProfilePagerAdapter profilePagerAdapter;
     private PopupWindow popup;
@@ -114,7 +118,7 @@ public class ProfileFragment extends BaseFragment {
 
     @OnClick(R.id.btn_add)
     public void onClickAddGroup() {
-
+        popup.showAsDropDown(btnAdd, -72, -btnAdd.getHeight() - 300, Gravity.TOP | Gravity.START);
     }
 
     public void createMenuPopup() {
