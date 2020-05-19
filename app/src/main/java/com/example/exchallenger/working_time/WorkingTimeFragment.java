@@ -46,10 +46,10 @@ public class WorkingTimeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        time[0] = WorkFromHomeManager.getData(MORNING_FROM, defaultTime[0]);
-        time[1] = WorkFromHomeManager.getData(MORNING_TO, defaultTime[1]);
-        time[2] = WorkFromHomeManager.getData(AFTERNOON_FROM, defaultTime[2]);
-        time[3] = WorkFromHomeManager.getData(AFTERNOON_TO, defaultTime[3]);
+        time[0] = WorkFromHomeManager.getMorningFrom();
+        time[1] = WorkFromHomeManager.getMorningTo();
+        time[2] = WorkFromHomeManager.getAfternoonFrom();
+        time[3] = WorkFromHomeManager.getAfternoonTo();
 
         initView(view);
         setListener();
