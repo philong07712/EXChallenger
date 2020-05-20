@@ -36,6 +36,7 @@ import android.media.ImageReader.OnImageAvailableListener
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.text.TextUtils
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
@@ -58,6 +59,7 @@ import kotlin.math.abs
 import org.tensorflow.lite.examples.posenet.lib.BodyPart
 import org.tensorflow.lite.examples.posenet.lib.Person
 import org.tensorflow.lite.examples.posenet.lib.Posenet
+import kotlin.math.log
 
 class PosenetActivity :
         Fragment(),
@@ -80,7 +82,14 @@ class PosenetActivity :
     )
 
 
-    public var onDetectListener:OnDetectListener? = null
+    public var onDetectListener: OnDetectListener? = null
+
+    public var onCameraLoaded: OnCameraLoaded? = null
+
+    private var cameraOpenned: Boolean = false
+
+    public var workoutName: String? = null
+
 
     /** Threshold for confidence score. */
     private val minConfidence = 0.5
@@ -196,7 +205,6 @@ class PosenetActivity :
     }
 
 
-
     /**
      * Shows a [Toast] on the UI thread.
      *
@@ -218,6 +226,8 @@ class PosenetActivity :
         surfaceHolder = surfaceView!!.holder
         surfaceView!!.setZOrderOnTop(true)
         surfaceHolder!!.setFormat(PixelFormat.TRANSLUCENT);
+        leftShoulder = ArrayList()
+        currentCount = 0
     }
 
     override fun onResume() {
@@ -450,6 +460,10 @@ class PosenetActivity :
             if (frameCounter == 0) {
                 processImage(rotatedBitmap)
             }
+            if (!cameraOpenned) {
+                onCameraLoaded?.onCameraLoaded()
+                cameraOpenned = true
+            }
         }
     }
 
@@ -532,49 +546,51 @@ class PosenetActivity :
         val widthRatio = screenWidth.toFloat() / MODEL_WIDTH
         val heightRatio = screenHeight.toFloat() / MODEL_HEIGHT
 
-        // Draw key points over the image.
-        for (keyPoint in person.keyPoints) {
-            if (keyPoint.score > minConfidence) {
-                val position = keyPoint.position
-                val adjustedX: Float = position.x.toFloat() * widthRatio + left
-                val adjustedY: Float = position.y.toFloat() * heightRatio + top
-                canvas.drawCircle(adjustedX, adjustedY, circleRadius, paint)
-            }
-        }
-
-        for (line in bodyJoints) {
-            if (
-                    (person.keyPoints[line.first.ordinal].score > minConfidence) and
-                    (person.keyPoints[line.second.ordinal].score > minConfidence)
-            ) {
-                canvas.drawLine(
-                        person.keyPoints[line.first.ordinal].position.x.toFloat() * widthRatio + left,
-                        person.keyPoints[line.first.ordinal].position.y.toFloat() * heightRatio + top,
-                        person.keyPoints[line.second.ordinal].position.x.toFloat() * widthRatio + left,
-                        person.keyPoints[line.second.ordinal].position.y.toFloat() * heightRatio + top,
-                        paint
-                )
-            }
-        }
-
-        canvas.drawText(
-                "Score: %.2f".format(person.score),
-                (15.0f * widthRatio),
-                (30.0f * heightRatio + bottom),
-                paint
-        )
-        canvas.drawText(
-                "Device: %s".format(posenet.device),
-                (15.0f * widthRatio),
-                (50.0f * heightRatio + bottom),
-                paint
-        )
-        canvas.drawText(
-                "Time: %.2f ms".format(posenet.lastInferenceTimeNanos * 1.0f / 1_000_000),
-                (15.0f * widthRatio),
-                (70.0f * heightRatio + bottom),
-                paint
-        )
+//        // Draw key points over the image.
+//        for (keyPoint in person.keyPoints) {
+//            if (keyPoint.score > minConfidence) {
+//                val position = keyPoint.position
+//                val adjustedX: Float = position.x.toFloat() * widthRatio + left
+//                val adjustedY: Float = position.y.toFloat() * heightRatio + top
+//                canvas.drawCircle(adjustedX, adjustedY, circleRadius, paint)
+//
+//                keyPoint.bodyPart.name == ""
+//            }
+//        }
+//
+//        for (line in bodyJoints) {
+//            if (
+//                    (person.keyPoints[line.first.ordinal].score > minConfidence) and
+//                    (person.keyPoints[line.second.ordinal].score > minConfidence)
+//            ) {
+//                canvas.drawLine(
+//                        person.keyPoints[line.first.ordinal].position.x.toFloat() * widthRatio + left,
+//                        person.keyPoints[line.first.ordinal].position.y.toFloat() * heightRatio + top,
+//                        person.keyPoints[line.second.ordinal].position.x.toFloat() * widthRatio + left,
+//                        person.keyPoints[line.second.ordinal].position.y.toFloat() * heightRatio + top,
+//                        paint
+//                )
+//            }
+//        }
+//
+//        canvas.drawText(
+//                "Score: %.2f".format(person.score),
+//                (15.0f * widthRatio),
+//                (30.0f * heightRatio + bottom),
+//                paint
+//        )
+//        canvas.drawText(
+//                "Device: %s".format(posenet.device),
+//                (15.0f * widthRatio),
+//                (50.0f * heightRatio + bottom),
+//                paint
+//        )
+//        canvas.drawText(
+//                "Time: %.2f ms".format(posenet.lastInferenceTimeNanos * 1.0f / 1_000_000),
+//                (15.0f * widthRatio),
+//                (70.0f * heightRatio + bottom),
+//                paint
+//        )
 
         // Draw!
         surfaceHolder!!.unlockCanvasAndPost(canvas)
@@ -591,7 +607,39 @@ class PosenetActivity :
         // Perform inference.
         val person = posenet.estimateSinglePose(scaledBitmap)
         val canvas: Canvas = surfaceHolder!!.lockCanvas()
+        detect(person)
         draw(canvas, person, scaledBitmap)
+    }
+
+    var leftShoulder: ArrayList<Int> = ArrayList()
+    var currentCount: Int = 0
+
+    private fun detect(person: Person) {
+        if (TextUtils.isEmpty(workoutName))
+            return
+        for (keyPoint in person.keyPoints) {
+            if (keyPoint.score > minConfidence) {
+                if (keyPoint.bodyPart.name == BodyPart.LEFT_SHOULDER.name) {
+                    leftShoulder.add(keyPoint.position.y)
+                }
+            }
+        }
+
+
+        var tempCount: Int = 0
+        for (i in 0 until leftShoulder.size) {
+            if (i > 1) {
+                if (leftShoulder[i - 2] > leftShoulder[i - 1] && leftShoulder[i] > leftShoulder[i - 1]
+                        || leftShoulder[i - 2] < leftShoulder[i - 1] && leftShoulder[i] < leftShoulder[i - 1])
+                    tempCount++;
+            }
+        }
+        onDetectListener?.onNewCount(tempCount/2)
+    }
+
+    public fun reset() {
+        leftShoulder = ArrayList()
+        currentCount = 0
     }
 
     /**
@@ -708,8 +756,12 @@ class PosenetActivity :
         private const val TAG = "PosenetActivity"
     }
 
-    interface OnDetectListener  {
+    interface OnDetectListener {
         fun onNewCount(newCount: Int)
 
+    }
+
+    interface OnCameraLoaded {
+        fun onCameraLoaded()
     }
 }

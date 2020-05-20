@@ -1,10 +1,8 @@
 package com.example.exchallenger;
 
-import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -30,7 +28,7 @@ public class ExerciseActivity extends AppCompatActivity {
     List<Map<String, Object>> listExercise;
 
     //    ImageView image;
-    TextView tvName, tvReps;
+    TextView tvName, tvReps, txtCount;
     Button giveUpBtn, startBtn;
     int position;
     int currentPoint;
@@ -40,6 +38,7 @@ public class ExerciseActivity extends AppCompatActivity {
     LottieAnimationView lottieAnimationView;
     FrameLayout cameraView;
     View viewPlaceholderAnimation;
+    int currentWorkoutPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,7 @@ public class ExerciseActivity extends AppCompatActivity {
         cameraView = findViewById(R.id.camera_view);
         lottieAnimationView = findViewById(R.id.exercise_img);
         viewPlaceholderAnimation = findViewById(R.id.view_place_holder_animation);
+        txtCount = findViewById(R.id.txt_count);
         tvName = findViewById(R.id.exercise_name);
         tvReps = findViewById(R.id.exercise_rep);
         giveUpBtn = findViewById(R.id.btn_exercise_giveup);
@@ -61,7 +61,8 @@ public class ExerciseActivity extends AppCompatActivity {
         pb.setVisibility(View.INVISIBLE);
         startTime = System.currentTimeMillis();
         // loadExercise for first time
-        loadExercise(0);
+        currentWorkoutPosition = 0;
+        loadExercise();
 
         startBtn.setOnClickListener(v -> {
             setCameraView();
@@ -100,8 +101,8 @@ public class ExerciseActivity extends AppCompatActivity {
         });
     }
 
-    private void loadExercise(int position) {
-        Map<String, Object> map = listExercise.get(position);
+    private void loadExercise() {
+        Map<String, Object> map = listExercise.get(currentWorkoutPosition);
         String introductionPhoto = map.get("introduction").toString();
         String name = map.get("name").toString();
         double rep = (double) map.get("rep");
@@ -145,14 +146,42 @@ public class ExerciseActivity extends AppCompatActivity {
         tvReps.setLayoutParams(viewHolderExcerciseRepLayoutParams);
 
 
-//        lottieAnimationView.setTranslationY(200);
         PosenetActivity posenetActivity = new PosenetActivity();
         posenetActivity.setOnDetectListener(new PosenetActivity.OnDetectListener() {
             @Override
             public void onNewCount(int newCount) {
-                Log.e(TAG, "onNewCount: " + newCount );
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        txtCount.setText(newCount + "");
+                        if (newCount >= (double) listExercise.get(currentWorkoutPosition).get("rep")) {
+                            posenetActivity.reset();
+                            doneWorkout();
+                        }
+                    }
+                });
             }
         });
+        pb.setVisibility(View.VISIBLE);
+        posenetActivity.setOnCameraLoaded(new PosenetActivity.OnCameraLoaded() {
+            @Override
+            public void onCameraLoaded() {
+                pb.setVisibility(View.INVISIBLE);
+            }
+        });
+        posenetActivity.setWorkoutName(tvName.getText().toString().trim());
+        txtCount.setVisibility(View.VISIBLE);
+        txtCount.setText("0");
         getSupportFragmentManager().beginTransaction().replace(R.id.camera_view, posenetActivity).commit();
+    }
+
+    private void doneWorkout() {
+        if (currentWorkoutPosition <= listExercise.size() - 1) {
+            totalPoint += currentPoint;
+            currentWorkoutPosition++;
+            loadExercise();
+        } else {
+            addPoint();
+        }
     }
 }
