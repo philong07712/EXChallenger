@@ -3,6 +3,7 @@ package com.example.exchallenger.Helpers;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.exchallenger.Models.Group;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -11,8 +12,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -44,18 +47,27 @@ public class GroupHelper {
 
     public void getGroups(String userID, final getGroupsListener listener) {
         DocumentReference docRef = database.collection("Users_Groups").document(userID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful())
+//                {
+//                    Map<String, Object> map = task.getResult().getData();
+//                    List<String> list = new ArrayList<>(map.keySet());
+//                    listener.onRead(list);
+//                }
+//                else
+//                {
+//                    listener.onRead(null);
+//                }
+//            }
+//        });
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful())
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e == null)
                 {
-                    Map<String, Object> map = task.getResult().getData();
-                    List<String> list = new ArrayList<>(map.keySet());
-                    listener.onRead(list);
-                }
-                else
-                {
-                    listener.onRead(null);
+                    Log.d(MainHelper.TAG, e.getMessage().toString());
                 }
             }
         });

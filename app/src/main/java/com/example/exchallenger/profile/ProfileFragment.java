@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.Helpers.MainHelper;
+import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.group.CreateGroupFragment;
@@ -21,6 +23,8 @@ import com.example.exchallenger.stats.StatisticFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.utilityview.customview.CustomTextviewFonts;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +42,8 @@ public class ProfileFragment extends BaseFragment {
     CustomTextviewFonts tvUsername;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.tv_times)
+    CustomTextviewFonts tvTimes;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.iv_rank)
@@ -97,14 +103,40 @@ public class ProfileFragment extends BaseFragment {
             }
         });
         createMenuPopup();
-        showUserData();
+        loadUser();
     }
 
-    private void showUserData() {
+    private void loadUser() {
+        if (MainHelper.getInstance().getUser() == null)
+        {
+            new UserHelper().getUsersInfo(MainHelper.getInstance().getUserID(), new UserHelper.GetUserInfo() {
+                @Override
+                public void onRead(Map<String, Object> user) {
+                    MainHelper.getInstance().setUser(user);
+                    showUserData();
+                }
+        });
+        }
+        else showUserData();
+    }
+
+    private void showUserData()
+    {
+        Map<String, Object> user = MainHelper.getInstance().getUser();
         Glide.with(this).asBitmap()
-                .load(R.drawable.ava_joey)
+                .load(user.get("photo"))
                 .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
                 .into(ivProfile);
+        String name = user.get("name").toString();
+        String points = user.get("totalPoints").toString();
+        String challengeComplete = user.get("numChallenge").toString();
+        int workoutTimes = Integer.parseInt(user.get("totalTimes").toString());
+        workoutTimes /= 60;
+        String workoutText = "Total workout time: " + workoutTimes + " minutes";
+        tvUsername.setText(user.get("name").toString());
+        tvRankPoint.setText(points);
+        tvMissionCount.setText(challengeComplete);
+        tvTimes.setText(workoutText);
     }
 
     @OnClick(R.id.btn_more)
