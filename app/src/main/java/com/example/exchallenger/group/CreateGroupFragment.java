@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.exchallenger.Models.ChallengeItem;
+import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.challenge.ChallengeAdapter;
@@ -105,6 +106,8 @@ public class CreateGroupFragment extends BaseFragment {
     }
 
     private void createGroup() {
+//        MyApplication.getInstance().getGroupHelper().getGroups();
+
         getActivity().onBackPressed();
     }
 }

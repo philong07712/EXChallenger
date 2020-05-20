@@ -1,5 +1,6 @@
 package com.example.exchallenger.Helpers;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -30,7 +31,7 @@ public class UserHelper {
 
     FirebaseFirestore database;
     CollectionReference ref;
-    // We will use custom interface here
+
     public interface GetUserInfo
     {
         void onRead(Map<String, Object> user);
@@ -152,6 +153,10 @@ public class UserHelper {
 
     public void getGroupOfUser(String userID, GetGroupListener listener)
     {
+        if(TextUtils.isEmpty(userID)){
+            listener.onCancel("Empty userID");
+            return;
+        }
         database.collection("Groups").whereArrayContains("members", userID).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

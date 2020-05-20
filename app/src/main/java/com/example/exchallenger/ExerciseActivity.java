@@ -46,7 +46,7 @@ public class ExerciseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
-        listExercise = new LocalSaveHelper(getApplicationContext()).getListMap("exercises");
+        listExercise = MyApplication.getInstance().getPrefsHelper().getListMap("exercises");
         position = 0;
         totalPoint = 0;
         // Init view
@@ -92,7 +92,7 @@ public class ExerciseActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("totalPoints", totalPoint);
         map.put("totalTimes", secondsDiff);
-        new UserHelper().addFinishWorkout(MainHelper.getInstance().getUserID(), map, new AddListener() {
+        MyApplication.getInstance().getUserHelper().addFinishWorkout(MainHelper.getInstance().getUserID(), map, new AddListener() {
             @Override
             public void onAdd() {
                 finish();

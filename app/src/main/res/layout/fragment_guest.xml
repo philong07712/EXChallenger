@@ -1,6 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_text"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="New to BetterHealth?"
+        android:textColor="@color/text_gray"
+        android:textSize="12sp"
+        app:font_type="@string/medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/btnSignUp"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/bg_cyan_corner_32dp"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:text="Create new account"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:font_type="@string/bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="or"
+        android:textColor="#A2A2A2"
+        android:textSize="16sp"
+        app:font_type="@string/medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/btnToLogin"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_white_corner_32dp"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="#006FAF"
+        android:textSize="16sp"
+        app:font_type="@string/medium"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignUp"
+        app:layout_constraintStart_toStartOf="@+id/btnSignUp"
+        app:layout_constraintTop_toBottomOf="@id/text3" />
+
+    <RelativeLayout
+        android:id="@+id/btn_login_fb"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/bg_login_facebook_corner_8dp"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_login_gg"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnToLogin"
+        app:layout_constraintWidth_percent="0.39">
+
+        <ImageView
+            android:id="@+id/iv_fb"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_fb_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/tv_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="Facebook"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:font_type="@string/bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_fb"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_login_gg"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:background="@drawable/bg_white_corner_8dp"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_login_fb"
+        app:layout_constraintTop_toTopOf="@id/btn_login_fb"
+        app:layout_constraintWidth_percent="0.39">
+
+        <ImageView
+            android:id="@+id/iv_google"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_login_gg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_google"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/tv_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="8dp"
+            android:text="Google account"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            app:font_type="@string/bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_google"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
