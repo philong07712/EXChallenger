@@ -25,4 +25,10 @@
     <color name="grayLine">#9E9E9E</color>
     <color name="btnBlue">#1B76FF</color>
     <color name="pink_danger">#FF1B76</color>
+
+    <color name="color_facebook">#3C5A9A</color>
+    <color name="color_facebook_press">#00316b</color>
+
+    <color name="color_cyan_press">#0094cc</color>
+
 </resources>
