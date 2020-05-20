@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_blue">#1b76ff</color>
+    <color name="color_blue_dimmer">#acd5f7</color>
+    <color name="main_blue">#448AFF</color>
+    <color name="color_orange">#FFA41B</color>
+    <color name="color_orange_dark">#B36D02</color>
+    <color name="color_orange_dimmer">#F7CFAD</color>
+    <color name="main_blue_dark">#0655D8</color>
+    <color name="gray">#B0AEAE</color>
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#007ac1</color>
     <color name="colorAccent">#FF735E</color>
@@ -11,9 +19,10 @@
     <color name="blue">#2196F3</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-    
-    
+
+
     <color name="text_detail_color">#1B76FF</color>
     <color name="grayLine">#9E9E9E</color>
     <color name="btnBlue">#1B76FF</color>
+    <color name="pink_danger">#FF1B76</color>
 </resources>

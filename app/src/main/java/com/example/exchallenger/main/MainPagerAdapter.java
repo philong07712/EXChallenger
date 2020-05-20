@@ -9,6 +9,7 @@ import com.example.exchallenger.EmptyFragment;
 import com.example.exchallenger.Fragments.WorkoutFragment;
 import com.example.exchallenger.GuestFragment;
 import com.example.exchallenger.profile.ProfileFragment;
+import com.example.exchallenger.work_from_home.WorkFromHomeFragment;
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
     private boolean login;
@@ -24,6 +25,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 return new WorkoutFragment();
+                case 1:
+                return new WorkFromHomeFragment();
             case 2:
                 if (login) {
                     return ProfileFragment.newInstance();

@@ -84,7 +84,6 @@ public class TagLayout extends ViewGroup {
         int maxWidth = 0;
         int childState = 0;
         int mLeftWidth = 0;
-        int rowCount = 0;
 
         // Iterate through all children, measuring them and computing our dimensions
         // from their size.
@@ -97,13 +96,14 @@ public class TagLayout extends ViewGroup {
             // Measure the child.
             measureChild(child, widthMeasureSpec, heightMeasureSpec);
             maxWidth += Math.max(maxWidth, child.getMeasuredWidth());
-            mLeftWidth += (child.getMeasuredWidth()+100);
+            mLeftWidth += (child.getMeasuredWidth() + 100);
 
             // xuống dòng
             if (mLeftWidth > deviceWidth || mLeftWidth == 0) {
                 mLeftWidth = 1;
-                maxHeight += child.getMeasuredHeight();
-                rowCount++;
+                if (i < count - 1) {
+                    maxHeight += child.getMeasuredHeight();
+                }
             } else {
                 maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
             }

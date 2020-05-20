@@ -4,6 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExerciseActivity">
+    tools:context=".ExerciseActivity"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/exercise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Push Up"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_rep"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <TextView
+        android:id="@+id/exercise_rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="x25 Times"
+        android:textColor="@color/text_gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_img"
+        app:layout_constraintEnd_toEndOf="@+id/exercise_name"
+        app:layout_constraintStart_toStartOf="@+id/exercise_name" />
+
+    <ImageView
+        android:id="@+id/exercise_img"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <Button
+        android:id="@+id/btn_exercise_giveup"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_exercise_giveup"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Give up"
+        android:textAllCaps="false"
+        android:textColor="@color/pink_danger"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_exercise_done"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_img"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:paddingLeft="20dp"
+        android:drawablePadding="-20dp"
+        android:drawableLeft="@drawable/ic_check_black_24dp"
+        android:id="@+id/btn_exercise_done"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_exercise_done"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Done"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_exercise_giveup"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_img"
+        app:layout_constraintVertical_bias="0.3"/>
+
+    <ProgressBar
+        android:id="@+id/pb_exercise_activity"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_exercise_done"
+        app:layout_constraintStart_toStartOf="@+id/btn_exercise_giveup"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
