@@ -36,8 +36,9 @@ public class GroupHelper {
     }
 
     public interface getGroupsListener {
-        void onRead(List<String> groupsID);
+        void onRead(List<Map<String, Object>> groups);
     }
+
 
     public interface GroupJoinListener
     {
@@ -46,28 +47,27 @@ public class GroupHelper {
     }
 
     public void getGroups(String userID, final getGroupsListener listener) {
-        DocumentReference docRef = database.collection("Users_Groups").document(userID);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful())
-//                {
-//                    Map<String, Object> map = task.getResult().getData();
-//                    List<String> list = new ArrayList<>(map.keySet());
-//                    listener.onRead(list);
-//                }
-//                else
-//                {
-//                    listener.onRead(null);
-//                }
-//            }
-//        });
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        database.collection("Groups").whereArrayContains("members", userID).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e == null)
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null)
                 {
-                    Log.d(MainHelper.TAG, e.getMessage().toString());
+                    Log.w(MainHelper.TAG, "Listener failed.", e);
+                }
+
+                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty())
+                {
+                    List<Map<String, Object>> groups = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots)
+                    {
+                        Map<String, Object> map = document.getData();
+                        groups.add(map);
+                    }
+                    listener.onRead(groups);
+                }
+
+                else {
+                    Log.d(MainHelper.TAG, "Group list is null");
                 }
             }
         });
@@ -92,8 +92,28 @@ public class GroupHelper {
         });
     }
 
-    public void addUserToRanking(String userID, String groupKey, GroupJoinListener listener)
+    public void addUserToRanking(String userID, String groupKey, getGroupsListener listener)
     {
         database.collection("Groups").document(groupKey).collection("Ranking");
+    }
+
+    public void getGroupRanking(String groupID, getGroupsListener listener)
+    {
+        database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful())
+                {
+                    List<Map<String, Object>> rankers = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult())
+                    {
+                        Map<String, Object> ranker = document.getData();
+                        rankers.add(ranker);
+                    }
+                    listener.onRead(rankers);
+                }
+            }
+        });
     }
 }

@@ -17,6 +17,7 @@ import com.example.exchallenger.Adapters.WorkoutDetailAdapter;
 import com.example.exchallenger.ExerciseActivity;
 import com.example.exchallenger.Factories.WorkoutFactory;
 import com.example.exchallenger.Helpers.LocalSaveHelper;
+import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.R;
@@ -86,6 +87,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
 
     private void updateExercise()
     {
+        MainHelper.getInstance().setCurrentWorkoutID(workoutID);
         Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
         new LocalSaveHelper(getApplicationContext()).saveListMap("exercises", exerciseList);
         startActivity(intent);

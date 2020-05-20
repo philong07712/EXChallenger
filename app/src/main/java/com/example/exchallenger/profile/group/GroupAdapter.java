@@ -15,12 +15,15 @@ import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;
 import com.utilityview.customview.CustomTextviewFonts;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class GroupAdapter extends BaseRecyclerViewAdapter<Object> {
 
 
-    public GroupAdapter(@NonNull Context context) {
+    public GroupAdapter(@NonNull Context context)
+    {
         super(context);
     }
 

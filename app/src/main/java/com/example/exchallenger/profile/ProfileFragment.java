@@ -1,5 +1,6 @@
 package com.example.exchallenger.profile;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.R;
@@ -24,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.utilityview.customview.CustomTextviewFonts;
 
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -118,6 +121,7 @@ public class ProfileFragment extends BaseFragment {
         });
         }
         else showUserData();
+        // testing grouphelper
     }
 
     private void showUserData()

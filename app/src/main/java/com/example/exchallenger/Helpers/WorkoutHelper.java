@@ -1,5 +1,7 @@
 package com.example.exchallenger.Helpers;
 
+import android.content.pm.PackageManager;
+
 import androidx.annotation.NonNull;
 
 import com.example.exchallenger.Listeners.AddListener;
@@ -13,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +137,23 @@ public class WorkoutHelper {
                         }
                     }
                 });
+    }
+
+    public void addPointChallenge(String userID, String workoutID, Map<String, Object> map, AddListener listener)
+    {
+//        DocumentReference docRef = db.collection()
+//        db.collection("Groups").whereArrayContains("members", userID).whereArrayContains("workoutID", workoutID)
+//                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful())
+//                {
+//                    Map<String, Object> userData = task.getResult().get;
+//                    int totalPoint = Integer.parseInt(userData.get("totalPoints").toString());
+//                    totalPoint += Integer.parseInt(map.get("totalPoints").toString());
+//                }
+//            }
+//        });
     }
 
 }
