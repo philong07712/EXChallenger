@@ -1,6 +1,9 @@
 package com.example.exchallenger.utils;
 
+import com.example.exchallenger.Models.User;
+
 import java.util.Arrays;
+import java.util.Map;
 
 public class AppUtils {
     public static String getScheduleText(int[] repeat) {
@@ -56,5 +59,17 @@ public class AppUtils {
         String minStr = minute > 9 ? (minute + "") : ("0" + minute);
 
         return hourStr + ":" + minStr;
+    }
+
+    public static User convertMapToUser(Map<String, Object> user) {
+        User currentUser = new User();
+        currentUser.setNumChallenger((long) user.get("numChallenger"));
+        currentUser.setTotalPoints((long) user.get("totalPoints"));
+        currentUser.setUserID((String) user.get("userID"));
+        currentUser.setEmail((String) user.get("email"));
+        currentUser.setName((String) user.get("name"));
+        currentUser.setPhoneNumber((String) user.get("phoneNumber"));
+        currentUser.setPhoto((String) user.get("photo"));
+        return currentUser;
     }
 }

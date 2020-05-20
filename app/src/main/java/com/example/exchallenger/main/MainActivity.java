@@ -11,6 +11,7 @@ import com.example.exchallenger.Models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseActivity;
+import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,16 +59,9 @@ public class MainActivity extends BaseActivity {
                     new UserHelper.GetUserInfo() {
                         @Override
                         public void onRead(Map<String, Object> user) {
-                            User currentUser = new User();
-                            currentUser.setNumChallenger((long) user.get("numChallenger"));
-                            currentUser.setTotalPoints((long) user.get("totalPoints"));
-                            currentUser.setUserID((String) user.get("userID"));
-                            currentUser.setEmail((String) user.get("email"));
-                            currentUser.setName((String) user.get("name"));
-                            currentUser.setPhoneNumber((String) user.get("phoneNumber"));
-                            currentUser.setPhoto((String) user.get("photo"));
+
                             Log.d("LOGIN__", "Map<String, Object> user " + user.toString());
-                            MyApplication.user = currentUser;
+                            MyApplication.user = AppUtils.convertMapToUser(user);
                             mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
                             viewPager.setAdapter(mainPagerAdapter);
                         }

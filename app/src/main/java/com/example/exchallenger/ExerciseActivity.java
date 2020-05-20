@@ -1,10 +1,8 @@
 package com.example.exchallenger;
 
-import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -15,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.MainHelper;
-import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.tensorflow.PosenetActivity;
 

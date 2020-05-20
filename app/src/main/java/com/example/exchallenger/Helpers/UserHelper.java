@@ -53,20 +53,6 @@ public class UserHelper {
     public void getUsersInfo(final String userID, final GetUserInfo listener)
     {
         DocumentReference docRef = ref.document(userID);
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful())
-//                {
-//                    DocumentSnapshot document = task.getResult();
-//                    listener.onRead(document.getData());
-//                }
-//                else
-//                {
-//                    listener.onRead(null);
-//                }
-//            }
-//        });
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

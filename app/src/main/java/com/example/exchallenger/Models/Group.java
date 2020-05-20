@@ -7,7 +7,6 @@ import java.util.List;
 public class Group {
     private String groupKey, key, name, photo;
     private List<String> members;
-    private List<Chall>
     private Object timeStamp;
 
     public Group() {

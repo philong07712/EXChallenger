@@ -1,7 +1,5 @@
 package com.example.exchallenger.profile;
 
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,31 +7,29 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.Helpers.UserHelper;
+import com.example.exchallenger.Models.User;
+import com.example.exchallenger.Models.event.LogoutEvent;
+import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.group.CreateGroupFragment;
 import com.example.exchallenger.group.JoinGroupFragment;
-import com.example.exchallenger.main.MainActivity;
 import com.example.exchallenger.stats.StatisticFragment;
+import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.utilityview.customview.CustomTextviewFonts;
 
-import java.util.Map;
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -113,26 +109,24 @@ public class ProfileFragment extends BaseFragment {
         });
         createMenuPopup();
         createLogoutMenuPopup();
-     	showUserData();
+        MyApplication.getInstance().getUserHelper().getUsersInfo(MyApplication.user.getUserID(), new UserHelper.GetUserInfo() {
+            @Override
+            public void onRead(Map<String, Object> user) {
+                showUserData(AppUtils.convertMapToUser(user));
+            }
+        });
     }
 
-    private void showUserData() {
-        if (MyApplication.user != null) {
+    private void showUserData(User user) {
             Glide.with(this)
                     .load(MyApplication.user.getPhoto())
                     .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
                     .into(ivProfile);
 //https://lh3.googleusercontent.com/-yAI0WFsZPMA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclBXQ04KoBFO0BH0uSuH3qXsLukRw/s96-c/photo.jpg
-            tvMissionCount.setText(MyApplication.user.getNumChallenger() + "");
-            tvUsername.setText(MyApplication.user.getName());
-            tvRankPoint.setText(MyApplication.user.getTotalPoints() + "");
-            showRankView(MyApplication.user.getTotalPoints());
-        } else {
-            Glide.with(this).asBitmap()
-                    .load(R.drawable.ava_joey)
-                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
-                    .into(ivProfile);
-        }
+            tvMissionCount.setText(user.getNumChallenger() + "");
+            tvUsername.setText(user.getName());
+            tvRankPoint.setText(user.getTotalPoints() + "");
+            showRankView(user.getTotalPoints());
 
 
     }
