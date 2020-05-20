@@ -1,5 +1,6 @@
 package com.example.exchallenger.working_time;
 
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.exchallenger.R;
@@ -22,17 +24,28 @@ import static com.example.exchallenger.WorkFromHomeManager.AFTERNOON_FROM;
 import static com.example.exchallenger.WorkFromHomeManager.AFTERNOON_TO;
 import static com.example.exchallenger.WorkFromHomeManager.MORNING_FROM;
 import static com.example.exchallenger.WorkFromHomeManager.MORNING_TO;
-import static com.example.exchallenger.WorkFromHomeManager.defaultTime;
 
-public class WorkingTimeFragment extends Fragment {
+public class WorkingTimeDialog extends DialogFragment {
 
     private String timeFormat = "%02d:%02d";
 
     private TextView txtMoringFrom, txtMoringTo, txtAfternoonFrom, txtAfternoonTo, txtSave;
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
     private int[] time = new int[4];
@@ -52,7 +65,7 @@ public class WorkingTimeFragment extends Fragment {
         time[3] = WorkFromHomeManager.getAfternoonTo();
 
         initView(view);
-        setListener();
+        setListener(view);
         setView();
     }
 
@@ -64,43 +77,22 @@ public class WorkingTimeFragment extends Fragment {
         txtSave = view.findViewById(R.id.txt_save);
     }
 
-    private void setListener() {
-        txtMoringFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(0);
-            }
-        });
-        txtMoringTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(1);
-            }
-        });
-        txtAfternoonFrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(2);
-            }
-        });
-        txtAfternoonTo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(3);
-            }
+    private void setListener(View view) {
+        txtMoringFrom.setOnClickListener(v -> showDialog(0));
+        txtMoringTo.setOnClickListener(v -> showDialog(1));
+        txtAfternoonFrom.setOnClickListener(v -> showDialog(2));
+        txtAfternoonTo.setOnClickListener(v -> showDialog(3));
+
+        txtSave.setOnClickListener(v -> {
+            WorkFromHomeManager.saveData(MORNING_FROM, time[0]);
+            WorkFromHomeManager.saveData(MORNING_TO, time[1]);
+            WorkFromHomeManager.saveData(AFTERNOON_FROM, time[2]);
+            WorkFromHomeManager.saveData(AFTERNOON_TO, time[3]);
+            Toast.makeText(getContext(), R.string.your_data_saved, Toast.LENGTH_SHORT).show();
+            dismiss();
         });
 
-        txtSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WorkFromHomeManager.saveData(MORNING_FROM, time[0]);
-                WorkFromHomeManager.saveData(MORNING_TO, time[1]);
-                WorkFromHomeManager.saveData(AFTERNOON_FROM, time[2]);
-                WorkFromHomeManager.saveData(AFTERNOON_TO, time[3]);
-                Toast.makeText(getContext(), R.string.your_data_saved, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        view.findViewById(R.id.img_back).setOnClickListener(v -> dismiss());
     }
 
     private void setView() {

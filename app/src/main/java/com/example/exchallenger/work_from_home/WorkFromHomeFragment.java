@@ -19,6 +19,7 @@ import com.example.exchallenger.R;
 import com.example.exchallenger.WorkFromHomeManager;
 import com.example.exchallenger.customviews.CircleProgressView;
 import com.example.exchallenger.receivers.WorkFromHomeReceiver;
+import com.example.exchallenger.working_time.WorkingTimeDialog;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -113,6 +114,14 @@ public class WorkFromHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setAlarm();
+            }
+        });
+
+        txtWorkTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WorkingTimeDialog workingTimeFragment = new WorkingTimeDialog();
+                workingTimeFragment.show(getFragmentManager(), WorkingTimeDialog.class.getSimpleName());
             }
         });
     }

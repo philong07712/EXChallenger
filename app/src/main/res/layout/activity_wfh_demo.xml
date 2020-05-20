@@ -12,7 +12,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/search_edit_frame"-->
-<!--        android:name="com.example.exchallenger.working_time.WorkingTimeFragment"-->
+<!--        android:name="com.example.exchallenger.working_time.WorkingTimeDialog"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 </LinearLayout>
