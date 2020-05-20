@@ -1,3 +1,4 @@
 rootProject.name='EXChallenger'
 include ':app'
 include ':customview'
+include ':posenet'

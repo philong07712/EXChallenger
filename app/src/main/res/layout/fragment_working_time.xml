@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:clipToPadding="false"
-    tools:context=".working_time.WorkingTimeFragment">
+    tools:context=".working_time.WorkingTimeDialog">
 
 
     <TextView
