@@ -99,6 +99,7 @@
                 app:layout_constraintTop_toTopOf="@id/iv_profile" />
 
             <com.utilityview.customview.CustomTextviewFonts
+                android:id="@+id/tv_times"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"

@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.Listeners.EditListener;
@@ -14,7 +15,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -49,17 +52,33 @@ public class UserHelper {
     public void getUsersInfo(final String userID, final GetUserInfo listener)
     {
         DocumentReference docRef = ref.document(userID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful())
+//                {
+//                    DocumentSnapshot document = task.getResult();
+//                    listener.onRead(document.getData());
+//                }
+//                else
+//                {
+//                    listener.onRead(null);
+//                }
+//            }
+//        });
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful())
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null)
                 {
-                    DocumentSnapshot document = task.getResult();
-                    listener.onRead(document.getData());
+                    Log.w(MainHelper.TAG, "Listener failed.", e);
                 }
-                else
+                if (documentSnapshot != null && documentSnapshot.exists())
                 {
-                    listener.onRead(null);
+                    listener.onRead(documentSnapshot.getData());
+                }
+                else {
+                    Log.d(MainHelper.TAG, "User is null");
                 }
             }
         });
