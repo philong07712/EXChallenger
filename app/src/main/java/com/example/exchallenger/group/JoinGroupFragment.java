@@ -5,7 +5,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.exchallenger.Helpers.GroupHelper;
+import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.jakewharton.rxbinding3.view.RxView;
@@ -58,8 +61,8 @@ public class JoinGroupFragment extends BaseFragment {
         edtCode.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(event.getAction()== EditorInfo.IME_ACTION_GO){
-                    if(edtCode.getText().toString().trim().isEmpty()) {
+                if (event.getAction() == EditorInfo.IME_ACTION_GO) {
+                    if (edtCode.getText().toString().trim().isEmpty()) {
                         return false;
                     } else {
                         submitGroupCode();
@@ -72,6 +75,18 @@ public class JoinGroupFragment extends BaseFragment {
     }
 
     private void submitGroupCode() {
+        GroupHelper groupHelper = MyApplication.getInstance().getGroupHelper();
+        groupHelper.joinGroup(MyApplication.user.getUserID(), edtCode.getText().toString().trim(),
+                new GroupHelper.GroupJoinListener() {
+                    @Override
+                    public void onSuccess() {
+                        getActivity().onBackPressed();
+                    }
 
+                    @Override
+                    public void onCancel(String message) {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

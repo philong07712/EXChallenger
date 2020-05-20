@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
@@ -49,6 +50,7 @@ dependencies {
 
     // firebase authentication
     implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
     // firebase firestorage
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     // firebase firestore
@@ -83,23 +85,25 @@ dependencies {
     api project(':customview')
     implementation project(':posenet')
 
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+	implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly'
     implementation 'com.airbnb.android:lottie:3.0.7'
     implementation 'androidx.fragment:fragment-ktx:1.0.0'
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
 
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+}
 repositories {
     mavenCentral()
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'

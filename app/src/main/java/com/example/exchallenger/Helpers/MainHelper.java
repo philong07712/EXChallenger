@@ -7,7 +7,7 @@ import java.util.Map;
 public class MainHelper {
     public static final String TAG = "MainHelper";
     String userID;
-    Map<String, Object> user;
+    Map<String, Object> user = null;
     public static MainHelper instance;
     private MainHelper()
     {
