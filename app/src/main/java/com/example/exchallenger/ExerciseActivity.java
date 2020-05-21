@@ -254,6 +254,7 @@ public class ExerciseActivity extends AppCompatActivity {
         });
         posenetActivity.setWorkoutName(tvName.getText().toString().trim());
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(R.id.camera_view, posenetActivity, PosenetActivity.class.getSimpleName()).commitAllowingStateLoss();
     }
 

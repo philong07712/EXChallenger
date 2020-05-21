@@ -148,7 +148,7 @@ public class ProfileFragment extends BaseFragment {
                 .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
                 .into(ivProfile);
         // https://lh3.googleusercontent.com/-yAI0WFsZPMA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclBXQ04KoBFO0BH0uSuH3qXsLukRw/s96-c/photo.jpg
-        tvMissionCount.setText(user.getNumChallenger() + "");
+        tvMissionCount.setText(user.getNumChallenge() + "");
         tvUsername.setText(user.getName());
         tvRankPoint.setText(user.getTotalPoints() + "");
         tvTimes.setText("Total workout time: " + (user.getTotalTimes() / 60000) + " minutes");
@@ -262,6 +262,7 @@ public class ProfileFragment extends BaseFragment {
     void onClickMore() {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .add(android.R.id.content, StatisticFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
@@ -316,6 +317,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void showJoinGroup() {
         getActivity().getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .add(android.R.id.content, JoinGroupFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
@@ -323,6 +325,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void showCreateGroup() {
         getActivity().getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .add(android.R.id.content, CreateGroupFragment.newInstance())
                 .addToBackStack(null)
                 .commit();

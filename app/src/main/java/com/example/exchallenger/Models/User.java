@@ -1,15 +1,10 @@
 package com.example.exchallenger.Models;
 
-import android.database.DatabaseUtils;
-
-import androidx.annotation.NonNull;
-
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class User {
     private String email, name, phoneNumber, photo, userID;
-    private long totalPoints, numChallenger, totalTimes;
+    private long totalPoints, numChallenge, totalTimes;
     private Object timeStamp;
 
     public User() {
@@ -22,7 +17,7 @@ public class User {
         this.photo = photo;
         this.userID = userID;
         this.totalPoints = 0;
-        this.numChallenger = 0;
+        this.numChallenge = 0;
         this.totalTimes = 0;
         this.timeStamp = FieldValue.serverTimestamp();
     }
@@ -35,7 +30,7 @@ public class User {
         this.photo = user.photo;
         this.userID = user.userID;
         this.totalPoints = user.totalPoints;
-        this.numChallenger = user.numChallenger;
+        this.numChallenge = user.numChallenge;
         if (user.timeStamp == null) {
             this.timeStamp = FieldValue.serverTimestamp();
         }
@@ -107,11 +102,11 @@ public class User {
         this.totalPoints = totalPoints;
     }
 
-    public long getNumChallenger() {
-        return numChallenger;
+    public long getNumChallenge() {
+        return numChallenge;
     }
 
-    public void setNumChallenger(long numChallenger) {
-        this.numChallenger = numChallenger;
+    public void setNumChallenge(long numChallenge) {
+        this.numChallenge = numChallenge;
     }
 }

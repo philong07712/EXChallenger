@@ -94,6 +94,7 @@ public class GroupListFragment extends BaseFragment {
     private void showGroupDetailFragment(Group dataItem) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
                 .replace(android.R.id.content, GroupDetailFragment.newInstance(dataItem))
                 .addToBackStack(null)
                 .commit();

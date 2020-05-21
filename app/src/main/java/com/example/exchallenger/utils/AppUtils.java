@@ -10,14 +10,9 @@ import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.Models.User;
 import com.example.exchallenger.MyApplication;
-import com.google.common.primitives.ImmutableDoubleArray;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -86,8 +81,9 @@ public class AppUtils {
 
     public static User convertMapToUser(Map<String, Object> user) {
         User currentUser = new User();
-        currentUser.setNumChallenger((long) user.get("numChallenger"));
-        currentUser.setTotalPoints((long) user.get("totalPoints"));
+        currentUser.setNumChallenge(AppUtils.getIntFromFirebaseMap(user, "numChallenge"));
+        currentUser.setTotalPoints(AppUtils.getIntFromFirebaseMap(user, "totalPoints"));
+        currentUser.setTotalTimes(AppUtils.getIntFromFirebaseMap(user, "totalTimes"));
         currentUser.setUserID((String) user.get("userID"));
         currentUser.setEmail((String) user.get("email"));
         currentUser.setName((String) user.get("name"));

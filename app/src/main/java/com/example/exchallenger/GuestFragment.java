@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.Listeners.EditListener;
@@ -31,8 +30,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -40,8 +37,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.utilityview.customview.CustomTextviewFonts;
 
 import org.greenrobot.eventbus.EventBus;
@@ -172,8 +167,9 @@ public class GuestFragment extends BaseFragment {
             public void onRead(Map<String, Object> user) {
                 if (user != null) {
                     Log.d(TAG, "User existed" + user.toString());
-                    newUser.setNumChallenger((long) user.get("numChallenger"));
+                    newUser.setNumChallenge((long) user.get("numChallenge"));
                     newUser.setTotalPoints((long) user.get("totalPoints"));
+                    newUser.setTotalTimes((long) user.get("totalTimes"));
                     newUser.setUserID(uid);
                     MyApplication.getInstance().getUserHelper().editUserInfo(
                             uid,
