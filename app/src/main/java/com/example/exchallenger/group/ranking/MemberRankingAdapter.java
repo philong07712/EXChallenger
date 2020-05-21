@@ -7,6 +7,10 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
@@ -34,6 +38,8 @@ public class MemberRankingAdapter extends BaseRecyclerViewAdapter<GroupMember> {
         CustomTextviewFonts tvPos;
         @BindView(R.id.iv_avatar)
         ImageView ivAvatar;
+        @BindView(R.id.tv_name)
+        CustomTextviewFonts tvName;
         @BindView(R.id.tv_point)
         CustomTextviewFonts tvPoint;
 
@@ -49,7 +55,29 @@ public class MemberRankingAdapter extends BaseRecyclerViewAdapter<GroupMember> {
         @Override
         public void onBind(int position) {
             super.onBind(position);
+            GroupMember groupMember = getDataItem(position);
             tvPos.setText("" + (position + 1));
+            tvPoint.setText(groupMember.getPoint() + "");
+            tvName.setText(groupMember.getName());
+            Glide.with(itemView)
+                    .load(groupMember.getPhoto())
+                    .apply(
+                            new RequestOptions()
+                                    .error(R.drawable.ic_group_default)
+                                    .transforms(new CenterCrop(),
+                                            new RoundedCorners(getContext().getResources()
+                                                    .getDimensionPixelSize(R.dimen.height_ava_group) / 2))
+                    )
+                    .into(ivAvatar);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getOnItemClickListener()!=null){
+                        getOnItemClickListener().onItemClick(position, groupMember);
+                    }
+                }
+            });
         }
     }
 }
