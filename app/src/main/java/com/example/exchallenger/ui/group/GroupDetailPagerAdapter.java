@@ -1,0 +1,35 @@
+package com.example.exchallenger.group;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.exchallenger.challenge.GroupChallengeListFragment;
+import com.example.exchallenger.group.ranking.MemberRankingFragment;
+import com.example.exchallenger.profile.friend.FriendListFragment;
+
+public class GroupDetailPagerAdapter extends FragmentPagerAdapter {
+    String groupId;
+    boolean isAdmin;
+    public GroupDetailPagerAdapter(@NonNull FragmentManager fm, String groupId, boolean isAdmin) {
+        super(fm);
+        this.groupId = groupId;
+        this.isAdmin = isAdmin;
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        if (position == 0) {
+            return GroupChallengeListFragment.newInstance(groupId, isAdmin);
+        } else {
+            return MemberRankingFragment.newInstance(groupId);
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return 2;
+    }
+}
