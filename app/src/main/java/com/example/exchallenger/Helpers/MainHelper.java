@@ -8,6 +8,7 @@ public class MainHelper {
     public static final String TAG = "MainHelper";
     String userID;
     String currentWorkoutID = null;
+    Map<String, Object> workoutDetail = null;
     Map<String, Object> user = null;
     public static MainHelper instance;
     private MainHelper()
@@ -25,12 +26,12 @@ public class MainHelper {
         return instance;
     }
 
-    public String getCurrentWorkoutID() {
-        return currentWorkoutID;
+    public Map<String, Object> getWorkoutDetail() {
+        return workoutDetail;
     }
 
-    public void setCurrentWorkoutID(String currentWorkoutID) {
-        this.currentWorkoutID = currentWorkoutID;
+    public void setWorkoutDetail(Map<String, Object> workoutDetail) {
+        this.workoutDetail = workoutDetail;
     }
 
     public String getUserID()

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,12 +24,13 @@ import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
     RecyclerView rv_detail;
-    String workoutID;
+    String workoutID, groupID;
     WorkoutDetailAdapter adapter;
     List<Map<String, Object>> exerciseList = new ArrayList<>();
 
@@ -45,7 +47,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         // get data from intent
         String workoutName = getIntent().getExtras().getString("name");
         tv_name.setText(workoutName);
-
+        String groupID = getIntent().getExtras().getString("groupID");
         String workoutPhoto = getIntent().getExtras().getString("photo");
         Glide.with(this).load(workoutPhoto).into(img);
 
@@ -84,10 +86,9 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         rv_detail.setAdapter(adapter);
         rv_detail.setLayoutManager(new LinearLayoutManager(this));
     }
-
     private void updateExercise()
     {
-        MainHelper.getInstance().setCurrentWorkoutID(workoutID);
+
         Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
         new LocalSaveHelper(getApplicationContext()).saveListMap("exercises", exerciseList);
         startActivity(intent);

@@ -28,6 +28,30 @@ public class LocalSaveHelper {
         editor.putString(key, json);
         editor.apply();
     }
+    public void saveString(String key, String message)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, message);
+        editor.apply();
+    }
+
+    public void saveMap(String key, Map<String, Object> map)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(map);
+        editor.putString(key, json);
+        editor.apply();
+    }
+
+    public String getString(String key)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        String message = prefs.getString(key, "");
+        return message;
+    }
 
     public List<Map<String, Object>> getListMap(String key)
     {
@@ -38,4 +62,15 @@ public class LocalSaveHelper {
         List<Map<String, Object>> obj = gson.fromJson(json, type);
         return obj;
     }
+
+    public Map<String, Object> getMap(String key)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        Gson gson = new Gson();
+        String json = prefs.getString(key, "");
+        Type type = new TypeToken<Map<String, Object>>() {}.getType();
+        Map<String, Object> obj = gson.fromJson(json, type);
+        return obj;
+    }
+
 }

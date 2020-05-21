@@ -13,7 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.MainHelper;
+import com.example.exchallenger.Helpers.UserHelper;
+import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.tensorflow.PosenetActivity;
 
@@ -88,7 +91,30 @@ public class ExerciseActivity extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("totalPoints", totalPoint);
         map.put("totalTimes", secondsDiff);
-        MyApplication.getInstance().getUserHelper().addFinishWorkout(MainHelper.getInstance().getUserID(), map, new AddListener() {
+        Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
+        boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
+        new UserHelper().addFinishWorkout(MainHelper.getInstance().getUserID(), map, new AddListener() {
+
+            @Override
+            public void onAdd() {
+                // if this exercise is challenge then we will add point to that ranking system
+                if (isChallenge)
+                {
+                    addPointToChallenge(currentWorkout);
+                }
+                else
+                {
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void addPointToChallenge(Map<String, Object> currentWorkout)
+    {
+        String workoutID = currentWorkout.get("workoutID").toString();
+        String userID = MainHelper.getInstance().getUserID();
+        new WorkoutHelper().addPointChallenge(userID, workoutID, currentWorkout, new AddListener() {
             @Override
             public void onAdd() {
                 finish();
@@ -96,7 +122,10 @@ public class ExerciseActivity extends AppCompatActivity {
         });
     }
 
-    private void loadExercise(int position) {
+
+    private void loadExercise(int position)
+    {
+
         Map<String, Object> map = listExercise.get(position);
         String introductionPhoto = map.get("introduction").toString();
         String name = map.get("name").toString();

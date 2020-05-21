@@ -1,6 +1,7 @@
 package com.example.exchallenger.Helpers;
 
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -142,16 +143,15 @@ public class WorkoutHelper {
 
     public void addPointChallenge(String userID, String workoutID, Map<String, Object> map, AddListener listener)
     {
-//        DocumentReference docRef = db.collection()
+
 //        db.collection("Groups").whereArrayContains("members", userID).whereArrayContains("workoutID", workoutID)
-//                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 //            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful())
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (QueryDocumentSnapshot document : queryDocumentSnapshots)
 //                {
-//                    Map<String, Object> userData = task.getResult().get;
-//                    int totalPoint = Integer.parseInt(userData.get("totalPoints").toString());
-//                    totalPoint += Integer.parseInt(map.get("totalPoints").toString());
+//                    Map<String, Object> userData = document.getData();
+//                    Log.d(MainHelper.TAG, userData.toString());
 //                }
 //            }
 //        });
