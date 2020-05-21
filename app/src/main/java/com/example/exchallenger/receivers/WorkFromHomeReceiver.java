@@ -20,6 +20,7 @@ import com.example.exchallenger.R;
 import com.example.exchallenger.RelaxActivity;
 import com.example.exchallenger.WFHDemoActivity;
 import com.example.exchallenger.WorkFromHomeManager;
+import com.example.exchallenger.main.MainActivity;
 
 public class WorkFromHomeReceiver extends BroadcastReceiver {
     private static final String TAG = WorkFromHomeReceiver.class.getSimpleName();
@@ -30,13 +31,14 @@ public class WorkFromHomeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e(TAG, "onReceive: " );
         if (TextUtils.isEmpty(intent.getAction()))
             return;
         int action = Integer.parseInt(intent.getAction());
         Log.e(TAG, "onReceive: " + (action == NOTIFICATION_RELAX_ID ? "relax" : "work") + " " + WorkFromHomeManager.isOnWorkingTime());
         if (WorkFromHomeManager.isOnWorkingTime()) {
             if (action == NOTIFICATION_RELAX_ID && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                Intent intentRelax = new Intent(context, RelaxActivity.class);
+                Intent intentRelax = new Intent(context, MainActivity.class);
                 intentRelax.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentRelax);
                 return;
@@ -47,7 +49,7 @@ public class WorkFromHomeReceiver extends BroadcastReceiver {
 
     public void showNotification(Context context, int action) {
         createNotificationChannel(context);
-        Intent intent = new Intent(context, WFHDemoActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         int titleId = action == NOTIFICATION_RELAX_ID ? R.string.title_time_relax : R.string.title_time_work;

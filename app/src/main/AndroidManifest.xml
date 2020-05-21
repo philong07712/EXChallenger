@@ -63,6 +63,7 @@
         </activity>
         <activity android:name=".ExerciseActivity"></activity>
         <activity android:name=".Activities.WorkoutDetailActivity" />
+        <activity android:name=".WFHDemoActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
