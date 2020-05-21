@@ -1,5 +1,7 @@
 package com.example.exchallenger.Models;
 
+import java.util.ArrayList;
+
 public class ChallengeItem {
     public static final String SQUAT = "squat";
     public static final String PUSH_UP = "push up";
@@ -9,18 +11,20 @@ public class ChallengeItem {
     private int hour;
     private int minute;
     private String unit;
-    private Integer[] repeat;
+    private ArrayList<Long> repeat;
+    private int point;
 
     public ChallengeItem() {
     }
 
-    public ChallengeItem(String type, int number, int hour, int minute, Integer[] repeat, String unit) {
+    public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit, int point) {
         this.type = type;
         this.number = number;
         this.hour = hour;
         this.minute = minute;
         this.repeat = repeat;
         this.unit = unit;
+        this.point = point;
     }
 
     public String getType() {
@@ -55,11 +59,11 @@ public class ChallengeItem {
         this.minute = minute;
     }
 
-    public Integer[] getRepeat() {
+    public ArrayList<Long> getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(Integer[] repeat) {
+    public void setRepeat(ArrayList<Long> repeat) {
         this.repeat = repeat;
     }
 
@@ -69,5 +73,13 @@ public class ChallengeItem {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getPoint() {
+        return point;
     }
 }

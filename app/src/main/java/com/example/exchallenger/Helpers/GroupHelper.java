@@ -142,7 +142,7 @@ public class GroupHelper {
                                 DocumentSnapshot doc = snapshot.getDocuments().get(0);
                                 Log.d("ALOALO", doc.toString());
                                 if (doc != null && !TextUtils.isEmpty(doc.getString("groupKey"))) {
-                                    ref.document(snapshot.getDocuments().get(0).getString("groupKey"))
+                                    ref.document(doc.getString("groupKey"))
                                             .update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -177,44 +177,26 @@ public class GroupHelper {
         }
 
         database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<GroupMember> rankers = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> ranker = document.getData();
-                        rankers.add(AppUtils.convertMapToGroupMember(ranker));
-                    }
-                    listener.onRead(rankers);
-                }
-            }
-        });
-    }
-
-    public Observable<Group> getGroupFromGroupId(String groupId) {
-        return Observable.create(new ObservableOnSubscribe<Group>() {
-            @Override
-            public void subscribe(ObservableEmitter<Group> emitter) throws Exception {
-                getGroup(groupId, new GetGroupDetailListener() {
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onRead(Group group) {
-                        if (!emitter.isDisposed()) {
-                            emitter.onNext(group);
-                            emitter.onComplete();
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<GroupMember> rankers = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            Map<String, Object> ranker = document.getData();
+                            rankers.add(AppUtils.convertMapToGroupMember(ranker));
                         }
+                        listener.onRead(rankers);
                     }
+                })
 
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onError(String error) {
-                        if (!emitter.isDisposed()) {
-                            emitter.onError(new Throwable(error));
-                        }
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onError(e.getMessage());
 
                     }
                 });
-            }
-        });
     }
 
     public interface CreateGroupListener {
@@ -266,5 +248,33 @@ public class GroupHelper {
     public static String generateGroupPhoto() {
         int random = new Random().nextInt(Constants.GROUP_IMAGES.length);
         return Constants.GROUP_IMAGES[random];
+    }
+
+    public interface GetGroupChallengeListener {
+        void onRead(List<ChallengeItem> challengeItems);
+
+        void onError(String message);
+    }
+
+    public void getGroupChallenges(String groupId, GetGroupChallengeListener listener) {
+        if (TextUtils.isEmpty(groupId)) {
+            listener.onError("Invalid Group ID");
+            return;
+        }
+
+        database.collection("Groups").document(groupId).collection(Constants.PATH_MINI_WORKOUT)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<ChallengeItem> challengeItems = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> challengeMap = document.getData();
+                        challengeItems.add(AppUtils.convertMapToChallengeItem(challengeMap));
+                    }
+                    listener.onRead(challengeItems);
+                }
+            }
+        });
     }
 }

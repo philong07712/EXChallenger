@@ -41,6 +41,8 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
         CustomTextviewFonts tvCount;
         @BindView(R.id.tv_time)
         CustomTextviewFonts tvTime;
+        @BindView(R.id.tv_point)
+        CustomTextviewFonts tvPoint;
 
         public ChallengeVH(View itemView) {
             super(itemView);
@@ -55,11 +57,12 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
         public void onBind(int position) {
             super.onBind(position);
             ChallengeItem challengeItem = mDataList.get(position);
-            if(TextUtils.isEmpty(challengeItem.getType())){
+            if (TextUtils.isEmpty(challengeItem.getType())) {
                 return;
             }
             tvChallenge.setText(challengeItem.getType());
             tvCount.setText("x" + challengeItem.getNumber());
+            tvPoint.setText(challengeItem.getPoint() + " points");
             tvTime.setText(AppUtils.getTimeFromHourAndUnit(challengeItem.getHour(), challengeItem.getMinute()));
             tvScheduleType.setText(AppUtils.getScheduleText(challengeItem.getRepeat()));
             switch (challengeItem.getType().toLowerCase()) {
