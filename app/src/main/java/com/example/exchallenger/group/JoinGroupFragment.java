@@ -82,7 +82,9 @@ public class JoinGroupFragment extends BaseFragment {
                 new GroupHelper.GroupJoinListener() {
                     @Override
                     public void onSuccess() {
-                        getActivity().onBackPressed();
+                        if(getActivity()!=null) {
+                            getActivity().onBackPressed();
+                        }
                     }
 
                     @Override
