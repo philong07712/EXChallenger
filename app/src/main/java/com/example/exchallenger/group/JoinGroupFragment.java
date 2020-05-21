@@ -1,6 +1,7 @@
 package com.example.exchallenger.group;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;

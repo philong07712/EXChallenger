@@ -65,6 +65,8 @@ public class UserHelper {
                     listener.onRead(documentSnapshot.getData());
                 }
                 else {
+
+                    Log.d(MainHelper.TAG, "User is null");
                     listener.onRead(null);
                 }
             }
@@ -94,17 +96,17 @@ public class UserHelper {
     }
 
     // add new user with unique id auto created
-    public void addNewUser(final User user, final AddListener listener)
-    {
-        DocumentReference docRef = ref.document();
-        user.setUserID(docRef.getId());
-        docRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                listener.onAdd();
-            }
-        });
-    }
+//    public void addNewUser(final User user, final AddListener listener)
+//    {
+//        DocumentReference docRef = ref.document();
+//        user.setUserID(docRef.getId());
+//        docRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                listener.onAdd();
+//            }
+//        });
+//    }
 
     public void addFinishWorkout(String userID, Map<String, Object> map, AddListener listener)
     {
