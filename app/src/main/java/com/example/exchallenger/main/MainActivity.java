@@ -4,8 +4,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.exchallenger.GuestFragment;
 import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Models.event.LoginSuccessEvent;
 import com.example.exchallenger.Models.event.LogoutEvent;
@@ -56,14 +58,9 @@ public class MainActivity extends BaseActivity {
 
         viewPager.setOffscreenPageLimit(3);
         viewPager.setPagingEnabled(false);
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser != null) {
-            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
-            viewPager.setAdapter(mainPagerAdapter);
-        } else {
-            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), false);
-            viewPager.setAdapter(mainPagerAdapter);
-        }
+        MyApplication.firebaseUser = firebaseAuth.getCurrentUser();
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), MyApplication.firebaseUser!=null);
+        viewPager.setAdapter(mainPagerAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -109,8 +106,7 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginSuccess(LoginSuccessEvent loginSuccessEvent) {
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
-        viewPager.setAdapter(mainPagerAdapter);
+        mainPagerAdapter.setLogin(true);
         viewPager.setCurrentItem(currentPos);
     }
 
@@ -118,8 +114,8 @@ public class MainActivity extends BaseActivity {
     public void onLoginSuccess(LogoutEvent logoutEvent) {
         firebaseAuth.signOut();
         MyApplication.user = null;
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), false);
-        viewPager.setAdapter(mainPagerAdapter);
+        MyApplication.firebaseUser = null;
+        mainPagerAdapter.setLogin(false);
         viewPager.setCurrentItem(currentPos);
     }
 }

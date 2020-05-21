@@ -33,6 +33,8 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
     public class ChallengeVH extends BaseViewHolder {
         @BindView(R.id.iv_challenge)
         ImageView ivChallenge;
+        @BindView(R.id.iv_done)
+        ImageView ivDone;
         @BindView(R.id.tv_challenge)
         CustomTextviewFonts tvChallenge;
         @BindView(R.id.tv_schedule_type)
@@ -59,6 +61,11 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
             ChallengeItem challengeItem = mDataList.get(position);
             if (TextUtils.isEmpty(challengeItem.getType())) {
                 return;
+            }
+            if (!TextUtils.isEmpty(challengeItem.getId())) {
+                ivDone.setVisibility(challengeItem.isDone()?View.VISIBLE:View.GONE);
+            } else {
+                ivDone.setVisibility(View.GONE);
             }
             tvChallenge.setText(challengeItem.getType());
             if (challengeItem.getType().toLowerCase().equals(ChallengeItem.PLANK)) {

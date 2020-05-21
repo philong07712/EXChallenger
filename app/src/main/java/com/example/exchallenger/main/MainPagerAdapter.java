@@ -3,6 +3,7 @@ package com.example.exchallenger.main;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.exchallenger.EmptyFragment;
@@ -15,7 +16,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
     private boolean login;
 
     public MainPagerAdapter(@NonNull FragmentManager fm, boolean login) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm, BEHAVIOR_SET_USER_VISIBLE_HINT);
         this.login = login;
     }
 
@@ -45,6 +46,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setLogin(boolean login) {
         this.login = login;
+        notifyDataSetChanged();
     }
 
     public boolean isLogin() {

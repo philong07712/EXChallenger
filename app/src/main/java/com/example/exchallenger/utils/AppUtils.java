@@ -9,13 +9,19 @@ import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.Models.User;
+import com.example.exchallenger.MyApplication;
 import com.google.common.primitives.ImmutableDoubleArray;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -111,8 +117,8 @@ public class AppUtils {
         return group;
     }
 
-    public static ChallengeItem convertMapToChallengeItem(Map<String, Object> map) {
-        ChallengeItem challengeItem = new ChallengeItem();
+    public static ChallengeItem convertMapToChallengeItem(String id, Map<String, Object> map) {
+        ChallengeItem challengeItem = new ChallengeItem(id);
         challengeItem.setUnit((String) map.get("unit"));
         challengeItem.setNumber(AppUtils.getIntFromFirebaseMap(map, "time"));
         if (map.get("rep") instanceof ArrayList) {
@@ -123,10 +129,16 @@ public class AppUtils {
         challengeItem.setPhoto((String) map.get("photo"));
         challengeItem.setHour(AppUtils.getIntFromFirebaseMap(map, "hour"));
         challengeItem.setMinute(AppUtils.getIntFromFirebaseMap(map, "minute"));
+        if (map.get("done") instanceof ArrayList) {
+            if (MyApplication.firebaseUser != null) {
+                ArrayList<String> done = (ArrayList<String>) map.get("done");
+                challengeItem.setDone(done.contains(MyApplication.firebaseUser.getUid()));
+            }
+        }
         return challengeItem;
     }
 
-    private static int getIntFromFirebaseMap(Map<String, Object> map, String key) {
+    public static int getIntFromFirebaseMap(Map<String, Object> map, String key) {
         Long hour = (Long) map.get(key);
         int value = hour != null ? hour.intValue() : 0;
         return value;
@@ -228,5 +240,14 @@ public class AppUtils {
         map.put("name", dataItem.getType());
         map.put("rep", dataItem.getNumber());
         return map;
+    }
+
+    public static String convertDateToString(Date date) {
+        return convertDateToString(date, "dd/MM/yyyy");
+    }
+
+    public static String convertDateToString(Date date, String format) {
+        SimpleDateFormat SDFoutput = new SimpleDateFormat(format, Locale.ENGLISH);
+        return SDFoutput.format(date);
     }
 }
