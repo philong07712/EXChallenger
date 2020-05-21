@@ -1,12 +1,15 @@
 package com.example.exchallenger.Helpers;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.exchallenger.Models.Group;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,9 +24,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.DocumentType;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 public class GroupHelper {
 
@@ -39,20 +48,20 @@ public class GroupHelper {
         void onRead(List<Map<String, Object>> groups);
     }
 
-     public interface GetGroupDetailListener {
+    public interface GetGroupDetailListener {
         void onRead(Group group);
 
         void onError(String error);
     }
 
 
-    public interface GroupJoinListener
-    {
+    public interface GroupJoinListener {
         void onSuccess();
+
         void onCancel(String message);
     }
 
-     public void getGroup(String groupId, GetGroupDetailListener listener) {
+    public void getGroup(String groupId, GetGroupDetailListener listener) {
         if (TextUtils.isEmpty(groupId)) {
             listener.onError("Invalid Group ID");
             return;
@@ -86,64 +95,51 @@ public class GroupHelper {
         database.collection("Groups").whereArrayContains("members", userID).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null)
-                {
+                if (e != null) {
                     Log.w(MainHelper.TAG, "Listener failed.", e);
                 }
 
-                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty())
-                {
+                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
                     List<Map<String, Object>> groups = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots)
-                    {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Map<String, Object> map = document.getData();
                         groups.add(map);
                     }
                     listener.onRead(groups);
-                }
-
-                else {
+                } else {
                     Log.d(MainHelper.TAG, "Group list is null");
                 }
             }
         });
     }
 
-    public void joinGroup(String userID, String groupKey, GroupJoinListener listener)
-    {
+    public void joinGroup(String userID, String groupKey, GroupJoinListener listener) {
         //Todo: get group with that key
         DocumentReference docRef = database.collection("Groups").document(groupKey);
         docRef.update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     listener.onSuccess();
-                }
-                else
-                {
+                } else {
                     listener.onCancel(task.getException().getMessage());
                 }
             }
         });
     }
 
-    public void addUserToRanking(String userID, String groupKey, getGroupsListener listener)
-    {
+    public void addUserToRanking(String userID, String groupKey, getGroupsListener listener) {
         database.collection("Groups").document(groupKey).collection("Ranking");
     }
 
-    public void getGroupRanking(String groupID, getGroupsListener listener)
-    {
+    public void getGroupRanking(String groupID, getGroupsListener listener) {
         database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     List<Map<String, Object>> rankers = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult())
-                    {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> ranker = document.getData();
                         rankers.add(ranker);
                     }
