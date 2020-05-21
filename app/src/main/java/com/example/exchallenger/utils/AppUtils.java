@@ -91,6 +91,11 @@ public class AppUtils {
 
     public static GroupMember convertMapToGroupMember(Map<String, Object> ranker) {
         GroupMember member = new GroupMember();
+        member.setGroupID((String) ranker.get("groupID"));
+        member.setName((String) ranker.get("name"));
+        member.setPhoto((String) ranker.get("photo"));
+        member.setUserId((String) ranker.get("userID"));
+        member.setPoint(getIntFromFirebaseMap(ranker, "point"));
         return member;
     }
 
@@ -193,7 +198,7 @@ public class AppUtils {
 
     public static String getUnitStrOfExercise(String type) {
         if (TextUtils.isEmpty(type)) {
-            return "x";
+            return " times";
         }
 
         switch (type.toLowerCase()) {
@@ -202,7 +207,7 @@ public class AppUtils {
             case ChallengeItem.PUSH_UP:
             case ChallengeItem.SQUAT:
             default:
-                return "x";
+                return " times";
         }
     }
 

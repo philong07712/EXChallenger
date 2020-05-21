@@ -143,9 +143,9 @@ public class GroupHelper {
                             if (snapshot.getDocuments().size() > 0
                                     && snapshot.getDocuments().get(0) != null) {
                                 DocumentSnapshot doc = snapshot.getDocuments().get(0);
-                                Log.d("ALOALO", doc.toString());
                                 // get group ID
                                 String groupID = doc.getId();
+
                                 if (doc != null && !TextUtils.isEmpty(doc.getString("groupKey"))) {
                                     ref.document(doc.getString("groupKey"))
                                             .update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -177,47 +177,39 @@ public class GroupHelper {
                 });
     }
 
-    private void createUserInGroupRanking(String userID, String groupID, AddListener listener)
-    {
-        database.collection("Groups").document(groupID).collection("Ranking").whereEqualTo("userID", userID).get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful())
-                    {
-                        if (task.getResult().isEmpty())
-                        {
-                            MyApplication.getInstance().getUserHelper().getUsersInfo(userID, new UserHelper.GetUserInfo() {
-                                @Override
-                                public void onRead(Map<String, Object> user) {
-                                    Log.d(MainHelper.TAG, user.toString());
-                                    Map<String, Object> userRanker = new HashMap<>();
-                                    userRanker.put("groupID", groupID);
-                                    userRanker.put("name", user.get("name").toString());
-                                    userRanker.put("photo", user.get("photo").toString());
-                                    userRanker.put("userID", userID);
-                                    userRanker.put("point", 0);
-                                    Log.d(MainHelper.TAG, userRanker.toString());
-                                    // set that data to group ranking
-                                    database.collection("Groups").document(groupID).collection("Ranking").add(userRanker)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    listener.onAdd();
-                                                }
-                                            });
-                                }
-                            });
+    private void createUserInGroupRanking(String userID, String groupID, AddListener listener) {
+        database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING).whereEqualTo("userID", userID).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().isEmpty()) {
+                                MyApplication.getInstance().getUserHelper().getUsersInfo(userID, new UserHelper.GetUserInfo() {
+                                    @Override
+                                    public void onRead(Map<String, Object> user) {
+                                        Log.d(MainHelper.TAG, user.toString());
+                                        Map<String, Object> userRanker = new HashMap<>();
+                                        userRanker.put("groupID", groupID);
+                                        userRanker.put("name", user.get("name").toString());
+                                        userRanker.put("photo", user.get("photo").toString());
+                                        userRanker.put("userID", userID);
+                                        userRanker.put("point", 0);
+                                        Log.d(MainHelper.TAG, userRanker.toString());
+                                        // set that data to group ranking
+                                        database.collection("Groups").document(groupID).collection("Ranking").add(userRanker)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        listener.onAdd();
+                                                    }
+                                                });
+                                    }
+                                });
+                            }
                         }
                     }
-                }
-            });
+                });
 
-    }
-
-    public void addUserToRanking(String userID, String groupKey, GetGroupsListener listener) {
-        // This not done
-        database.collection("Groups").document(groupKey).collection("Ranking");
     }
 
     public void getGroupRanking(String groupID, GetGroupRankingListener listener) {
@@ -273,6 +265,12 @@ public class GroupHelper {
                     collectionReference.add(AppUtils.createMapFromChallengeItem(challengeItem));
                 }
                 listener.onCreateSuccess(docRef.getId(), group.getKey());
+                createUserInGroupRanking(admin, docRef.getId(), new AddListener() {
+                    @Override
+                    public void onAdd() {
+
+                    }
+                });
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
