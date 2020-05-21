@@ -22,6 +22,8 @@ import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.customviews.CircleProgressView;
 import com.example.exchallenger.tensorflow.PosenetActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +99,11 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
      private void addPoint() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null){
+            finish();
+        }
+
         endTime = System.currentTimeMillis();
         long secondsDiff = (endTime - startTime) / 1000;
         Map<String, Object> map = new HashMap<>();
@@ -104,7 +111,7 @@ public class ExerciseActivity extends AppCompatActivity {
         map.put("totalTimes", secondsDiff);
         Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
         boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
-        new UserHelper().addFinishWorkout(MyApplication.user.getUserID(), map, new AddListener() {
+        new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
 
             @Override
             public void onAdd() {
@@ -227,7 +234,7 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void doneWorkout() {
-        if (currentWorkoutPosition <= listExercise.size() - 1) {
+        if (currentWorkoutPosition < listExercise.size() - 1) {
             totalPoint += currentPoint;
             currentWorkoutPosition++;
             removeCameraView();

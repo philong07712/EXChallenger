@@ -9,6 +9,7 @@ import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.Models.User;
+import com.google.common.primitives.ImmutableDoubleArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,7 +120,7 @@ public class AppUtils {
         }
         challengeItem.setType((String) map.get("name"));
         challengeItem.setPoint(AppUtils.getIntFromFirebaseMap(map, "point"));
-
+        challengeItem.setPhoto((String) map.get("photo"));
         challengeItem.setHour(AppUtils.getIntFromFirebaseMap(map, "hour"));
         challengeItem.setMinute(AppUtils.getIntFromFirebaseMap(map, "minute"));
         return challengeItem;
@@ -135,7 +136,7 @@ public class AppUtils {
         Map<String, Object> map = new HashMap<>();
         map.put("anim", "animation");
         map.put("name", challengeItem.getType());
-        map.put("photo", AppUtils.getPhotoOfExercise(challengeItem.getType()));
+        map.put("photo", challengeItem.getPhoto());
         map.put("point", challengeItem.getPoint());
         map.put("rep", challengeItem.getRepeat());
         map.put("time", challengeItem.getNumber());
@@ -218,5 +219,14 @@ public class AppUtils {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public static Map<String, Object> getMapFromChallenge(ChallengeItem dataItem) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("introduction", dataItem.getPhoto());
+        map.put("point", dataItem.getPoint());
+        map.put("name", dataItem.getType());
+        map.put("rep", dataItem.getNumber());
+        return map;
     }
 }

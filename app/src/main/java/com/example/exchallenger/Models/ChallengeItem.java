@@ -13,11 +13,13 @@ public class ChallengeItem {
     private String unit;
     private ArrayList<Long> repeat;
     private int point;
+    private String photo;
 
     public ChallengeItem() {
     }
 
-    public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit, int point) {
+    public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit,
+                         int point, String photo) {
         this.type = type;
         this.number = number;
         this.hour = hour;
@@ -25,6 +27,7 @@ public class ChallengeItem {
         this.repeat = repeat;
         this.unit = unit;
         this.point = point;
+        this.photo = photo;
     }
 
     public String getType() {
@@ -81,5 +84,13 @@ public class ChallengeItem {
 
     public int getPoint() {
         return point;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
