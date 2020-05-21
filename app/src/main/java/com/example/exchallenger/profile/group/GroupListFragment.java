@@ -1,5 +1,6 @@
 package com.example.exchallenger.profile.group;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,7 +66,14 @@ public class GroupListFragment extends BaseFragment {
         GroupHelper groupHelper = MyApplication.getInstance().getGroupHelper();
         groupHelper.getGroups(MyApplication.user.getUserID(), new GroupHelper.GetGroupsListener() {
             @Override
-            public void onRead(List<String> groupIDs) {
+            public void onRead(List<Map<String, Object>> groups) {
+                for (Map<String, Object> group : groups) {
+                    Log.d("GroupsList", group.toString());
+                }
+            }
+
+            @Override
+            public void onReadGroups(List<String> groupIDs) {
                 compositeDisposable.add(Observable.just(groupIDs)
                         .flatMapIterable(ids -> ids)
                         .flatMap(groupId -> groupHelper.getGroupFromGroupId(groupId))

@@ -44,8 +44,12 @@ public class GroupHelper {
         ref = database.collection("Groups");
     }
 
-    public interface getGroupsListener {
+    public interface GetGroupsListener {
         void onRead(List<Map<String, Object>> groups);
+
+        void onReadGroups(List<String> groups);
+
+        void onError(String error);
     }
 
     public interface GetGroupDetailListener {
@@ -91,7 +95,7 @@ public class GroupHelper {
                 });
     }
 
-    public void getGroups(String userID, final getGroupsListener listener) {
+    public void getGroups(String userID, final GetGroupsListener listener) {
         database.collection("Groups").whereArrayContains("members", userID).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -128,11 +132,11 @@ public class GroupHelper {
         });
     }
 
-    public void addUserToRanking(String userID, String groupKey, getGroupsListener listener) {
+    public void addUserToRanking(String userID, String groupKey, GetGroupsListener listener) {
         database.collection("Groups").document(groupKey).collection("Ranking");
     }
 
-    public void getGroupRanking(String groupID, getGroupsListener listener) {
+    public void getGroupRanking(String groupID, GetGroupsListener listener) {
         database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
