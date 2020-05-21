@@ -1,17 +1,21 @@
 package com.example.exchallenger.challenge;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.exchallenger.ExerciseActivity;
 import com.example.exchallenger.Helpers.GroupHelper;
+import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
+import com.example.exchallenger.base.OnItemClickListener;
 import com.example.exchallenger.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -20,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class GroupChallengeListFragment extends BaseFragment {
 
@@ -51,6 +57,17 @@ public class GroupChallengeListFragment extends BaseFragment {
 
         groupId = getArguments().getString(K_GROUP);
 
+        challengeAdapter.setOnItemClickListener(new OnItemClickListener<ChallengeItem>() {
+            @Override
+            public void onItemClick(int position, ChallengeItem dataItem) {
+                Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+                List<Map<String, Object>> exerciseList = new ArrayList<>();
+                exerciseList.add(AppUtils.getMapFromChallenge(dataItem));
+                new LocalSaveHelper(getApplicationContext()).saveListMap("exercises", exerciseList);
+                startActivity(intent);
+            }
+        });
+
         MyApplication.getInstance().getGroupHelper().getGroupChallenges(groupId, new GroupHelper.GetGroupChallengeListener() {
             @Override
             public void onRead(List<ChallengeItem> challengeItems) {
@@ -62,6 +79,7 @@ public class GroupChallengeListFragment extends BaseFragment {
                 Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 }

@@ -9,6 +9,7 @@ import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.Models.User;
+import com.google.common.primitives.ImmutableDoubleArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,6 +92,11 @@ public class AppUtils {
 
     public static GroupMember convertMapToGroupMember(Map<String, Object> ranker) {
         GroupMember member = new GroupMember();
+        member.setGroupID((String) ranker.get("groupID"));
+        member.setName((String) ranker.get("name"));
+        member.setPhoto((String) ranker.get("photo"));
+        member.setUserId((String) ranker.get("userID"));
+        member.setPoint(getIntFromFirebaseMap(ranker, "point"));
         return member;
     }
 
@@ -114,7 +120,7 @@ public class AppUtils {
         }
         challengeItem.setType((String) map.get("name"));
         challengeItem.setPoint(AppUtils.getIntFromFirebaseMap(map, "point"));
-
+        challengeItem.setPhoto((String) map.get("photo"));
         challengeItem.setHour(AppUtils.getIntFromFirebaseMap(map, "hour"));
         challengeItem.setMinute(AppUtils.getIntFromFirebaseMap(map, "minute"));
         return challengeItem;
@@ -130,7 +136,7 @@ public class AppUtils {
         Map<String, Object> map = new HashMap<>();
         map.put("anim", "animation");
         map.put("name", challengeItem.getType());
-        map.put("photo", AppUtils.getPhotoOfExercise(challengeItem.getType()));
+        map.put("photo", challengeItem.getPhoto());
         map.put("point", challengeItem.getPoint());
         map.put("rep", challengeItem.getRepeat());
         map.put("time", challengeItem.getNumber());
@@ -193,7 +199,7 @@ public class AppUtils {
 
     public static String getUnitStrOfExercise(String type) {
         if (TextUtils.isEmpty(type)) {
-            return "x";
+            return " times";
         }
 
         switch (type.toLowerCase()) {
@@ -202,7 +208,7 @@ public class AppUtils {
             case ChallengeItem.PUSH_UP:
             case ChallengeItem.SQUAT:
             default:
-                return "x";
+                return " times";
         }
     }
 
@@ -213,5 +219,14 @@ public class AppUtils {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public static Map<String, Object> getMapFromChallenge(ChallengeItem dataItem) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("introduction", dataItem.getPhoto());
+        map.put("point", dataItem.getPoint());
+        map.put("name", dataItem.getType());
+        map.put("rep", dataItem.getNumber());
+        return map;
     }
 }

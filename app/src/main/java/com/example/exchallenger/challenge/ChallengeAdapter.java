@@ -61,27 +61,31 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
                 return;
             }
             tvChallenge.setText(challengeItem.getType());
-            tvCount.setText("x" + challengeItem.getNumber());
+            if (challengeItem.getType().toLowerCase().equals(ChallengeItem.PLANK)) {
+                tvCount.setText(challengeItem.getNumber() + "m");
+            } else {
+                tvCount.setText("x" + challengeItem.getNumber());
+            }
             tvPoint.setText(challengeItem.getPoint() + " points");
             tvTime.setText(AppUtils.getTimeFromHourAndUnit(challengeItem.getHour(), challengeItem.getMinute()));
             tvScheduleType.setText(AppUtils.getScheduleText(challengeItem.getRepeat()));
-            switch (challengeItem.getType().toLowerCase()) {
-                case ChallengeItem.SQUAT:
-                    Glide.with(itemView)
-                            .load(R.drawable.ic_squat)
-                            .into(ivChallenge);
-                    break;
-                case ChallengeItem.PUSH_UP:
-                    Glide.with(itemView)
-                            .load(R.drawable.ic_push_up)
-                            .into(ivChallenge);
-                    break;
-                case ChallengeItem.PLANK:
-                    Glide.with(itemView)
-                            .load(R.drawable.ic_plank)
-                            .into(ivChallenge);
-                    break;
+            if(TextUtils.isEmpty(challengeItem.getPhoto())) {
+                Glide.with(itemView)
+                        .load(AppUtils.getPhotoOfExercise(challengeItem.getType()))
+                        .into(ivChallenge);
+            } else {
+                Glide.with(itemView)
+                        .load(challengeItem.getPhoto())
+                        .into(ivChallenge);
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getOnItemClickListener()!=null){
+                        getOnItemClickListener().onItemClick(position, challengeItem);
+                    }
+                }
+            });
         }
 
     }
