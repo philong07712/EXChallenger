@@ -15,7 +15,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
     private boolean login;
 
     public MainPagerAdapter(@NonNull FragmentManager fm, boolean login) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.login = login;
     }
 
@@ -45,6 +45,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setLogin(boolean login) {
         this.login = login;
+        notifyDataSetChanged();
     }
 
     public boolean isLogin() {

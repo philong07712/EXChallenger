@@ -2,6 +2,7 @@ package com.example.exchallenger;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.Helpers.UserHelper;
@@ -32,6 +34,8 @@ import java.util.Map;
 
 public class ExerciseActivity extends AppCompatActivity {
     private static final String TAG = ExerciseActivity.class.getSimpleName();
+    public static final String K_GROUP = "group_id";
+    public static final String K_WORKOUT = "challenge_id";
     List<Map<String, Object>> listExercise;
 
     //    ImageView image;
@@ -49,12 +53,16 @@ public class ExerciseActivity extends AppCompatActivity {
     CircleProgressView circleProgressView;
     TextView txtTimeLeft;
 
+    String groupId, workoutID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
         listExercise = MyApplication.getInstance().getPrefsHelper().getListMap("exercises");
+        groupId = getIntent().getStringExtra(K_GROUP);
+        workoutID = getIntent().getStringExtra(K_WORKOUT);
         position = 0;
         totalPoint = 0;
         // Init view
@@ -98,38 +106,58 @@ public class ExerciseActivity extends AppCompatActivity {
 //        setCameraView();
     }
 
-     private void addPoint() {
+    private void addPoint() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user==null){
+        if (user == null) {
             finish();
         }
+
 
         endTime = System.currentTimeMillis();
         long secondsDiff = (endTime - startTime) / 1000;
         Map<String, Object> map = new HashMap<>();
         map.put("totalPoints", totalPoint);
         map.put("totalTimes", secondsDiff);
-        Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
-        boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
-        new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
+        if (TextUtils.isEmpty(groupId)) { // challenge thường
+            Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
+            boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
+            new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
 
-            @Override
-            public void onAdd() {
-                // if this exercise is challenge then we will add point to that ranking system
-                if (isChallenge)
-                {
-                    addPointToChallenge(currentWorkout);
+                @Override
+                public void onAdd() {
+                    // if this exercise is challenge then we will add point to that ranking system
+                    if (isChallenge) {
+                        addPointToChallenge(currentWorkout);
+                    } else {
+                        finish();
+                    }
                 }
-                else
-                {
-                    finish();
+            });
+        } else { // challenge của group
+            new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
+
+                @Override
+                public void onAdd() {
+                    // if this exercise is challenge then we will add point to that ranking system
                 }
-            }
-        });
+            });
+            MyApplication.getInstance().getGroupHelper().addFinishGroupChallenge(groupId, user.getUid(), workoutID,
+                    totalPoint, new GroupHelper.CustomCompleteListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure(String message) {
+
+                        }
+                    });
+        }
+
     }
 
-     private void addPointToChallenge(Map<String, Object> currentWorkout)
-    {
+    private void addPointToChallenge(Map<String, Object> currentWorkout) {
         String userID = MyApplication.user.getUserID();
         Map<String, Object> map = new HashMap<>();
         map.put("point", totalPoint);
@@ -263,7 +291,7 @@ public class ExerciseActivity extends AppCompatActivity {
         circleProgressView.setOnProgressChangeListener(new CircleProgressView.OnProgressChangeListener() {
             @Override
             public void onChanged(float angle, float value) {
-                txtTimeLeft.setText(String.format(Locale.US, "%d", (int) value/1000));
+                txtTimeLeft.setText(String.format(Locale.US, "%d", (int) value / 1000));
             }
         });
 

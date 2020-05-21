@@ -69,8 +69,6 @@ public class CreateChallengeDialog extends DialogFragment {
     LinearLayout viewPickDate;
     @BindView(R.id.btn_ok)
     CustomTextviewFonts btnOk;
-    @BindView(R.id.btn_cancel)
-    CustomTextviewFonts btnCancel;
 
     List<String> types = Arrays.asList("Push up", "Plank", "Squat", "Push up", "Plank", "Squat");
     private String exercise = types.get(0);

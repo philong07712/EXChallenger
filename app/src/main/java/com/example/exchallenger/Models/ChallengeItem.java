@@ -14,9 +14,7 @@ public class ChallengeItem {
     private ArrayList<Long> repeat;
     private int point;
     private String photo;
-
-    public ChallengeItem() {
-    }
+    private String id;
 
     public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit,
                          int point, String photo) {
@@ -28,6 +26,18 @@ public class ChallengeItem {
         this.unit = unit;
         this.point = point;
         this.photo = photo;
+    }
+
+    public ChallengeItem(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {

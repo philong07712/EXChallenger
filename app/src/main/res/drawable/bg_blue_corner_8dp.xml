@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/white_press">
-    <item android:id="@android:id/mask" android:drawable="@drawable/bg_white_corner_8dp_press"/>
-    <item android:id="@android:id/background" android:drawable="@drawable/bg_white_corner_8dp_normal"/>
+    android:color="@color/main_blue_dark">
+    <item android:id="@android:id/mask" android:drawable="@drawable/bg_blue_corner_8dp_press"/>
+    <item android:id="@android:id/background" android:drawable="@drawable/bg_blue_corner_8dp_normal"/>
 </ripple>

@@ -29,6 +29,8 @@ import io.reactivex.functions.Function;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.base.OnItemClickListener;
 import com.example.exchallenger.group.GroupDetailFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class GroupListFragment extends BaseFragment {
     @BindView(R.id.rcv_group)
@@ -64,7 +66,8 @@ public class GroupListFragment extends BaseFragment {
         rcvGroup.setAdapter(groupAdapter);
         rcvGroup.setNestedScrollingEnabled(false);
         GroupHelper groupHelper = MyApplication.getInstance().getGroupHelper();
-        groupHelper.getGroups(MyApplication.user.getUserID(), new GroupHelper.GetGroupsListener() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        groupHelper.getGroups(firebaseUser.getUid(), new GroupHelper.GetGroupsListener() {
             @Override
             public void onRead(List<Group> groups) {
                 groupAdapter.set(groups);

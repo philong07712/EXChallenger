@@ -61,6 +61,8 @@ public class GroupChallengeListFragment extends BaseFragment {
             @Override
             public void onItemClick(int position, ChallengeItem dataItem) {
                 Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+                intent.putExtra(ExerciseActivity.K_GROUP, groupId);
+                intent.putExtra(ExerciseActivity.K_WORKOUT, dataItem.getId());
                 List<Map<String, Object>> exerciseList = new ArrayList<>();
                 exerciseList.add(AppUtils.getMapFromChallenge(dataItem));
                 new LocalSaveHelper(getApplicationContext()).saveListMap("exercises", exerciseList);

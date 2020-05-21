@@ -87,9 +87,9 @@ public class WorkFromHomeFragment extends Fragment {
                     relaxTime = (minutes * 60 + sec) * 1000;
                     WorkFromHomeManager.setRelaxTime(relaxTime);
                 }
-                txtTime.setText(String.format(Locale.US, "%s\n%02d:%02d",
-                        (currentView == VIEW_WORK ? getString(R.string.working) : getString(R.string.relax)),
-                        minutes, sec));
+                    txtTime.setText(String.format(Locale.US, "%s\n%02d:%02d",
+                            (currentView == VIEW_WORK ? "Working" : "Relax"),
+                            minutes, sec));
             }
         });
 

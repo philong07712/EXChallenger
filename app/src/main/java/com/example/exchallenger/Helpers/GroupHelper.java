@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,36 +78,6 @@ public class GroupHelper {
         void onSuccess();
 
         void onCancel(String message);
-    }
-
-    public void getGroup(String groupId, GetGroupDetailListener listener) {
-        if (TextUtils.isEmpty(groupId)) {
-            listener.onError("Invalid Group ID");
-            return;
-        }
-        ref.document(groupId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Group group = new Group();
-                group.setGroupKey(documentSnapshot.getString("groupKey"));
-                group.setKey(documentSnapshot.getString("key"));
-                group.setName(documentSnapshot.getString("name"));
-                group.setPhoto(documentSnapshot.getString("photo"));
-                listener.onRead(group);
-            }
-        })
-                .addOnCanceledListener(new OnCanceledListener() {
-                    @Override
-                    public void onCanceled() {
-                        listener.onError("Cancel");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        listener.onError(e.getMessage());
-                    }
-                });
     }
 
     public void getGroups(String userID, final GetGroupsListener listener) {
@@ -178,37 +149,35 @@ public class GroupHelper {
     }
 
     private void createUserInGroupRanking(String userID, String groupID, AddListener listener) {
-        database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING).whereEqualTo("userID", userID).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (task.getResult().isEmpty()) {
-                                MyApplication.getInstance().getUserHelper().getUsersInfo(userID, new UserHelper.GetUserInfo() {
-                                    @Override
-                                    public void onRead(Map<String, Object> user) {
-                                        Log.d(MainHelper.TAG, user.toString());
-                                        Map<String, Object> userRanker = new HashMap<>();
-                                        userRanker.put("groupID", groupID);
-                                        userRanker.put("name", user.get("name").toString());
-                                        userRanker.put("photo", user.get("photo").toString());
-                                        userRanker.put("userID", userID);
-                                        userRanker.put("point", 0);
-                                        Log.d(MainHelper.TAG, userRanker.toString());
-                                        // set that data to group ranking
-                                        database.collection("Groups").document(groupID).collection("Ranking").add(userRanker)
-                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                    @Override
-                                                    public void onSuccess(DocumentReference documentReference) {
-                                                        listener.onAdd();
-                                                    }
-                                                });
-                                    }
-                                });
+        MyApplication.getInstance().getUserHelper().getUsersInfo(userID, new UserHelper.GetUserInfo() {
+            @Override
+            public void onRead(Map<String, Object> user) {
+                Log.d(MainHelper.TAG, user.toString());
+                Map<String, Object> userRanker = new HashMap<>();
+                userRanker.put("groupID", groupID);
+                userRanker.put("name", user.get("name").toString());
+                userRanker.put("photo", user.get("photo").toString());
+                userRanker.put("userID", userID);
+                userRanker.put("point", 0);
+                Log.d(MainHelper.TAG, userRanker.toString());
+                ref.document(groupID).collection(Constants.PATH_RANKING)
+                        .document(userID)
+                        .set(userRanker)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                listener.onAdd();
                             }
-                        }
-                    }
-                });
+                        });
+//                // set that data to group ranking
+//                database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING).add(userRanker)
+//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                            }
+//                        });
+            }
+        });
 
     }
 
@@ -218,7 +187,7 @@ public class GroupHelper {
             return;
         }
 
-        database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
+        database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING).orderBy("point")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -257,22 +226,23 @@ public class GroupHelper {
         String admin = FirebaseAuth.getInstance().getUid();
         group.setMembers(Arrays.asList(admin));
         group.setAdmin(admin);
-        docRef.set(group).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                CollectionReference collectionReference = docRef.collection(Constants.PATH_MINI_WORKOUT);
-                for (ChallengeItem challengeItem : challengeList) {
-                    collectionReference.add(AppUtils.createMapFromChallengeItem(challengeItem));
-                }
-                listener.onCreateSuccess(docRef.getId(), group.getKey());
-                createUserInGroupRanking(admin, docRef.getId(), new AddListener() {
+        docRef.set(group)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onAdd() {
+                    public void onSuccess(Void aVoid) {
+                        CollectionReference collectionReference = docRef.collection(Constants.PATH_MINI_WORKOUT);
+                        for (ChallengeItem challengeItem : challengeList) {
+                            collectionReference.add(AppUtils.createMapFromChallengeItem(challengeItem));
+                        }
+                        listener.onCreateSuccess(docRef.getId(), group.getKey());
+                        createUserInGroupRanking(admin, docRef.getId(), new AddListener() {
+                            @Override
+                            public void onAdd() {
 
+                            }
+                        });
                     }
-                });
-            }
-        })
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -318,11 +288,50 @@ public class GroupHelper {
                     List<ChallengeItem> challengeItems = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> challengeMap = document.getData();
-                        challengeItems.add(AppUtils.convertMapToChallengeItem(challengeMap));
+                        challengeItems.add(AppUtils.convertMapToChallengeItem(document.getId(), challengeMap));
                     }
                     listener.onRead(challengeItems);
                 }
             }
         });
+    }
+
+    public interface CustomCompleteListener {
+        void onSuccess();
+
+        void onFailure(String message);
+    }
+
+    public void addFinishGroupChallenge(String groupId, String userId, String workOutId, int plusPoint, CustomCompleteListener completeListener) {
+        DocumentReference groupRef = ref.document(groupId);
+        DocumentReference docRef = groupRef.collection(Constants.PATH_RANKING).document(userId);
+        groupRef.collection(Constants.PATH_MINI_WORKOUT)
+                .document(workOutId)
+                .collection("date")
+                .document(AppUtils.convertDateToString(new Date()));
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> rankingData = documentSnapshot.getData();
+                int point = AppUtils.getIntFromFirebaseMap(rankingData, "point");
+                point += plusPoint;
+                rankingData.put("point", point);
+                docRef.update(rankingData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                completeListener.onSuccess();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                completeListener.onFailure(e.getMessage());
+                            }
+                        });
+            }
+        });
+
     }
 }

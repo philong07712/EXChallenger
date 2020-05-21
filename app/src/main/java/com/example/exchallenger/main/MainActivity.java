@@ -109,8 +109,7 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginSuccess(LoginSuccessEvent loginSuccessEvent) {
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
-        viewPager.setAdapter(mainPagerAdapter);
+        mainPagerAdapter.setLogin(true);
         viewPager.setCurrentItem(currentPos);
     }
 
@@ -118,8 +117,7 @@ public class MainActivity extends BaseActivity {
     public void onLoginSuccess(LogoutEvent logoutEvent) {
         firebaseAuth.signOut();
         MyApplication.user = null;
-        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), false);
-        viewPager.setAdapter(mainPagerAdapter);
+        mainPagerAdapter.setLogin(false);
         viewPager.setCurrentItem(currentPos);
     }
 }
