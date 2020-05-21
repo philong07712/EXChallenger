@@ -2,7 +2,6 @@ package com.example.exchallenger;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -17,7 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.MainHelper;
+import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.customviews.CircleProgressView;
 import com.example.exchallenger.tensorflow.PosenetActivity;
