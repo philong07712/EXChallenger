@@ -152,6 +152,7 @@ public class GuestFragment extends BaseFragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
+                            MyApplication.firebaseUser = user;
                             login(user.getUid(), newUser);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -256,28 +257,14 @@ public class GuestFragment extends BaseFragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseInstanceId.getInstance()
-                                    .getInstanceId()
-                                    .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-                                        @Override
-                                        public void onSuccess(InstanceIdResult instanceIdResult) {
-                                            String newToken = instanceIdResult.getToken();
-                                            Log.e("newToken", newToken);
-                                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                                            User newUser = new User();
-                                            newUser.setEmail(account.getEmail());
-                                            newUser.setName(account.getGivenName());
-                                            newUser.setPhoto(account.getPhotoUrl().toString());
-                                            newUser.setUserID(user.getUid());
-                                            login(user.getUid(), newUser);
-
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                        }
-                                    });
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            MyApplication.firebaseUser = user;
+                            User newUser = new User();
+                            newUser.setEmail(account.getEmail());
+                            newUser.setName(account.getGivenName());
+                            newUser.setPhoto(account.getPhotoUrl().toString());
+                            newUser.setUserID(user.getUid());
+                            login(user.getUid(), newUser);
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 

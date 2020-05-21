@@ -27,6 +27,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -187,27 +188,26 @@ public class GroupHelper {
             return;
         }
 
-        database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING).orderBy("point")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        database.collection("Groups").document(groupID).collection(Constants.PATH_RANKING)
+                .orderBy("point", Query.Direction.DESCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<GroupMember> rankers = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            Map<String, Object> ranker = document.getData();
-                            rankers.add(AppUtils.convertMapToGroupMember(ranker));
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            listener.onError(e.getMessage());
                         }
-                        listener.onRead(rankers);
-                    }
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        listener.onError(e.getMessage());
-
+                        if (queryDocumentSnapshots != null) {
+                            List<GroupMember> rankers = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                Map<String, Object> ranker = document.getData();
+                                rankers.add(AppUtils.convertMapToGroupMember(ranker));
+                            }
+                            listener.onRead(rankers);
+                        }
                     }
                 });
+
+
     }
 
     public interface CreateGroupListener {
@@ -281,19 +281,23 @@ public class GroupHelper {
         }
 
         database.collection("Groups").document(groupId).collection(Constants.PATH_MINI_WORKOUT)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<ChallengeItem> challengeItems = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> challengeMap = document.getData();
-                        challengeItems.add(AppUtils.convertMapToChallengeItem(document.getId(), challengeMap));
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            listener.onError(e.getMessage());
+
+                        }
+                        if (queryDocumentSnapshots != null) {
+                            List<ChallengeItem> challengeItems = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                Map<String, Object> challengeMap = document.getData();
+                                challengeItems.add(AppUtils.convertMapToChallengeItem(document.getId(), challengeMap));
+                            }
+                            listener.onRead(challengeItems);
+                        }
                     }
-                    listener.onRead(challengeItems);
-                }
-            }
-        });
+                });
     }
 
     public interface CustomCompleteListener {
@@ -305,10 +309,26 @@ public class GroupHelper {
     public void addFinishGroupChallenge(String groupId, String userId, String workOutId, int plusPoint, CustomCompleteListener completeListener) {
         DocumentReference groupRef = ref.document(groupId);
         DocumentReference docRef = groupRef.collection(Constants.PATH_RANKING).document(userId);
-        groupRef.collection(Constants.PATH_MINI_WORKOUT)
-                .document(workOutId)
-                .collection("date")
-                .document(AppUtils.convertDateToString(new Date()));
+        DocumentReference workOutLogRef = groupRef.collection(Constants.PATH_MINI_WORKOUT)
+                .document(workOutId);
+        workOutLogRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map<String, Object> logData = documentSnapshot.getData();
+                        Object oldData = logData.get("done");
+                        if (oldData instanceof ArrayList) {
+                            ArrayList<String> userDone = (ArrayList<String>) oldData;
+                            userDone.add(userId);
+                            logData.put("done", userDone);
+                        } else {
+                            ArrayList<String> userDone = new ArrayList<>();
+                            userDone.add(userId);
+                            logData.put("done", userDone);
+                        }
+                        workOutLogRef.set(logData);
+                    }
+                });
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

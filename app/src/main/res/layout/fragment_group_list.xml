@@ -1,18 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_group"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_group" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_empty"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/ic_meeting" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/tv_empty"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="322dp"
+            android:gravity="center_horizontal"
+            android:text="@string/empty_group"
+            android:textSize="14sp"
+            app:font_type="@string/medium" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="24dp"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_group" />
+    </FrameLayout>
+
 
 </androidx.core.widget.NestedScrollView>

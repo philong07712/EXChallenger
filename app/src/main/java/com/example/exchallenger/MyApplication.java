@@ -10,6 +10,7 @@ import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Models.User;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MyApplication extends Application {
 
@@ -24,6 +25,7 @@ public class MyApplication extends Application {
     private GroupHelper groupHelper;
     public WorkoutHelper workoutHelper;
     public static User user;
+    public static FirebaseUser firebaseUser;
 
     public static MyApplication getInstance(){
         return instance;

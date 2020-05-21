@@ -118,15 +118,15 @@ public class ProfileFragment extends BaseFragment {
         // TODO: Testing create new user
 
         if (firebaseUser != null) {
-            MyApplication.getInstance().getUserHelper().getUsersInfo(firebaseUser.getUid(), new UserHelper.GetUserInfo() {
+            MyApplication.getInstance().getUserHelper().getUsersInfoUpdate(firebaseUser.getUid(), new UserHelper.GetUserInfo() {
                 @Override
                 public void onRead(Map<String, Object> user) {
-                    if(user==null){
+                    if (user == null) {
                         EventBus.getDefault().post(new LogoutEvent());
                     }
                     User newUser = AppUtils.convertMapToUser(user);
                     MyApplication.user = newUser;
-                    if(isAdded()) {
+                    if (isAdded()) {
                         profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
                         viewPager.setAdapter(profilePagerAdapter);
                         showUserData(newUser);
@@ -151,7 +151,7 @@ public class ProfileFragment extends BaseFragment {
         tvMissionCount.setText(user.getNumChallenger() + "");
         tvUsername.setText(user.getName());
         tvRankPoint.setText(user.getTotalPoints() + "");
-        tvTimes.setText("Total workout time: " + user.getTotalTimes() + " minutes");
+        tvTimes.setText("Total workout time: " + (user.getTotalTimes() / 60000) + " minutes");
         showRankView(user.getTotalPoints());
 
 

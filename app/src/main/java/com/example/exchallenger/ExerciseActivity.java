@@ -134,13 +134,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             });
         } else { // challenge của group
-            new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
 
-                @Override
-                public void onAdd() {
-                    // if this exercise is challenge then we will add point to that ranking system
-                }
-            });
             MyApplication.getInstance().getGroupHelper().addFinishGroupChallenge(groupId, user.getUid(), workoutID,
                     totalPoint, new GroupHelper.CustomCompleteListener() {
                         @Override
@@ -153,6 +147,13 @@ public class ExerciseActivity extends AppCompatActivity {
 
                         }
                     });
+            new UserHelper().addFinishWorkout(user.getUid(), map, new AddListener() {
+
+                @Override
+                public void onAdd() {
+                    finish();
+                }
+            });
         }
 
     }

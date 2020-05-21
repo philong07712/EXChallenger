@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.exchallenger.ExerciseActivity;
 import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.LocalSaveHelper;
+import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
+import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
@@ -20,6 +22,7 @@ import com.example.exchallenger.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +63,30 @@ public class GroupChallengeListFragment extends BaseFragment {
         challengeAdapter.setOnItemClickListener(new OnItemClickListener<ChallengeItem>() {
             @Override
             public void onItemClick(int position, ChallengeItem dataItem) {
+                if(dataItem.isDone()){
+                    return;
+                }
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("totalPoints", dataItem.getPoint());
+//                map.put("totalTimes", 4 * 60000);
+//                MyApplication.getInstance().getGroupHelper().addFinishGroupChallenge(groupId, MyApplication.firebaseUser.getUid(), dataItem.getId(),
+//                        dataItem.getPoint(), new GroupHelper.CustomCompleteListener() {
+//                            @Override
+//                            public void onSuccess() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String message) {
+//
+//                            }
+//                        });
+//                new UserHelper().addFinishWorkout(MyApplication.firebaseUser.getUid(), map, new AddListener() {
+//
+//                    @Override
+//                    public void onAdd() {
+//                    }
+//                });
                 Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
                 intent.putExtra(ExerciseActivity.K_GROUP, groupId);
                 intent.putExtra(ExerciseActivity.K_WORKOUT, dataItem.getId());

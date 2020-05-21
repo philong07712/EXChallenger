@@ -15,6 +15,7 @@ public class ChallengeItem {
     private int point;
     private String photo;
     private String id;
+    private boolean isDone;
 
     public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit,
                          int point, String photo) {
@@ -102,5 +103,13 @@ public class ChallengeItem {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }

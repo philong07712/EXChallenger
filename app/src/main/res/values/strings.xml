@@ -46,5 +46,6 @@
     <string name="tfe_pn_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
     <string name="stop">Stop</string>
     <string name="outside_office_hours">Outside office hours</string>
+    <string name="empty_group" >You haven\'t joined any groups yet\nCreate a new group or join one</string>
 
 </resources>

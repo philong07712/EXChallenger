@@ -1,40 +1,35 @@
 package com.example.exchallenger.profile.group;
 
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-
-import butterknife.BindView;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.base.OnItemClickListener;
 import com.example.exchallenger.group.GroupDetailFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.utilityview.customview.CustomTextviewFonts;
+
+import java.util.List;
+
+import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class GroupListFragment extends BaseFragment {
     @BindView(R.id.rcv_group)
     RecyclerView rcvGroup;
+    @BindView(R.id.iv_empty)
+    ImageView ivEmpty;
+    @BindView(R.id.tv_empty)
+    CustomTextviewFonts tvEmpty;
     private GroupAdapter groupAdapter;
     private CompositeDisposable compositeDisposable;
 
@@ -67,17 +62,26 @@ public class GroupListFragment extends BaseFragment {
         rcvGroup.setNestedScrollingEnabled(false);
         GroupHelper groupHelper = MyApplication.getInstance().getGroupHelper();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        groupHelper.getGroups(firebaseUser.getUid(), new GroupHelper.GetGroupsListener() {
-            @Override
-            public void onRead(List<Group> groups) {
-                groupAdapter.set(groups);
-            }
+        if (firebaseUser != null) {
+            groupHelper.getGroups(firebaseUser.getUid(), new GroupHelper.GetGroupsListener() {
+                @Override
+                public void onRead(List<Group> groups) {
+                    groupAdapter.set(groups);
+                    if (groups.size() == 0) {
+                        ivEmpty.setVisibility(View.VISIBLE);
+                        tvEmpty.setVisibility(View.VISIBLE);
+                    } else {
+                        ivEmpty.setVisibility(View.GONE);
+                        tvEmpty.setVisibility(View.GONE);
+                    }
+                }
 
-            @Override
-            public void onError(String error) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(String error) {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         groupAdapter.setOnItemClickListener(new OnItemClickListener<Group>() {
             @Override

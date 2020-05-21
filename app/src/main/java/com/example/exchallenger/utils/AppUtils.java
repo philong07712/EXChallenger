@@ -9,7 +9,10 @@ import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.Models.User;
+import com.example.exchallenger.MyApplication;
 import com.google.common.primitives.ImmutableDoubleArray;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -126,6 +129,12 @@ public class AppUtils {
         challengeItem.setPhoto((String) map.get("photo"));
         challengeItem.setHour(AppUtils.getIntFromFirebaseMap(map, "hour"));
         challengeItem.setMinute(AppUtils.getIntFromFirebaseMap(map, "minute"));
+        if (map.get("done") instanceof ArrayList) {
+            if (MyApplication.firebaseUser != null) {
+                ArrayList<String> done = (ArrayList<String>) map.get("done");
+                challengeItem.setDone(done.contains(MyApplication.firebaseUser.getUid()));
+            }
+        }
         return challengeItem;
     }
 
