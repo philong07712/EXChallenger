@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Models.User;
 import com.example.exchallenger.Models.event.LoginSuccessEvent;
 import com.example.exchallenger.Models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
@@ -62,8 +61,13 @@ public class MainActivity extends BaseActivity {
 
                             Log.d("LOGIN__", "Map<String, Object> user " + user.toString());
                             MyApplication.user = AppUtils.convertMapToUser(user);
-                            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
-                            viewPager.setAdapter(mainPagerAdapter);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
+                                    viewPager.setAdapter(mainPagerAdapter);
+                                }
+                            });
                         }
                     });
         } else {

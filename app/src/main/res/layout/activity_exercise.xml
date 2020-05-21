@@ -167,4 +167,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.example.exchallenger.customviews.CircleProgressView
+        android:id="@+id/circle_progress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_count"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_count" />
+
+    <TextView
+        android:id="@+id/txt_time_left"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15"
+        android:textSize="80sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/circle_progress"
+        app:layout_constraintEnd_toEndOf="@+id/txt_count"
+        app:layout_constraintStart_toStartOf="@+id/circle_progress"
+        app:layout_constraintTop_toTopOf="@+id/circle_progress" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

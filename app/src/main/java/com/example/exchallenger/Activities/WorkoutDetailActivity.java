@@ -1,10 +1,14 @@
 package com.example.exchallenger.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 121;
     RecyclerView rv_detail;
     String workoutID;
     WorkoutDetailAdapter adapter;
@@ -55,13 +60,18 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateExercise();
+                if (ContextCompat.checkSelfPermission(WorkoutDetailActivity.this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(WorkoutDetailActivity.this,
+                            new String[]{Manifest.permission.CAMERA},
+                            MY_PERMISSIONS_REQUEST_CAMERA);
+                } else
+                    updateExercise();
             }
         });
     }
 
-    private void getData()
-    {
+    private void getData() {
         new WorkoutHelper().getDetailWorkout(workoutID, new WorkoutHelper.getWorkoutListener() {
             @Override
             public void onRead(List<Map<String, Object>> list) {
@@ -77,18 +87,30 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void updateWorkoutDetail(List<Map<String, Object>> list)
-    {
+    private void updateWorkoutDetail(List<Map<String, Object>> list) {
         adapter = new WorkoutDetailAdapter(getApplicationContext(), list);
         rv_detail.setAdapter(adapter);
         rv_detail.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void updateExercise()
-    {
+    private void updateExercise() {
         Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
         new LocalSaveHelper(getApplicationContext()).saveListMap("exercises", exerciseList);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CAMERA: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    updateExercise();
+                }
+            }
+        }
     }
 
 }
