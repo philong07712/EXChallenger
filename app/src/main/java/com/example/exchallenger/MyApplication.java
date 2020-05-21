@@ -8,6 +8,7 @@ import androidx.multidex.MultiDex;
 import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.LocalSaveHelper;
 import com.example.exchallenger.Helpers.UserHelper;
+import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Models.User;
 
 public class MyApplication extends Application {
@@ -21,6 +22,7 @@ public class MyApplication extends Application {
     }
 
     private GroupHelper groupHelper;
+    public WorkoutHelper workoutHelper;
     public static User user;
 
     public static MyApplication getInstance(){
@@ -40,6 +42,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         userHelper = new UserHelper();
+        workoutHelper = new WorkoutHelper();
         prefsHelper = new LocalSaveHelper(this);
         groupHelper = new GroupHelper();
     }

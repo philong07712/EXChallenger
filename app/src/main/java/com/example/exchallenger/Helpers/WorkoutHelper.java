@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 
 import com.example.exchallenger.Listeners.AddListener;
+import com.example.exchallenger.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -69,9 +70,9 @@ public class WorkoutHelper {
         if (miniWorkout == null) {
             return;
         }
-        String key = db.collection("Workout").document(workoutID).collection("miniWorkout").document().getId();
+        String key = db.collection("Workout").document(workoutID).collection(Constants.PATH_MINI_WORKOUT).document().getId();
         miniWorkout.put("miniWorkoutID", key);
-        db.collection("Workout").document(workoutID).collection("miniWorkout").document(key).set(miniWorkout)
+        db.collection("Workout").document(workoutID).collection(Constants.PATH_MINI_WORKOUT).document(key).set(miniWorkout)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -121,7 +122,7 @@ public class WorkoutHelper {
     }
 
     public void getDetailWorkout(String workoutID, final getWorkoutListener listener) {
-        db.collection("Workout").document(workoutID).collection("miniWorkout").get()
+        db.collection("Workout").document(workoutID).collection(Constants.PATH_MINI_WORKOUT).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

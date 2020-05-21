@@ -1,25 +1,13 @@
 package com.example.exchallenger.group;
 
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
+import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
@@ -107,7 +95,28 @@ public class CreateGroupFragment extends BaseFragment {
 
     private void createGroup() {
 //        MyApplication.getInstance().getGroupHelper().getGroups();
+        btnDone.setEnabled(false);
+        MyApplication.getInstance().getGroupHelper().createGroup(edtGroupName.getText().toString().trim(),
+                challengeAdapter.getDataList(), new GroupHelper.CreateGroupListener() {
+                    @Override
+                    public void onCreateSuccess(String groupId, String key) {
+                        CreateGroupSuccessDialog.newInstance(groupId, key,
+                                new CreateGroupSuccessDialog.OnSubmitListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                        btnDone.postDelayed(() -> {
+                                                    getActivity().onBackPressed();
+                                                },
+                                                500);
+                                    }
+                                }).show(getChildFragmentManager(), null);
+                    }
 
-        getActivity().onBackPressed();
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                        btnDone.setEnabled(true);
+                    }
+                });
     }
 }

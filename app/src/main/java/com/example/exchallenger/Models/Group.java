@@ -2,12 +2,22 @@ package com.example.exchallenger.Models;
 
 import com.google.firebase.firestore.FieldValue;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Group {
+public class Group implements Serializable {
     private String groupKey, key, name, photo;
     private List<String> members;
-    private Object timeStamp;
+    private FieldValue timeStamp;
+    private String admin;
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
 
     public Group() {
     }

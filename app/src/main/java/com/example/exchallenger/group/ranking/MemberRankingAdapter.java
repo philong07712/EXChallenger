@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.example.exchallenger.Models.GroupMember;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;
@@ -14,7 +15,7 @@ import com.utilityview.customview.CustomTextviewFonts;
 
 import butterknife.BindView;
 
-public class MemberRankingAdapter extends BaseRecyclerViewAdapter<Object> {
+public class MemberRankingAdapter extends BaseRecyclerViewAdapter<GroupMember> {
 
 
     public MemberRankingAdapter(@NonNull Context context) {

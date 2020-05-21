@@ -8,17 +8,19 @@ public class ChallengeItem {
     private int number;
     private int hour;
     private int minute;
-    private int[] repeat;
+    private String unit;
+    private Integer[] repeat;
 
     public ChallengeItem() {
     }
 
-    public ChallengeItem(String type, int number, int hour, int minute, int[] repeat) {
+    public ChallengeItem(String type, int number, int hour, int minute, Integer[] repeat, String unit) {
         this.type = type;
         this.number = number;
         this.hour = hour;
         this.minute = minute;
         this.repeat = repeat;
+        this.unit = unit;
     }
 
     public String getType() {
@@ -53,11 +55,19 @@ public class ChallengeItem {
         this.minute = minute;
     }
 
-    public int[] getRepeat() {
+    public Integer[] getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(int[] repeat) {
+    public void setRepeat(Integer[] repeat) {
         this.repeat = repeat;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

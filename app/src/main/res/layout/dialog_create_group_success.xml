@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_corner"
+        android:elevation="4dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9">
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Success!"
+            android:textColor="#FF5722"
+            android:textSize="32dp"
+            app:font_type="@string/bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/iv_success"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_success_group"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text1"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="YOUR GROUP CODE"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_success" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/tv_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#FFB3D1"
+            android:gravity="center"
+            android:imeOptions="actionGo"
+            android:maxLength="20"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textSize="26sp"
+            app:font_type="@string/bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text2"
+            app:layout_constraintWidth_percent="0.9"
+            tools:text="A31233" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_trans_press_gray"
+            android:drawableEnd="@drawable/ic_icon_awesome_check"
+            android:drawablePadding="6dp"
+            android:padding="6dp"
+            android:text="OK"
+            android:textColor="@color/color_main"
+            android:textSize="20sp"
+            app:font_type="@string/bold"
+            app:layout_constraintBottom_toBottomOf="@id/btn_copy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_goneMarginTop="32dp" />
+
+        <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/btn_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_trans_press_gray"
+            android:drawableEnd="@drawable/ic_copy"
+            android:drawablePadding="6dp"
+            android:padding="6dp"
+            android:text="COPY"
+            android:textColor="@color/text_black"
+            android:textSize="20sp"
+            app:font_type="@string/bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_code" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

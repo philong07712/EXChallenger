@@ -66,29 +66,8 @@ public class GroupListFragment extends BaseFragment {
         GroupHelper groupHelper = MyApplication.getInstance().getGroupHelper();
         groupHelper.getGroups(MyApplication.user.getUserID(), new GroupHelper.GetGroupsListener() {
             @Override
-            public void onRead(List<Map<String, Object>> groups) {
-                for (Map<String, Object> group : groups) {
-                    Log.d("GroupsList", group.toString());
-                }
-            }
-
-            @Override
-            public void onReadGroups(List<String> groupIDs) {
-                compositeDisposable.add(Observable.just(groupIDs)
-                        .flatMapIterable(ids -> ids)
-                        .flatMap(groupId -> groupHelper.getGroupFromGroupId(groupId))
-                        .subscribe(new Consumer<Group>() {
-                            @Override
-                            public void accept(Group group) throws Exception {
-                                groupAdapter.addItem(group);
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-
-                            }
-                        }));
-
+            public void onRead(List<Group> groups) {
+                groupAdapter.set(groups);
             }
 
             @Override
@@ -97,18 +76,18 @@ public class GroupListFragment extends BaseFragment {
             }
         });
 
-        groupAdapter.setOnItemClickListener(new OnItemClickListener<Object>() {
+        groupAdapter.setOnItemClickListener(new OnItemClickListener<Group>() {
             @Override
-            public void onItemClick(int position, Object dataItem) {
-                showGroupDetailFragment();
+            public void onItemClick(int position, Group dataItem) {
+                showGroupDetailFragment(dataItem);
             }
         });
     }
 
-    private void showGroupDetailFragment() {
+    private void showGroupDetailFragment(Group dataItem) {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(android.R.id.content, GroupDetailFragment.newInstance())
+                .replace(android.R.id.content, GroupDetailFragment.newInstance(dataItem))
                 .addToBackStack(null)
                 .commit();
     }

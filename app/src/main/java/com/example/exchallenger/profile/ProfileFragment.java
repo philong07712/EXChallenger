@@ -118,6 +118,10 @@ public class ProfileFragment extends BaseFragment {
             MyApplication.getInstance().getUserHelper().getUsersInfo(firebaseUser.getUid(), new UserHelper.GetUserInfo() {
                 @Override
                 public void onRead(Map<String, Object> user) {
+                    if(user==null){
+                        EventBus.getDefault().post(new LogoutEvent());
+                        return;
+                    }
                     User newUser = AppUtils.convertMapToUser(user);
                     MyApplication.user = newUser;
                     if(isAdded()) {

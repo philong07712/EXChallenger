@@ -10,17 +10,19 @@ import com.example.exchallenger.group.ranking.MemberRankingFragment;
 import com.example.exchallenger.profile.friend.FriendListFragment;
 
 public class GroupDetailPagerAdapter extends FragmentPagerAdapter {
-    public GroupDetailPagerAdapter(@NonNull FragmentManager fm) {
+    String groupId;
+    public GroupDetailPagerAdapter(@NonNull FragmentManager fm, String groupId) {
         super(fm);
+        this.groupId = groupId;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return GroupChallengeListFragment.newInstance();
+            return GroupChallengeListFragment.newInstance(groupId);
         } else {
-            return MemberRankingFragment.newInstance();
+            return MemberRankingFragment.newInstance(groupId);
         }
     }
 

@@ -9,6 +9,11 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -22,6 +27,7 @@ import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class GroupDetailFragment extends BaseFragment {
+    private static final String K_GROUP = "group";
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_group)
@@ -35,11 +41,13 @@ public class GroupDetailFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     private GroupDetailPagerAdapter groupDetailPagerAdapter;
+    private Group group;
 
-    public static GroupDetailFragment newInstance() {
+    public static GroupDetailFragment newInstance(Group group) {
         GroupDetailFragment groupFragment = new GroupDetailFragment();
         Bundle args = new Bundle();
         groupFragment.setArguments(args);
+        args.putSerializable(K_GROUP, group);
         return groupFragment;
     }
 
@@ -51,7 +59,25 @@ public class GroupDetailFragment extends BaseFragment {
     @SuppressLint("CheckResult")
     @Override
     protected void setUp() {
-        groupDetailPagerAdapter = new GroupDetailPagerAdapter(getChildFragmentManager());
+        group = (Group) getArguments().getSerializable(K_GROUP);
+        if (group == null) {
+            getActivity().onBackPressed();
+            return;
+        }
+        tvGroup.setText(group.getName());
+        tvCode.setText(group.getKey());
+        Glide.with(this)
+                .load(group.getPhoto())
+                .apply(
+                        new RequestOptions()
+                                .error(R.drawable.ic_group_default)
+                                .transforms(new CenterCrop(),
+                                        new RoundedCorners(getContext().getResources()
+                                                .getDimensionPixelSize(R.dimen.ava_height) / 2))
+                )
+                .into(ivAvatar);
+
+        groupDetailPagerAdapter = new GroupDetailPagerAdapter(getChildFragmentManager(), group.getGroupKey());
         viewPager.setAdapter(groupDetailPagerAdapter);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -90,10 +116,6 @@ public class GroupDetailFragment extends BaseFragment {
                 .subscribe(unit -> {
                     getActivity().onBackPressed();
                 }, Throwable::printStackTrace);
-
-    }
-
-    private void submitGroupCode() {
 
     }
 }
