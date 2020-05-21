@@ -114,29 +114,32 @@ public class ProfileFragment extends BaseFragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser!=null) {
+        if (firebaseUser != null) {
             MyApplication.getInstance().getUserHelper().getUsersInfo(firebaseUser.getUid(), new UserHelper.GetUserInfo() {
                 @Override
                 public void onRead(Map<String, Object> user) {
                     User newUser = AppUtils.convertMapToUser(user);
                     MyApplication.user = newUser;
-                    profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
-                    viewPager.setAdapter(profilePagerAdapter);
-                    showUserData(newUser);
+                    if(isAdded()) {
+                        profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
+                        viewPager.setAdapter(profilePagerAdapter);
+                        showUserData(newUser);
+                    }
+
                 }
             });
         }
     }
 
     private void showUserData(User user) {
-        if(getActivity()==null){
+        if (getActivity() == null) {
             return;
         }
         Glide.with(this)
                 .load(MyApplication.user.getPhoto())
                 .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
                 .into(ivProfile);
-//https://lh3.googleusercontent.com/-yAI0WFsZPMA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclBXQ04KoBFO0BH0uSuH3qXsLukRw/s96-c/photo.jpg
+        // https://lh3.googleusercontent.com/-yAI0WFsZPMA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclBXQ04KoBFO0BH0uSuH3qXsLukRw/s96-c/photo.jpg
         tvMissionCount.setText(user.getNumChallenger() + "");
         tvUsername.setText(user.getName());
         tvRankPoint.setText(user.getTotalPoints() + "");

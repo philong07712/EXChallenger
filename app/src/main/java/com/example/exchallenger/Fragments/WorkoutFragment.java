@@ -46,15 +46,15 @@ public class WorkoutFragment extends Fragment {
         return view;
     }
 
-    private void initView(View view)
-    {
+    private void initView(View view) {
         rv_challenges = view.findViewById(R.id.workout_challenges_rv);
         rv_daily = view.findViewById(R.id.workout_daily_rv);
+        rv_daily.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
 
-    private void getData()
-    {
+    private void getData() {
         new WorkoutHelper().getChallenges("UserID1", new WorkoutHelper.getWorkoutListener() {
             @Override
             public void onRead(List<Map<String, Object>> list) {
@@ -81,23 +81,23 @@ public class WorkoutFragment extends Fragment {
     }
 
     // This method will load the recyclerView of Challenges
-    private void loadWorkoutChallenges(List<Map<String, Object>> list)
-    {
-        WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);
-        rv_challenges.setAdapter(dailyAdapter);
-        rv_challenges.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void loadWorkoutChallenges(List<Map<String, Object>> list) {
+        if (getContext() != null) {
+            WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);
+            rv_challenges.setAdapter(dailyAdapter);
+            rv_challenges.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
     }
 
     // This method will load the recyclerView of Daily
-    private void loadWorkoutDaily(List<Map<String, Object>> list)
-    {
-        WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);
-        rv_daily.setAdapter(dailyAdapter);
-        rv_daily.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void loadWorkoutDaily(List<Map<String, Object>> list) {
+        if (getContext() != null) {
+            WorkoutAdapter dailyAdapter = new WorkoutAdapter(getContext(), list);
+            rv_daily.setAdapter(dailyAdapter);
+        }
     }
 
-    private void createWorkout()
-    {
+    private void createWorkout() {
         WorkoutFactory factory = new WorkoutFactory();
         Map<String, Object> bigWork = factory.createDailyWork();
         new WorkoutHelper().addWorkout(bigWork, null, new AddListener() {

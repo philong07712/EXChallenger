@@ -140,7 +140,7 @@ public class IntroActivity extends AppCompatActivity {
 
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
-        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend", false);
+        boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend", false);
         return isIntroActivityOpnendBefore;
 
 
