@@ -10,9 +10,11 @@ import com.example.exchallenger.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -141,20 +143,34 @@ public class WorkoutHelper {
                 });
     }
 
-    public void addPointChallenge(String userID, String workoutID, Map<String, Object> map, AddListener listener)
+    public void addPointChallenge(String userID, String groupID, Map<String, Object> map, AddListener listener)
     {
+        CollectionReference docCollection = db.collection("Groups").document(groupID).collection("Ranking");
 
-//        db.collection("Groups").whereArrayContains("members", userID).whereArrayContains("workoutID", workoutID)
-//                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                for (QueryDocumentSnapshot document : queryDocumentSnapshots)
-//                {
-//                    Map<String, Object> userData = document.getData();
-//                    Log.d(MainHelper.TAG, userData.toString());
-//                }
-//            }
-//        });
+        docCollection.whereEqualTo("userID", userID)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful())
+                {
+                    for (QueryDocumentSnapshot document : task.getResult())
+                    {
+                        Map<String, Object> userData = document.getData();
+                        Long totalPoint = Long.parseLong(document.get("point").toString());
+                        totalPoint += Long.parseLong(map.get("point").toString());
+                        userData.put("point", totalPoint);
+                        Log.d(MainHelper.TAG, totalPoint.toString());
+                        String documentID = document.getId();
+                        docCollection.document(documentID).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                listener.onAdd();
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
 }
