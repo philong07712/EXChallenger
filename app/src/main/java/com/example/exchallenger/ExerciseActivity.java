@@ -112,14 +112,15 @@ public class ExerciseActivity extends AppCompatActivity {
 
     private void addPointToChallenge(Map<String, Object> currentWorkout)
     {
-        String workoutID = currentWorkout.get("workoutID").toString();
         String userID = MyApplication.user.getUserID();
-        new WorkoutHelper().addPointChallenge(userID, workoutID, currentWorkout, new AddListener() {
-            @Override
-            public void onAdd() {
-                finish();
-            }
-        });
+        Map<String, Object> map = new HashMap<>();
+        map.put("point", totalPoint);
+//        new WorkoutHelper().addPointChallenge(userID, "Groups_key_1", map, new AddListener() {
+//            @Override
+//            public void onAdd() {
+//                finish();
+//            }
+//        });
     }
 
 

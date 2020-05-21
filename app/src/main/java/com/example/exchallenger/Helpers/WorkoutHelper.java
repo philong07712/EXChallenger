@@ -159,7 +159,6 @@ public class WorkoutHelper {
                         Long totalPoint = Long.parseLong(document.get("point").toString());
                         totalPoint += Long.parseLong(map.get("point").toString());
                         userData.put("point", totalPoint);
-                        Log.d(MainHelper.TAG, totalPoint.toString());
                         String documentID = document.getId();
                         docCollection.document(documentID).update(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
