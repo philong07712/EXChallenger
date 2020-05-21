@@ -23,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.R;
+import com.example.exchallenger.utils.AppUtils;
 import com.utilityview.customview.CustomTextviewFonts;
 import com.utilityview.customview.TagLayout;
 
@@ -168,7 +169,7 @@ public class CreateChallengeDialog extends DialogFragment {
 
     @OnClick(R.id.btn_ok)
     public void onBtnOkClicked() {
-        int[] repeat = new int[7];
+        Integer[] repeat = new Integer[]{0,0,0,0,0,0,0};
         if (switchRepeat.isChecked()) {
             repeat[0] = tvSunday.isSelected() ? 1 : 0;
             repeat[1] = tvMonday.isSelected() ? 1 : 0;
@@ -178,8 +179,9 @@ public class CreateChallengeDialog extends DialogFragment {
             repeat[5] = tvFri.isSelected() ? 1 : 0;
             repeat[6] = tvSat.isSelected() ? 1 : 0;
         }
-        ChallengeItem challengeItem = new ChallengeItem(types.get(selectTypePos), seekBarNumber.getProgress(),
-                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat);
+        String type = types.get(selectTypePos);
+        ChallengeItem challengeItem = new ChallengeItem(type, seekBarNumber.getProgress(),
+                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat, AppUtils.getUnitOfExercise(type));
         if (onSubmitListener != null) {
             onSubmitListener.onSubmit(challengeItem);
         }

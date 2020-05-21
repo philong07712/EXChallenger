@@ -8,9 +8,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.R;
 
 import butterknife.BindView;
+
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;
 import com.utilityview.customview.CustomTextviewFonts;
@@ -19,11 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GroupAdapter extends BaseRecyclerViewAdapter<Object> {
+public class GroupAdapter extends BaseRecyclerViewAdapter<Group> {
 
 
-    public GroupAdapter(@NonNull Context context)
-    {
+    public GroupAdapter(@NonNull Context context) {
         super(context);
     }
 
@@ -58,12 +62,23 @@ public class GroupAdapter extends BaseRecyclerViewAdapter<Object> {
         @Override
         public void onBind(int position) {
             super.onBind(position);
-            tvGroup.setText("Six packs boys");
-            tvCount.setText("8");
+            Group group = mDataList.get(position);
+            tvGroup.setText(group.getName());
+            tvCount.setText(group.getMembers() != null ? "" + group.getMembers().size() : "0");
+            Glide.with(itemView)
+                    .load(group.getPhoto())
+                    .apply(
+                            new RequestOptions()
+                                    .error(R.drawable.ic_group_default)
+                                    .transforms(new CenterCrop(),
+                                            new RoundedCorners(getContext().getResources()
+                                                    .getDimensionPixelSize(R.dimen.height_ava_group) / 2))
+                    )
+                    .into(ivGroup);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getOnItemClickListener()!=null){
+                    if (getOnItemClickListener() != null) {
                         getOnItemClickListener().onItemClick(position, mDataList.get(position));
                     }
                 }

@@ -65,7 +65,7 @@ public class UserHelper {
                     listener.onRead(documentSnapshot.getData());
                 }
                 else {
-                    Log.d(MainHelper.TAG, "User is null");
+                    listener.onRead(null);
                 }
             }
         });
@@ -166,5 +166,9 @@ public class UserHelper {
                         }
                     }
                 });
+    }
+
+    public CollectionReference getRef() {
+        return ref;
     }
 }

@@ -25,7 +25,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 return new WorkoutFragment();
-                case 1:
+            case 1:
                 return new WorkFromHomeFragment();
             case 2:
                 if (login) {

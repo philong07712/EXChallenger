@@ -6,12 +6,18 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
+import com.example.exchallenger.Models.GroupMember;
+import com.example.exchallenger.utils.AppUtils;
+import com.example.exchallenger.utils.Constants;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,10 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.DocumentType;
-
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -45,9 +50,15 @@ public class GroupHelper {
     }
 
     public interface GetGroupsListener {
-        void onRead(List<Map<String, Object>> groups);
 
-        void onReadGroups(List<String> groups);
+        void onRead(List<Group> groups);
+
+        void onError(String error);
+    }
+
+    public interface GetGroupRankingListener {
+
+        void onRead(List<GroupMember> groups);
 
         void onError(String error);
     }
@@ -104,10 +115,10 @@ public class GroupHelper {
                 }
 
                 if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                    List<Map<String, Object>> groups = new ArrayList<>();
+                    List<Group> groups = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Map<String, Object> map = document.getData();
-                        groups.add(map);
+                        groups.add(AppUtils.convertMapToGroup(map));
                     }
                     listener.onRead(groups);
                 } else {
@@ -118,46 +129,67 @@ public class GroupHelper {
     }
 
     public void joinGroup(String userID, String groupKey, GroupJoinListener listener) {
-        //Todo: get group with that key
-        DocumentReference docRef = database.collection("Groups").document(groupKey);
-        docRef.update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    listener.onSuccess();
-                } else {
-                    listener.onCancel(task.getException().getMessage());
-                }
-            }
-        });
+        ref.whereEqualTo("key", groupKey)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot snapshot = task.getResult();
+                            if (snapshot.getDocuments().size() > 0
+                                    && snapshot.getDocuments().get(0) != null) {
+                                DocumentSnapshot doc = snapshot.getDocuments().get(0);
+                                Log.d("ALOALO", doc.toString());
+                                if (doc != null && !TextUtils.isEmpty(doc.getString("groupKey"))) {
+                                    ref.document(snapshot.getDocuments().get(0).getString("groupKey"))
+                                            .update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                listener.onSuccess();
+                                            } else {
+                                                listener.onCancel(task.getException().getMessage());
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    listener.onCancel("Your code does not match any group");
+                                }
+                            } else {
+                                listener.onCancel("Your code does not match any group");
+                            }
+                        } else {
+                            listener.onCancel(task.getException().getMessage());
+                        }
+                    }
+                });
     }
 
     public void addUserToRanking(String userID, String groupKey, GetGroupsListener listener) {
         database.collection("Groups").document(groupKey).collection("Ranking");
     }
 
-    public void getGroupRanking(String groupID, GetGroupsListener listener) {
+    public void getGroupRanking(String groupID, GetGroupRankingListener listener) {
+        if (TextUtils.isEmpty(groupID)) {
+            listener.onError("Invalid Group ID");
+            return;
+        }
+
         database.collection("Groups").document(groupID).collection("Ranking").orderBy("point")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    List<Map<String, Object>> rankers = new ArrayList<>();
+                    List<GroupMember> rankers = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> ranker = document.getData();
-                        rankers.add(ranker);
+                        rankers.add(AppUtils.convertMapToGroupMember(ranker));
                     }
                     listener.onRead(rankers);
                 }
             }
         });
-    }
-
-    public static String generateGroupCode() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        return generatedString;
     }
 
     public Observable<Group> getGroupFromGroupId(String groupId) {
@@ -183,5 +215,56 @@ public class GroupHelper {
                 });
             }
         });
+    }
+
+    public interface CreateGroupListener {
+        void onCreateSuccess(String groupId, String key);
+
+        void onFail(String message);
+    }
+
+    public void createGroup(String groupName, List<ChallengeItem> challengeList, CreateGroupListener listener) {
+        DocumentReference docRef = ref.document();
+        Group group = new Group();
+        group.setGroupKey(docRef.getId());
+        group.setKey(randomAlphaNumeric(6));
+        group.setName(groupName);
+        group.setPhoto(generateGroupPhoto());
+        String admin = FirebaseAuth.getInstance().getUid();
+        group.setMembers(Arrays.asList(admin));
+        group.setAdmin(admin);
+        docRef.set(group).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                CollectionReference collectionReference = docRef.collection(Constants.PATH_MINI_WORKOUT);
+                for (ChallengeItem challengeItem : challengeList) {
+                    collectionReference.add(AppUtils.createMapFromChallengeItem(challengeItem));
+                }
+                listener.onCreateSuccess(docRef.getId(), group.getKey());
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onFail(e.getMessage());
+                    }
+                });
+    }
+
+
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
+
+    public static String generateGroupPhoto() {
+        int random = new Random().nextInt(Constants.GROUP_IMAGES.length);
+        return Constants.GROUP_IMAGES[random];
     }
 }

@@ -1,4 +1,4 @@
 package com.example.exchallenger.Models;
 
-class GroupMember {
+public class GroupMember {
 }

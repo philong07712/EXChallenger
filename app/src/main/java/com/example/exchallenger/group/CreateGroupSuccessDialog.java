@@ -1,6 +1,9 @@
-package com.example.exchallenger.challenge;
+package com.example.exchallenger.group;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,71 +11,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.R;
 import com.utilityview.customview.CustomTextviewFonts;
-import com.utilityview.customview.TagLayout;
-
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class CreateChallengeDialog extends DialogFragment {
-    @BindView(R.id.switch_repeat)
-    SwitchCompat switchRepeat;
+public class CreateGroupSuccessDialog extends DialogFragment {
+
+    public static final String K_CODE = "code";
+    public static final String K_ID = "group_id";
+    @BindView(R.id.tv_code)
+    CustomTextviewFonts tvCode;
     private Unbinder mUnBinder;
-
-    @BindView(R.id.tag_layout)
-    TagLayout tagLayout;
-    @BindView(R.id.seek_bar_number)
-    AppCompatSeekBar seekBarNumber;
-    @BindView(R.id.tv_number)
-    CustomTextviewFonts tvNumber;
-    @BindView(R.id.time_picker)
-    TimePicker timePicker;
-    @BindView(R.id.tv_sunday)
-    CustomTextviewFonts tvSunday;
-    @BindView(R.id.tv_monday)
-    CustomTextviewFonts tvMonday;
-    @BindView(R.id.tv_tuesday)
-    CustomTextviewFonts tvTuesday;
-    @BindView(R.id.tv_wed)
-    CustomTextviewFonts tvWed;
-    @BindView(R.id.tv_thur)
-    CustomTextviewFonts tvThur;
-    @BindView(R.id.tv_fri)
-    CustomTextviewFonts tvFri;
-    @BindView(R.id.tv_sat)
-    CustomTextviewFonts tvSat;
-    @BindView(R.id.view_pick_date)
-    LinearLayout viewPickDate;
-    @BindView(R.id.btn_ok)
-    CustomTextviewFonts btnOk;
-    @BindView(R.id.btn_cancel)
-    CustomTextviewFonts btnCancel;
-
-    List<String> types = Arrays.asList("Push up", "Plank", "Squat", "Push up", "Plank", "Squat");
+    private String groupCode;
 
 
-    public static CreateChallengeDialog newInstance(OnSubmitListener onSubmitListener) {
-        CreateChallengeDialog dialog = new CreateChallengeDialog();
+    public static CreateGroupSuccessDialog newInstance(String groupId, String groupCode, OnSubmitListener onSubmitListener) {
+        CreateGroupSuccessDialog dialog = new CreateGroupSuccessDialog();
+        Bundle args = new Bundle();
+        args.putString(K_CODE, groupCode);
+        args.putString(K_ID, groupId);
+        dialog.setArguments(args);
         dialog.setOnSubmitListener(onSubmitListener);
         return dialog;
     }
@@ -102,7 +72,7 @@ public class CreateChallengeDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create_challenge, container, false);
+        View view = inflater.inflate(R.layout.dialog_create_group_success, container, false);
         mUnBinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -113,109 +83,10 @@ public class CreateChallengeDialog extends DialogFragment {
         setUp();
     }
 
-    private int selectTypePos = 0;
 
     public void setUp() {
-        timePicker.setIs24HourView(true);
-        switchRepeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                viewPickDate.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            }
-        });
-
-        seekBarNumber.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvNumber.setText(progress + "");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        for (int i = 0; i < types.size(); ++i) {
-            String type = types.get(i);
-            View itemTag = getLayoutInflater().inflate(R.layout.item_type_tag, null, false);
-            TextView tvTag = itemTag.findViewById(R.id.tv_tag);
-            tvTag.setText(type);
-            tagLayout.addTagView(itemTag);
-            if (i == selectTypePos) {
-                tvTag.setSelected(true);
-            }
-            int finalI = i;
-
-            // change data and calendar when click tag
-            tvTag.setOnClickListener(v -> {
-                if (finalI != selectTypePos) {
-                    View oldSelectedTag = tagLayout.getTagAt(selectTypePos);
-                    if (oldSelectedTag != null) {
-                        oldSelectedTag.findViewById(R.id.tv_tag).setSelected(false);
-                    }
-                    tvTag.setSelected(true);
-                    selectTypePos = finalI;
-                }
-            });
-        }
-    }
-
-    @OnClick(R.id.btn_ok)
-    public void onBtnOkClicked() {
-        int[] repeat = new int[7];
-        if (switchRepeat.isChecked()) {
-            repeat[0] = tvSunday.isSelected() ? 1 : 0;
-            repeat[1] = tvMonday.isSelected() ? 1 : 0;
-            repeat[2] = tvTuesday.isSelected() ? 1 : 0;
-            repeat[3] = tvWed.isSelected() ? 1 : 0;
-            repeat[4] = tvThur.isSelected() ? 1 : 0;
-            repeat[5] = tvFri.isSelected() ? 1 : 0;
-            repeat[6] = tvSat.isSelected() ? 1 : 0;
-        }
-        ChallengeItem challengeItem = new ChallengeItem(types.get(selectTypePos), seekBarNumber.getProgress(),
-                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat);
-        if (onSubmitListener != null) {
-            onSubmitListener.onSubmit(challengeItem);
-        }
-        dismiss();
-    }
-
-    @OnClick(R.id.btn_cancel)
-    public void onBtnCancelClicked() {
-        dismiss();
-    }
-
-    @OnClick({R.id.tv_sunday, R.id.tv_monday, R.id.tv_tuesday, R.id.tv_wed, R.id.tv_thur, R.id.tv_fri, R.id.tv_sat})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.tv_sunday:
-                tvSunday.setSelected(!tvSunday.isSelected());
-                break;
-            case R.id.tv_monday:
-                tvMonday.setSelected(!tvMonday.isSelected());
-                break;
-            case R.id.tv_tuesday:
-                tvTuesday.setSelected(!tvTuesday.isSelected());
-                break;
-            case R.id.tv_wed:
-                tvWed.setSelected(!tvWed.isSelected());
-                break;
-            case R.id.tv_thur:
-                tvThur.setSelected(!tvThur.isSelected());
-                break;
-            case R.id.tv_fri:
-                tvFri.setSelected(!tvFri.isSelected());
-                break;
-            case R.id.tv_sat:
-                tvSat.setSelected(!tvSat.isSelected());
-                break;
-        }
+        groupCode = getArguments().getString(K_CODE);
+        tvCode.setText(groupCode);
     }
 
     @Override
@@ -232,7 +103,25 @@ public class CreateChallengeDialog extends DialogFragment {
         this.onSubmitListener = onSubmitListener;
     }
 
+    @OnClick(R.id.btn_ok)
+    public void onBtnOkClicked() {
+        if(onSubmitListener!=null){
+            onSubmitListener.onSubmit();
+        }
+        dismiss();
+    }
+
+    @OnClick(R.id.btn_copy)
+    public void onBtnCopyClicked() {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("group_code", groupCode);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), "Copied code to clipboard", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public interface OnSubmitListener {
-        void onSubmit(ChallengeItem challengeItem);
+        void onSubmit();
     }
 }
