@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Models.User;
 import com.example.exchallenger.Models.event.LoginSuccessEvent;
 import com.example.exchallenger.Models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;

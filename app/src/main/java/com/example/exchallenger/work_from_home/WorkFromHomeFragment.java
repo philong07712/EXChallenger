@@ -4,7 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,9 @@ import com.example.exchallenger.working_time.WorkingTimeDialog;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.example.exchallenger.WorkFromHomeManager.getMorningTo;
+import static com.example.exchallenger.WorkFromHomeManager.setAlarmTime;
+
 public class WorkFromHomeFragment extends Fragment {
     private static final String TAG = WorkFromHomeFragment.class.getSimpleName();
     private static final int REQUEST_RELAX = 2;
@@ -37,7 +43,7 @@ public class WorkFromHomeFragment extends Fragment {
 
     private int currentView = VIEW_WORK;
 
-    private TextView txtTime, txtTitle, txtStart, txtCurrentView, txtWorkTime;
+    private TextView txtTime, txtTitle, txtStart, txtCurrentView, txtWorkTime, txtNextAlarm;
     private CircleProgressView circleProgressView;
 
     @Override
@@ -59,6 +65,7 @@ public class WorkFromHomeFragment extends Fragment {
         circleProgressView = view.findViewById(R.id.circle_progress);
         txtCurrentView = view.findViewById(R.id.txt_current_view);
         txtWorkTime = view.findViewById(R.id.txt_work_time);
+        txtNextAlarm = view.findViewById(R.id.txt_next_alarm);
 
         circleProgressView.setMax(60 * 60 * 1000); // 1 hour
         setViewWorkTime();
@@ -93,14 +100,7 @@ public class WorkFromHomeFragment extends Fragment {
         else
             intent.setAction(String.valueOf(WorkFromHomeReceiver.NOTIFICATION_WORK_ID));
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(),
-                currentView == VIEW_WORK ? WorkFromHomeReceiver.NOTIFICATION_RELAX_ID : WorkFromHomeReceiver.NOTIFICATION_WORK_ID
-                , intent, PendingIntent.FLAG_NO_CREATE);
-
-        boolean alarmUp = (alarmIntent != null);
-
-        if (alarmUp)
-            txtStart.setText(R.string.cancel);
+        setButtonAlarm();
 
         txtCurrentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,10 @@ public class WorkFromHomeFragment extends Fragment {
         txtStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAlarm();
+                if (txtStart.getText().toString().trim().equals(getString(R.string.start)))
+                    setAlarm();
+                else
+                    stopAlarm();
             }
         });
 
@@ -124,19 +127,8 @@ public class WorkFromHomeFragment extends Fragment {
                 workingTimeFragment.show(getFragmentManager(), WorkingTimeDialog.class.getSimpleName());
             }
         });
-    }
 
-    private void removeAlarm(int id) {
-        AlarmManager alarmManager =
-                (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(getContext(), WorkFromHomeReceiver.class);
-        intent.setAction(String.valueOf(id));
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), id,
-                intent, PendingIntent.FLAG_NO_CREATE);
-
-        if (alarmIntent != null)
-            alarmManager.cancel(alarmIntent);
+        getNextAlarm();
     }
 
     private void setViewWorkTime() {
@@ -167,6 +159,7 @@ public class WorkFromHomeFragment extends Fragment {
         AlarmManager alarmManager =
                 (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         if (currentView == VIEW_WORK) {
+            setAlarmTime(0);
             Intent intent = new Intent(getActivity(), WorkFromHomeReceiver.class);
             intent.setAction(String.valueOf(WorkFromHomeReceiver.NOTIFICATION_RELAX_ID));
             PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), WorkFromHomeReceiver.NOTIFICATION_RELAX_ID,
@@ -189,6 +182,7 @@ public class WorkFromHomeFragment extends Fragment {
                     alarmIntent2);
 
         } else {
+            setAlarmTime(WorkFromHomeManager.getRelaxTime() + 1);
             Intent intent = new Intent(getActivity(), WorkFromHomeReceiver.class);
             intent.setAction(String.valueOf(WorkFromHomeReceiver.NOTIFICATION_WORK_ID));
             PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), WorkFromHomeReceiver.NOTIFICATION_WORK_ID,
@@ -210,7 +204,84 @@ public class WorkFromHomeFragment extends Fragment {
                     workTime + relaxTime,
                     alarmIntent2);
         }
+        WorkFromHomeManager.setAlarm(true);
+        getNextAlarm();
+        setButtonAlarm();
+    }
 
+    private void stopAlarm() {
+        AlarmManager alarmManager =
+                (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), WorkFromHomeReceiver.class);
+        intent.setAction(String.valueOf(WorkFromHomeReceiver.NOTIFICATION_RELAX_ID));
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(), WorkFromHomeReceiver.NOTIFICATION_RELAX_ID,
+                intent, PendingIntent.FLAG_NO_CREATE);
+
+
+        Intent intent2 = new Intent(getActivity(), WorkFromHomeReceiver.class);
+        intent2.setAction(String.valueOf(WorkFromHomeReceiver.NOTIFICATION_WORK_ID));
+        PendingIntent alarmIntent2 = PendingIntent.getBroadcast(getContext(), WorkFromHomeReceiver.NOTIFICATION_WORK_ID,
+                intent2, PendingIntent.FLAG_NO_CREATE);
+
+        if (alarmIntent != null)
+            alarmManager.cancel(alarmIntent);
+
+        if (alarmIntent2 != null)
+            alarmManager.cancel(alarmIntent2);
+
+        WorkFromHomeManager.setAlarm(false);
+        setButtonAlarm();
+
+    }
+
+    private void setButtonAlarm() {
+        if (WorkFromHomeManager.isAlarmOn()) {
+            txtStart.setText(R.string.stop);
+        } else {
+            txtStart.setText(R.string.start);
+        }
+    }
+
+    private void getNextAlarm() {
+        txtNextAlarm.setVisibility(View.GONE);
+        int[] data = WorkFromHomeManager.getAlarmTime();
+        int currentTimeToday = WorkFromHomeManager.getCurrentTimeToday();
+        if (!WorkFromHomeManager.isOnWorkingTime(currentTimeToday)) {
+            txtNextAlarm.setText(R.string.outside_office_hours);
+        } else {
+            for (int workTime : data) {
+                if (workTime > currentTimeToday) {
+                    if (workTime - currentTimeToday > (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
+                        int timeToLunchBreak = getMorningTo() - currentTimeToday;
+                        Log.e(TAG, "timeToLunchBreak: " + currentTimeToday);
+                        if (timeToLunchBreak > 0 && timeToLunchBreak < (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
+                            txtNextAlarm.setText(String.format(Locale.US, "%s to lunch break", getTimeString(timeToLunchBreak)));
+                            break;
+                        }
+                    } else if (workTime - currentTimeToday < WorkFromHomeManager.getRelaxTime()) {
+                        int timeToRelax = workTime - currentTimeToday;
+                        txtNextAlarm.setText(String.format(Locale.US, "%s to work", getTimeString(timeToRelax)));
+                    } else if (workTime - currentTimeToday >= WorkFromHomeManager.getRelaxTime()) {
+                        int timeToWork = workTime - currentTimeToday - WorkFromHomeManager.getRelaxTime();
+                        txtNextAlarm.setText(String.format(Locale.US, "%s to relax", getTimeString(timeToWork)));
+                    }
+                    break;
+                }
+            }
+        }
+        if (!TextUtils.isEmpty(txtNextAlarm.getText().toString().trim())) {
+            txtNextAlarm.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public String getTimeString(int time) {
+        int minute = time / 1000 / 60;
+        int second = (time - time / 1000 / 60) / 1000;
+        if (minute > 0) {
+            return String.format(Locale.US, "%d minute%s", minute, minute > 1 ? "s" : "");
+        } else {
+            return String.format(Locale.US, "%d second%s", second, second > 1 ? "s" : "");
+        }
     }
 
     private int roundQuaterSec(int sec) {
