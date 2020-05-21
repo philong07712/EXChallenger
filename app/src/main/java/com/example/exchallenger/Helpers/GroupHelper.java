@@ -6,9 +6,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.exchallenger.Listeners.AddListener;
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.Models.Group;
 import com.example.exchallenger.Models.GroupMember;
+import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.utils.AppUtils;
 import com.example.exchallenger.utils.Constants;
 import com.google.android.gms.tasks.OnCanceledListener;
@@ -31,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -141,13 +144,21 @@ public class GroupHelper {
                                     && snapshot.getDocuments().get(0) != null) {
                                 DocumentSnapshot doc = snapshot.getDocuments().get(0);
                                 Log.d("ALOALO", doc.toString());
+                                // get group ID
+                                String groupID = doc.getId();
                                 if (doc != null && !TextUtils.isEmpty(doc.getString("groupKey"))) {
                                     ref.document(snapshot.getDocuments().get(0).getString("groupKey"))
                                             .update("members", FieldValue.arrayUnion(userID)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                listener.onSuccess();
+                                                // create a new user in that group ranking system
+                                                createUserInGroupRanking(userID, groupID, new AddListener() {
+                                                    @Override
+                                                    public void onAdd() {
+                                                        listener.onSuccess();
+                                                    }
+                                                });
                                             } else {
                                                 listener.onCancel(task.getException().getMessage());
                                             }
@@ -164,6 +175,44 @@ public class GroupHelper {
                         }
                     }
                 });
+    }
+
+    private void createUserInGroupRanking(String userID, String groupID, AddListener listener)
+    {
+        database.collection("Groups").document(groupID).collection("Ranking").whereEqualTo("userID", userID).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful())
+                    {
+                        if (task.getResult().isEmpty())
+                        {
+                            MyApplication.getInstance().getUserHelper().getUsersInfo(userID, new UserHelper.GetUserInfo() {
+                                @Override
+                                public void onRead(Map<String, Object> user) {
+                                    Log.d(MainHelper.TAG, user.toString());
+                                    Map<String, Object> userRanker = new HashMap<>();
+                                    userRanker.put("groupID", groupID);
+                                    userRanker.put("name", user.get("name").toString());
+                                    userRanker.put("photo", user.get("photo").toString());
+                                    userRanker.put("userID", userID);
+                                    userRanker.put("point", 0);
+                                    Log.d(MainHelper.TAG, userRanker.toString());
+                                    // set that data to group ranking
+                                    database.collection("Groups").document(groupID).collection("Ranking").add(userRanker)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    listener.onAdd();
+                                                }
+                                            });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
     }
 
     public void addUserToRanking(String userID, String groupKey, GetGroupsListener listener) {
