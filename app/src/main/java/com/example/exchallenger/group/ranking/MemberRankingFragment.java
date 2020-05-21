@@ -1,6 +1,7 @@
 package com.example.exchallenger.group.ranking;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,7 +54,9 @@ public class MemberRankingFragment extends BaseFragment {
 
             @Override
             public void onError(String error) {
-
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

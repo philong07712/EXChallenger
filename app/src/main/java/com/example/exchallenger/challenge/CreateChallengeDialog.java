@@ -196,7 +196,8 @@ public class CreateChallengeDialog extends DialogFragment {
         int number = seekBarNumber.getProgress();
         int point = number * AppUtils.getPointOfExercise(type);
         ChallengeItem challengeItem = new ChallengeItem(type, seekBarNumber.getProgress(),
-                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat, AppUtils.getUnitOfExercise(type), point);
+                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat, AppUtils.getUnitOfExercise(type),
+                point, AppUtils.getPhotoOfExercise(type));
         if (onSubmitListener != null) {
             onSubmitListener.onSubmit(challengeItem);
         }
