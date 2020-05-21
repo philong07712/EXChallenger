@@ -76,8 +76,7 @@ public class ProfileFragment extends BaseFragment {
 
     @Override
     protected void setUp() {
-        profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(profilePagerAdapter);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -121,6 +120,8 @@ public class ProfileFragment extends BaseFragment {
                 public void onRead(Map<String, Object> user) {
                     User newUser = AppUtils.convertMapToUser(user);
                     MyApplication.user = newUser;
+                    profilePagerAdapter = new ProfilePagerAdapter(getChildFragmentManager());
+                    viewPager.setAdapter(profilePagerAdapter);
                     showUserData(newUser);
                 }
             });
