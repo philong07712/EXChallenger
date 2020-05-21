@@ -1,6 +1,8 @@
 package com.example.exchallenger.main;
 
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -10,6 +12,7 @@ import com.example.exchallenger.Models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseActivity;
+import com.example.exchallenger.customviews.CustomViewPager;
 import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +30,7 @@ import butterknife.BindView;
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    CustomViewPager viewPager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     private MainPagerAdapter mainPagerAdapter;
@@ -52,6 +55,7 @@ public class MainActivity extends BaseActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         viewPager.setOffscreenPageLimit(3);
+        viewPager.setPagingEnabled(false);
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
@@ -94,6 +98,7 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
     }
 
     @Override

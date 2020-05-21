@@ -101,16 +101,19 @@ public class WorkFromHomeManager {
 
     public static void setAlarmTime(int offset) {
         ArrayList<Integer> data = new ArrayList<>();
-        int timeUp = getCurrentTimeToday() + (getWorkTime() + getRelaxTime()) + offset;
+        int currentTime = getCurrentTimeToday();
+        int workTime = getWorkTime();
+        int relaxTime = getRelaxTime();
+        int timeUp = currentTime + (workTime + relaxTime) + offset;
         int timeUpNextDay = 24 * 60 * 60 * 1000;
-        int timeDown = getCurrentTimeToday() * 60 * 1000 + offset;
+        int timeDown = currentTime + offset;
         int timeDownToday = 0;
 
         while (timeDown > timeDownToday) {
             if (isOnWorkingTime(timeDown)) {
                 data.add(timeDown);
             }
-            timeDown -= (getWorkTime() + getRelaxTime());
+            timeDown -= (workTime + relaxTime);
         }
         Collections.reverse(data);
 
@@ -118,7 +121,7 @@ public class WorkFromHomeManager {
             if (isOnWorkingTime(timeUp)) {
                 data.add(timeUp);
             }
-            timeUp += (getWorkTime() + getRelaxTime());
+            timeUp += (workTime + relaxTime);
         }
         setAlarmTime(convertIntegers(data));
     }

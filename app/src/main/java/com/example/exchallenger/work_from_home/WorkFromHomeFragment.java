@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class WorkFromHomeFragment extends Fragment {
 
     private int currentView = VIEW_WORK;
 
-    private TextView txtTime, txtTitle, txtStart, txtCurrentView, txtWorkTime, txtNextAlarm;
+    private TextView txtTime, txtStart, txtCurrentView, txtWorkTime, txtNextAlarm;
     private CircleProgressView circleProgressView;
 
     @Override
@@ -60,7 +61,6 @@ public class WorkFromHomeFragment extends Fragment {
         relaxTime = WorkFromHomeManager.getRelaxTime();
 
         txtTime = view.findViewById(R.id.txt_time);
-        txtTitle = view.findViewById(R.id.txt_title);
         txtStart = view.findViewById(R.id.txt_start);
         circleProgressView = view.findViewById(R.id.circle_progress);
         txtCurrentView = view.findViewById(R.id.txt_current_view);
@@ -87,7 +87,16 @@ public class WorkFromHomeFragment extends Fragment {
                     relaxTime = (minutes * 60 + sec) * 1000;
                     WorkFromHomeManager.setRelaxTime(relaxTime);
                 }
-                txtTime.setText(String.format(Locale.US, "%02d:%02d", minutes, sec));
+                txtTime.setText(String.format(Locale.US, "%s\n%02d:%02d",
+                        (currentView == VIEW_WORK ? getString(R.string.working) : getString(R.string.relax)),
+                        minutes, sec));
+            }
+        });
+
+        view.findViewById(R.id.root).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
         setListener();
@@ -136,7 +145,7 @@ public class WorkFromHomeFragment extends Fragment {
             txtCurrentView.setSelected(false);
             txtStart.setSelected(false);
             txtWorkTime.setSelected(false);
-            txtTitle.setText(R.string.working);
+            txtTime.setSelected(false);
             txtCurrentView.setText(String.format(getString(R.string.relax_s), getMinuteString(relaxTime)));
 
             circleProgressView.setProgressWithAnimate(workTime);
@@ -146,7 +155,7 @@ public class WorkFromHomeFragment extends Fragment {
             txtCurrentView.setSelected(true);
             txtStart.setSelected(true);
             txtWorkTime.setSelected(true);
-            txtTitle.setText(R.string.relax);
+            txtTime.setSelected(true);
             txtCurrentView.setText(String.format(getString(R.string.work_s), getMinuteString(workTime)));
 
             circleProgressView.setProgressWithAnimate(relaxTime);
@@ -239,38 +248,42 @@ public class WorkFromHomeFragment extends Fragment {
             txtStart.setText(R.string.stop);
         } else {
             txtStart.setText(R.string.start);
+            txtNextAlarm.setText("");
+            txtNextAlarm.setVisibility(View.GONE);
         }
     }
 
     private void getNextAlarm() {
         txtNextAlarm.setVisibility(View.GONE);
-        int[] data = WorkFromHomeManager.getAlarmTime();
-        int currentTimeToday = WorkFromHomeManager.getCurrentTimeToday();
-        if (!WorkFromHomeManager.isOnWorkingTime(currentTimeToday)) {
-            txtNextAlarm.setText(R.string.outside_office_hours);
-        } else {
-            for (int workTime : data) {
-                if (workTime > currentTimeToday) {
-                    if (workTime - currentTimeToday > (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
-                        int timeToLunchBreak = getMorningTo() - currentTimeToday;
-                        Log.e(TAG, "timeToLunchBreak: " + currentTimeToday);
-                        if (timeToLunchBreak > 0 && timeToLunchBreak < (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
-                            txtNextAlarm.setText(String.format(Locale.US, "%s to lunch break", getTimeString(timeToLunchBreak)));
-                            break;
+        if (WorkFromHomeManager.isAlarmOn()) {
+            int[] data = WorkFromHomeManager.getAlarmTime();
+            int currentTimeToday = WorkFromHomeManager.getCurrentTimeToday();
+            if (!WorkFromHomeManager.isOnWorkingTime(currentTimeToday)) {
+                txtNextAlarm.setText(R.string.outside_office_hours);
+            } else {
+                for (int workTime : data) {
+                    if (workTime > currentTimeToday) {
+                        if (workTime - currentTimeToday > (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
+                            int timeToLunchBreak = getMorningTo() - currentTimeToday;
+                            Log.e(TAG, "timeToLunchBreak: " + currentTimeToday);
+                            if (timeToLunchBreak > 0 && timeToLunchBreak < (WorkFromHomeManager.getWorkTime() + WorkFromHomeManager.getRelaxTime())) {
+                                txtNextAlarm.setText(String.format(Locale.US, "%s to lunch break", getTimeString(timeToLunchBreak)));
+                                break;
+                            }
+                        } else if (workTime - currentTimeToday < WorkFromHomeManager.getRelaxTime()) {
+                            int timeToRelax = workTime - currentTimeToday;
+                            txtNextAlarm.setText(String.format(Locale.US, "%s to work", getTimeString(timeToRelax)));
+                        } else if (workTime - currentTimeToday >= WorkFromHomeManager.getRelaxTime()) {
+                            int timeToWork = workTime - currentTimeToday - WorkFromHomeManager.getRelaxTime();
+                            txtNextAlarm.setText(String.format(Locale.US, "%s to relax", getTimeString(timeToWork)));
                         }
-                    } else if (workTime - currentTimeToday < WorkFromHomeManager.getRelaxTime()) {
-                        int timeToRelax = workTime - currentTimeToday;
-                        txtNextAlarm.setText(String.format(Locale.US, "%s to work", getTimeString(timeToRelax)));
-                    } else if (workTime - currentTimeToday >= WorkFromHomeManager.getRelaxTime()) {
-                        int timeToWork = workTime - currentTimeToday - WorkFromHomeManager.getRelaxTime();
-                        txtNextAlarm.setText(String.format(Locale.US, "%s to relax", getTimeString(timeToWork)));
+                        break;
                     }
-                    break;
                 }
             }
-        }
-        if (!TextUtils.isEmpty(txtNextAlarm.getText().toString().trim())) {
-            txtNextAlarm.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(txtNextAlarm.getText().toString().trim())) {
+                txtNextAlarm.setVisibility(View.VISIBLE);
+            }
         }
     }
 
