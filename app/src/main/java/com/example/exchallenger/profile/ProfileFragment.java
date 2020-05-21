@@ -112,21 +112,23 @@ public class ProfileFragment extends BaseFragment {
         MyApplication.getInstance().getUserHelper().getUsersInfo(MyApplication.user.getUserID(), new UserHelper.GetUserInfo() {
             @Override
             public void onRead(Map<String, Object> user) {
-                showUserData(AppUtils.convertMapToUser(user));
+                User newUser = AppUtils.convertMapToUser(user);
+                MyApplication.user = newUser;
+                showUserData(newUser);
             }
         });
     }
 
     private void showUserData(User user) {
-            Glide.with(this)
-                    .load(MyApplication.user.getPhoto())
-                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
-                    .into(ivProfile);
+        Glide.with(this)
+                .load(MyApplication.user.getPhoto())
+                .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
+                .into(ivProfile);
 //https://lh3.googleusercontent.com/-yAI0WFsZPMA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclBXQ04KoBFO0BH0uSuH3qXsLukRw/s96-c/photo.jpg
-            tvMissionCount.setText(user.getNumChallenger() + "");
-            tvUsername.setText(user.getName());
-            tvRankPoint.setText(user.getTotalPoints() + "");
-            showRankView(user.getTotalPoints());
+        tvMissionCount.setText(user.getNumChallenger() + "");
+        tvUsername.setText(user.getName());
+        tvRankPoint.setText(user.getTotalPoints() + "");
+        showRankView(user.getTotalPoints());
 
 
     }
