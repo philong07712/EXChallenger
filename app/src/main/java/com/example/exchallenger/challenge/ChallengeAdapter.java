@@ -61,7 +61,12 @@ public class ChallengeAdapter extends BaseRecyclerViewAdapter<ChallengeItem> {
                 return;
             }
             tvChallenge.setText(challengeItem.getType());
-            tvCount.setText("x" + challengeItem.getNumber());
+            if (challengeItem.getType().toLowerCase().equals(ChallengeItem.PLANK)) {
+                tvCount.setText(challengeItem.getNumber() + "m");
+            } else {
+                tvCount.setText("x" + challengeItem.getNumber());
+
+            }
             tvPoint.setText(challengeItem.getPoint() + " points");
             tvTime.setText(AppUtils.getTimeFromHourAndUnit(challengeItem.getHour(), challengeItem.getMinute()));
             tvScheduleType.setText(AppUtils.getScheduleText(challengeItem.getRepeat()));

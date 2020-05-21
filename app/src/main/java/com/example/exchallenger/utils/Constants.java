@@ -9,4 +9,5 @@ public class Constants {
     public static final String PATH_MINI_WORKOUT = "miniWorkout";
     public static final String UNIT_NUMBER = "number";
     public static final String UNIT_MINUTE = "min";
+    public static final String PATH_RANKING = "Ranking";
 }
