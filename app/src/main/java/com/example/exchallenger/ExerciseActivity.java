@@ -93,7 +93,7 @@ public class ExerciseActivity extends AppCompatActivity {
         map.put("totalTimes", secondsDiff);
         Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
         boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
-        new UserHelper().addFinishWorkout(MainHelper.getInstance().getUserID(), map, new AddListener() {
+        new UserHelper().addFinishWorkout(MyApplication.user.getUserID(), map, new AddListener() {
 
             @Override
             public void onAdd() {
@@ -113,7 +113,7 @@ public class ExerciseActivity extends AppCompatActivity {
     private void addPointToChallenge(Map<String, Object> currentWorkout)
     {
         String workoutID = currentWorkout.get("workoutID").toString();
-        String userID = MainHelper.getInstance().getUserID();
+        String userID = MyApplication.user.getUserID();
         new WorkoutHelper().addPointChallenge(userID, workoutID, currentWorkout, new AddListener() {
             @Override
             public void onAdd() {

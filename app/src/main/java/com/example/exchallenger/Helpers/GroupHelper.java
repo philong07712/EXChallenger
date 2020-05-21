@@ -167,6 +167,7 @@ public class GroupHelper {
     }
 
     public void addUserToRanking(String userID, String groupKey, GetGroupsListener listener) {
+        // This not done
         database.collection("Groups").document(groupKey).collection("Ranking");
     }
 

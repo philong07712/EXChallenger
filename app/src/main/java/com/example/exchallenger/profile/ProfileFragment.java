@@ -153,6 +153,7 @@ public class ProfileFragment extends BaseFragment {
         tvMissionCount.setText(user.getNumChallenger() + "");
         tvUsername.setText(user.getName());
         tvRankPoint.setText(user.getTotalPoints() + "");
+        tvTimes.setText("Total workout time: " + user.getTotalTimes() + " minutes");
         showRankView(user.getTotalPoints());
 
 
