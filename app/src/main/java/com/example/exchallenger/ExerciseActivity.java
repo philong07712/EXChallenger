@@ -96,7 +96,7 @@ public class ExerciseActivity extends AppCompatActivity {
 //        setCameraView();
     }
 
-     private void addPoint() {
+    private void addPoint() {
         endTime = System.currentTimeMillis();
         long secondsDiff = (endTime - startTime) / 1000;
         Map<String, Object> map = new HashMap<>();
@@ -104,25 +104,25 @@ public class ExerciseActivity extends AppCompatActivity {
         map.put("totalTimes", secondsDiff);
         Map<String, Object> currentWorkout = new LocalSaveHelper(this).getMap("currentWorkout");
         boolean isChallenge = (boolean) currentWorkout.get("isChallenge");
+        if (MyApplication.user == null) {
+            finish();
+            return;
+        }
         new UserHelper().addFinishWorkout(MyApplication.user.getUserID(), map, new AddListener() {
 
             @Override
             public void onAdd() {
                 // if this exercise is challenge then we will add point to that ranking system
-                if (isChallenge)
-                {
+                if (isChallenge) {
                     addPointToChallenge(currentWorkout);
-                }
-                else
-                {
+                } else {
                     finish();
                 }
             }
         });
     }
 
-     private void addPointToChallenge(Map<String, Object> currentWorkout)
-    {
+    private void addPointToChallenge(Map<String, Object> currentWorkout) {
         String userID = MyApplication.user.getUserID();
         Map<String, Object> map = new HashMap<>();
         map.put("point", totalPoint);
@@ -227,8 +227,8 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void doneWorkout() {
-        if (currentWorkoutPosition <= listExercise.size() - 1) {
-            totalPoint += currentPoint;
+        totalPoint += currentPoint;
+        if (currentWorkoutPosition < listExercise.size() - 1) {
             currentWorkoutPosition++;
             removeCameraView();
             showWaitingToNextWorkout();
@@ -256,7 +256,7 @@ public class ExerciseActivity extends AppCompatActivity {
         circleProgressView.setOnProgressChangeListener(new CircleProgressView.OnProgressChangeListener() {
             @Override
             public void onChanged(float angle, float value) {
-                txtTimeLeft.setText(String.format(Locale.US, "%d", (int) value/1000));
+                txtTimeLeft.setText(String.format(Locale.US, "%d", (int) value / 1000));
             }
         });
 

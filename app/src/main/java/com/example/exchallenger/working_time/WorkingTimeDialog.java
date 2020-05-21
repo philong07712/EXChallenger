@@ -30,6 +30,7 @@ public class WorkingTimeDialog extends DialogFragment {
     private String timeFormat = "%02d:%02d";
 
     private TextView txtMoringFrom, txtMoringTo, txtAfternoonFrom, txtAfternoonTo, txtSave;
+    public OnChangeWorkingTimeListener onChangeWorkingTimeListener;
 
     @Override
     public void onStart() {
@@ -135,5 +136,13 @@ public class WorkingTimeDialog extends DialogFragment {
     public String getTimeStr(int defaultValue) {
         int time = defaultValue / (1000 * 60);
         return String.format(Locale.US, timeFormat, time / 60, time % 60);
+    }
+
+    public void setOnChangeWorkingTimeListener(OnChangeWorkingTimeListener onChangeWorkingTimeListener) {
+        this.onChangeWorkingTimeListener = onChangeWorkingTimeListener;
+    }
+
+    public interface OnChangeWorkingTimeListener {
+        void onChanged();
     }
 }

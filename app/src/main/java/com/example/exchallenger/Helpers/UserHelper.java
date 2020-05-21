@@ -119,14 +119,14 @@ public class UserHelper {
                 int totalPoint = Integer.parseInt(userData.get("totalPoints").toString());
                 totalPoint += Integer.parseInt(map.get("totalPoints").toString());
                 // plus Challenge
-                int numChallenge = Integer.parseInt(userData.get("numChallenge").toString());
+                int numChallenge = Integer.parseInt(userData.get("numChallenger").toString());
                 numChallenge += 1;
                 int totalTimes = Integer.parseInt(userData.get("totalTimes").toString());
                 totalTimes += Integer.parseInt(map.get("totalTimes").toString());
                 // now we will update the user data
                 Map<String, Object> newInfo = new HashMap<>();
                 newInfo.put("totalPoints", totalPoint);
-                newInfo.put("numChallenge", numChallenge);
+                newInfo.put("numChallenger", numChallenge);
                 newInfo.put("totalTimes", totalTimes);
                 docRef.update(newInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
