@@ -257,6 +257,8 @@ class PosenetActivity :
     ) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (allPermissionsGranted(grantResults)) {
+                openCamera()
+            } else {
                 ErrorDialog.newInstance(getString(R.string.tfe_pn_request_permission))
                         .show(childFragmentManager, FRAGMENT_DIALOG)
             }
@@ -331,6 +333,7 @@ class PosenetActivity :
         val permissionCamera = ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA)
         if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
+            return
         }
         setUpCameraOutputs()
         val manager = activity!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager
