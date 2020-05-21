@@ -55,17 +55,8 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(3);
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-            MyApplication.getInstance().getUserHelper().getUsersInfo(firebaseUser.getUid(),
-                    new UserHelper.GetUserInfo() {
-                        @Override
-                        public void onRead(Map<String, Object> user) {
-
-                            Log.d("LOGIN__", "Map<String, Object> user " + user.toString());
-                            MyApplication.user = AppUtils.convertMapToUser(user);
-                            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
-                            viewPager.setAdapter(mainPagerAdapter);
-                        }
-                    });
+            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), true);
+            viewPager.setAdapter(mainPagerAdapter);
         } else {
             mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), false);
             viewPager.setAdapter(mainPagerAdapter);
