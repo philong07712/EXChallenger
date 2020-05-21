@@ -1,11 +1,15 @@
 package com.example.exchallenger.group;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,6 +28,7 @@ import com.utilityview.customview.CustomTextviewFonts;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class GroupDetailFragment extends BaseFragment {
@@ -117,5 +122,15 @@ public class GroupDetailFragment extends BaseFragment {
                     getActivity().onBackPressed();
                 }, Throwable::printStackTrace);
 
+    }
+
+    @OnClick(R.id.btn_copy)
+    public void onBtnCopyClicked() {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("group_code", group.getKey());
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), "Copied code to clipboard", Toast.LENGTH_SHORT).show();
+        }
     }
 }
