@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.exchallenger.Helpers.GroupHelper;
@@ -59,10 +60,10 @@ public class JoinGroupFragment extends BaseFragment {
                 .map(event -> event.getEditable().toString().trim().length() > 0)
                 .subscribe(hasText -> btnDone.setEnabled(hasText), Throwable::printStackTrace);
 
-        edtCode.setOnKeyListener(new View.OnKeyListener() {
+        edtCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == EditorInfo.IME_ACTION_GO) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
                     if (edtCode.getText().toString().trim().isEmpty()) {
                         return false;
                     } else {

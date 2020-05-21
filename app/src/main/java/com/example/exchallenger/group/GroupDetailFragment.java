@@ -41,6 +41,8 @@ public class GroupDetailFragment extends BaseFragment {
     ImageView ivAvatar;
     @BindView(R.id.tv_code)
     CustomTextviewFonts tvCode;
+    @BindView(R.id.tv_count)
+    CustomTextviewFonts tvCount;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -71,6 +73,7 @@ public class GroupDetailFragment extends BaseFragment {
         }
         tvGroup.setText(group.getName());
         tvCode.setText(group.getKey());
+        tvCount.setText(group.getMembers() != null ? group.getMembers().size() + " members" : "");
         Glide.with(this)
                 .load(group.getPhoto())
                 .apply(

@@ -1,10 +1,12 @@
 package com.example.exchallenger.challenge;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
@@ -47,19 +49,17 @@ public class GroupChallengeListFragment extends BaseFragment {
         rcvChallenge.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         rcvChallenge.setAdapter(challengeAdapter);
 
-        MyApplication.getInstance().workoutHelper.getChallenges("UserID1", new WorkoutHelper.getWorkoutListener() {
+        groupId = getArguments().getString(K_GROUP);
+
+        MyApplication.getInstance().getGroupHelper().getGroupChallenges(groupId, new GroupHelper.GetGroupChallengeListener() {
             @Override
-            public void onRead(List<Map<String, Object>> list) {
-                List<ChallengeItem> challengeItems = new ArrayList<>();
-                for(Map map: list){
-                    challengeItems.add(AppUtils.convertMapToChallengeItem(map));
-                }
+            public void onRead(List<ChallengeItem> challengeItems) {
                 challengeAdapter.set(challengeItems);
             }
 
             @Override
-            public void onCancel() {
-
+            public void onError(String message) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
 

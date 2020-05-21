@@ -27,6 +27,7 @@ import com.example.exchallenger.utils.AppUtils;
 import com.utilityview.customview.CustomTextviewFonts;
 import com.utilityview.customview.TagLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public class CreateChallengeDialog extends DialogFragment {
     AppCompatSeekBar seekBarNumber;
     @BindView(R.id.tv_number)
     CustomTextviewFonts tvNumber;
+    @BindView(R.id.text2)
+    CustomTextviewFonts tvUnit;
     @BindView(R.id.time_picker)
     TimePicker timePicker;
     @BindView(R.id.tv_sunday)
@@ -70,6 +73,7 @@ public class CreateChallengeDialog extends DialogFragment {
     CustomTextviewFonts btnCancel;
 
     List<String> types = Arrays.asList("Push up", "Plank", "Squat", "Push up", "Plank", "Squat");
+    private String exercise = types.get(0);
 
 
     public static CreateChallengeDialog newInstance(OnSubmitListener onSubmitListener) {
@@ -128,7 +132,7 @@ public class CreateChallengeDialog extends DialogFragment {
         seekBarNumber.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvNumber.setText(progress + "");
+                tvNumber.setText(progress + AppUtils.getUnitStrOfExercise(exercise));
             }
 
             @Override
@@ -162,6 +166,15 @@ public class CreateChallengeDialog extends DialogFragment {
                     }
                     tvTag.setSelected(true);
                     selectTypePos = finalI;
+                    exercise = types.get(selectTypePos).toLowerCase();
+                    if (exercise.equals(ChallengeItem.PLANK)) {
+                        seekBarNumber.setMax(10);
+                        seekBarNumber.setProgress(3);
+                    } else {
+                        seekBarNumber.setMax(50);
+                        seekBarNumber.setProgress(20);
+                    }
+                    tvNumber.setText(seekBarNumber.getProgress() + AppUtils.getUnitStrOfExercise(exercise));
                 }
             });
         }
@@ -169,19 +182,21 @@ public class CreateChallengeDialog extends DialogFragment {
 
     @OnClick(R.id.btn_ok)
     public void onBtnOkClicked() {
-        Integer[] repeat = new Integer[]{0,0,0,0,0,0,0};
+        ArrayList<Long> repeat = new ArrayList<>(Arrays.asList(0L, 0L, 0L, 0L, 0L, 0L, 0L));
         if (switchRepeat.isChecked()) {
-            repeat[0] = tvSunday.isSelected() ? 1 : 0;
-            repeat[1] = tvMonday.isSelected() ? 1 : 0;
-            repeat[2] = tvTuesday.isSelected() ? 1 : 0;
-            repeat[3] = tvWed.isSelected() ? 1 : 0;
-            repeat[4] = tvThur.isSelected() ? 1 : 0;
-            repeat[5] = tvFri.isSelected() ? 1 : 0;
-            repeat[6] = tvSat.isSelected() ? 1 : 0;
+            repeat.set(0, tvSunday.isSelected() ? 1L : 0L);
+            repeat.set(1, tvMonday.isSelected() ? 1L : 0L);
+            repeat.set(2, tvTuesday.isSelected() ? 1L : 0L);
+            repeat.set(3, tvWed.isSelected() ? 1L : 0L);
+            repeat.set(4, tvThur.isSelected() ? 1L : 0L);
+            repeat.set(5, tvFri.isSelected() ? 1L : 0L);
+            repeat.set(6, tvSat.isSelected() ? 1L : 0L);
         }
         String type = types.get(selectTypePos);
+        int number = seekBarNumber.getProgress();
+        int point = number * AppUtils.getPointOfExercise(type);
         ChallengeItem challengeItem = new ChallengeItem(type, seekBarNumber.getProgress(),
-                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat, AppUtils.getUnitOfExercise(type));
+                timePicker.getCurrentHour(), timePicker.getCurrentMinute(), repeat, AppUtils.getUnitOfExercise(type), point);
         if (onSubmitListener != null) {
             onSubmitListener.onSubmit(challengeItem);
         }

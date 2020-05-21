@@ -1,7 +1,11 @@
 package com.example.exchallenger.group;
 
 import android.annotation.SuppressLint;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +18,7 @@ import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.challenge.ChallengeAdapter;
 import com.example.exchallenger.challenge.CreateChallengeDialog;
+import com.example.exchallenger.utils.AppUtils;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.utilityview.customview.CustomButtonFonts;
@@ -77,6 +82,17 @@ public class CreateGroupFragment extends BaseFragment {
                 .subscribe(unit -> {
                     showCreateChallengeDialog();
                 }, Throwable::printStackTrace);
+
+        edtGroupName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    AppUtils.hideKeyboard(getContext(), edtGroupName);
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
 
