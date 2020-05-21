@@ -23,11 +23,11 @@ import java.util.List;
 public class IntroActivity extends AppCompatActivity {
 
     private ViewPager screenPager;
-    IntroViewPagerAdapter introViewPagerAdapter ;
+    IntroViewPagerAdapter introViewPagerAdapter;
     TabLayout tabIndicator;
     Button btnNext;
-    int position = 0 ;
-    Animation btnAnim ;
+    int position = 0;
+    Animation btnAnim;
 
 
     @Override
@@ -44,16 +44,13 @@ public class IntroActivity extends AppCompatActivity {
         // when this activity is about to be launch we need to check if its openened before or not
 
         if (restorePrefData()) {
-
-            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class );
+            Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(mainActivity);
             finish();
-
-
         }
 
         setContentView(R.layout.activity_intro);
-        
+        savePrefsData();
         // ini views
         btnNext = findViewById(R.id.btn_next);
         //btnGetStarted = findViewById(R.id.btn_get_started);
@@ -63,13 +60,13 @@ public class IntroActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Welcome","Welcome to ExChallenger", R.drawable.img_one));
-        mList.add(new ScreenItem("Trending","Trends are created everyday to encourage people join them",R.drawable.img_two));
-        mList.add(new ScreenItem("Work From Home","People who work from home can train their muscle by themselves at home",R.drawable.img_three));
+        mList.add(new ScreenItem("Welcome", "Welcome to ExChallenger", R.drawable.img_one));
+        mList.add(new ScreenItem("Trending", "Trends are created everyday to encourage people join them", R.drawable.img_two));
+        mList.add(new ScreenItem("Work From Home", "People who work from home can train their muscle by themselves at home", R.drawable.img_three));
 
         // setup viewpager
-        screenPager =findViewById(R.id.screen_viewpager);
-        introViewPagerAdapter = new IntroViewPagerAdapter(this,mList);
+        screenPager = findViewById(R.id.screen_viewpager);
+        introViewPagerAdapter = new IntroViewPagerAdapter(this, mList);
         screenPager.setAdapter(introViewPagerAdapter);
 
         // setup tablayout with viewpager
@@ -91,7 +88,7 @@ public class IntroActivity extends AppCompatActivity {
 
                 }
 
-                if (position == mList.size()-1) { // when we rech to the last screen
+                if (position == mList.size() - 1) { // when we rech to the last screen
 
                     // TODO : show the GETSTARTED Button and hide the indicator and the next button
 
@@ -99,7 +96,6 @@ public class IntroActivity extends AppCompatActivity {
 
 
                 }
-
 
 
             }
@@ -112,7 +108,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if (tab.getPosition() == mList.size()-1) {
+                if (tab.getPosition() == mList.size() - 1) {
 
                     loaddLastScreen();
 
@@ -133,9 +129,7 @@ public class IntroActivity extends AppCompatActivity {
         });
 
 
-
         // Get Started button click listener
-
 
 
         // skip button click listener
@@ -145,19 +139,18 @@ public class IntroActivity extends AppCompatActivity {
     private boolean restorePrefData() {
 
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
-        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend",false);
-        return  isIntroActivityOpnendBefore;
-
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
+        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend", false);
+        return isIntroActivityOpnendBefore;
 
 
     }
 
     private void savePrefsData() {
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpnend",true);
+        editor.putBoolean("isIntroOpnend", true);
         editor.commit();
 
 
@@ -166,10 +159,9 @@ public class IntroActivity extends AppCompatActivity {
     // show the GETSTARTED Button and hide the indicator and the next button
     private void loaddLastScreen() {
 
-        // TODO : ADD an animation the getstarted button
-        // setup animation
-
-
+        startActivity(new Intent(this, MainActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left_2);
+        finishAfterTransition();
 
     }
 }

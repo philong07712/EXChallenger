@@ -25,6 +25,8 @@ import com.example.exchallenger.stats.StatisticFragment;
 import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.utilityview.customview.CustomTextviewFonts;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +62,7 @@ public class ProfileFragment extends BaseFragment {
 
     private ProfilePagerAdapter profilePagerAdapter;
     private PopupWindow popup, logoutPopup;
+    private FirebaseAuth firebaseAuth;
 
     public static ProfileFragment newInstance() {
         ProfileFragment profileFragment = new ProfileFragment();
@@ -109,17 +112,25 @@ public class ProfileFragment extends BaseFragment {
         });
         createMenuPopup();
         createLogoutMenuPopup();
-        MyApplication.getInstance().getUserHelper().getUsersInfo(MyApplication.user.getUserID(), new UserHelper.GetUserInfo() {
-            @Override
-            public void onRead(Map<String, Object> user) {
-                User newUser = AppUtils.convertMapToUser(user);
-                MyApplication.user = newUser;
-                showUserData(newUser);
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser!=null) {
+            MyApplication.getInstance().getUserHelper().getUsersInfo(firebaseUser.getUid(), new UserHelper.GetUserInfo() {
+                @Override
+                public void onRead(Map<String, Object> user) {
+                    User newUser = AppUtils.convertMapToUser(user);
+                    MyApplication.user = newUser;
+                    showUserData(newUser);
+                }
+            });
+        }
     }
 
     private void showUserData(User user) {
+        if(getActivity()==null){
+            return;
+        }
         Glide.with(this)
                 .load(MyApplication.user.getPhoto())
                 .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(getResources().getDimensionPixelSize(R.dimen.ava_height) / 2)))
