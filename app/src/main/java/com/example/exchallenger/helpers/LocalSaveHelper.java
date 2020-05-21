@@ -1,11 +1,9 @@
-package com.example.exchallenger.Helpers;
+package com.example.exchallenger.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.exchallenger.Models.Group;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

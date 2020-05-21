@@ -1,4 +1,4 @@
-package com.example.exchallenger.Models.event;
+package com.example.exchallenger.models.event;
 
 public class LogoutEvent {
 }

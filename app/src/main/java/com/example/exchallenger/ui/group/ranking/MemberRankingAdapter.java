@@ -1,4 +1,4 @@
-package com.example.exchallenger.group.ranking;
+package com.example.exchallenger.ui.group.ranking;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.Models.GroupMember;
+import com.example.exchallenger.models.GroupMember;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;

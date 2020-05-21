@@ -1,4 +1,4 @@
-package com.example.exchallenger.challenge;
+package com.example.exchallenger.ui.challenge;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.example.exchallenger.Models.ChallengeItem;
+import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;

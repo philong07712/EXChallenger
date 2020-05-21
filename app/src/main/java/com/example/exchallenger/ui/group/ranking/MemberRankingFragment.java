@@ -1,19 +1,17 @@
-package com.example.exchallenger.group.ranking;
+package com.example.exchallenger.ui.group.ranking;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Models.GroupMember;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.models.GroupMember;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;

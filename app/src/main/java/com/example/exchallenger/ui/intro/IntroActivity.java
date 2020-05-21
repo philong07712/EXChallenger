@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.intro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.exchallenger.main.MainActivity;
+import com.example.exchallenger.R;
+import com.example.exchallenger.ScreenItem;
+import com.example.exchallenger.ui.main.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

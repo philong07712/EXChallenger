@@ -1,4 +1,4 @@
-package com.example.exchallenger.workout;
+package com.example.exchallenger.ui.workout;
 
 import android.os.Bundle;
 
@@ -11,18 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.exchallenger.Adapters.WorkoutAdapter;
-import com.example.exchallenger.Factories.WorkoutFactory;
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Helpers.WorkoutHelper;
-import com.example.exchallenger.Listeners.AddListener;
-import com.example.exchallenger.MyApplication;
+import com.example.exchallenger.helpers.WorkoutFactory;
+import com.example.exchallenger.helpers.WorkoutHelper;
+import com.example.exchallenger.helpers.AddListener;
 import com.example.exchallenger.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

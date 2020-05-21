@@ -1,30 +1,20 @@
-package com.example.exchallenger.main;
+package com.example.exchallenger.ui.main;
 
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.exchallenger.GuestFragment;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Models.event.LoginSuccessEvent;
-import com.example.exchallenger.Models.event.LogoutEvent;
+import com.example.exchallenger.models.event.LoginSuccessEvent;
+import com.example.exchallenger.models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseActivity;
 import com.example.exchallenger.customviews.CustomViewPager;
-import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;

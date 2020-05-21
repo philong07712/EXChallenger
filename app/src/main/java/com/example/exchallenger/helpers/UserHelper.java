@@ -1,15 +1,12 @@
-package com.example.exchallenger.Helpers;
+package com.example.exchallenger.helpers;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.exchallenger.Listeners.AddListener;
-import com.example.exchallenger.Listeners.EditListener;
-import com.example.exchallenger.Models.User;
+import com.example.exchallenger.models.User;
 import com.example.exchallenger.utils.AppUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

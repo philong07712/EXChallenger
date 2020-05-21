@@ -1,4 +1,4 @@
-package com.example.exchallenger.profile.group;
+package com.example.exchallenger.ui.profile.group;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,13 +7,13 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Models.Group;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.models.Group;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.base.OnItemClickListener;
-import com.example.exchallenger.group.GroupDetailFragment;
+import com.example.exchallenger.ui.group.GroupDetailFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.utilityview.customview.CustomTextviewFonts;

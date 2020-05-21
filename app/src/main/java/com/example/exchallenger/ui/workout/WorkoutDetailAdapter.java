@@ -1,4 +1,4 @@
-package com.example.exchallenger.Adapters;
+package com.example.exchallenger.ui.workout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,11 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.exchallenger.Factories.WorkoutFactory;
-import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

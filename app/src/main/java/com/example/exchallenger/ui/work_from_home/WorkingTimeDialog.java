@@ -1,4 +1,4 @@
-package com.example.exchallenger.working_time;
+package com.example.exchallenger.ui.work_from_home;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

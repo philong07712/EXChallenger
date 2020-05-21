@@ -112,7 +112,7 @@
                 <com.utilityview.customview.CustomTextviewFonts
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:text="Points"
                     android:textColor="@color/text_black"
                     android:textSize="20sp"
@@ -137,7 +137,7 @@
                 <com.utilityview.customview.CustomTextviewFonts
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:text="Calories"
                     android:textColor="@color/text_black"
                     android:textSize="20sp"

@@ -1,4 +1,4 @@
-package com.example.exchallenger.challenge;
+package com.example.exchallenger.ui.challenge;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.exchallenger.ExerciseActivity;
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Helpers.WorkoutHelper;
-import com.example.exchallenger.Listeners.AddListener;
-import com.example.exchallenger.Models.ChallengeItem;
+import com.example.exchallenger.ui.exercise.ExerciseActivity;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.helpers.LocalSaveHelper;
+import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
@@ -25,8 +22,6 @@ import com.example.exchallenger.base.OnItemClickListener;
 import com.example.exchallenger.utils.AppUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

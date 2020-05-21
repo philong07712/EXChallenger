@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.intro;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.exchallenger.R;
+import com.example.exchallenger.ScreenItem;
 
 import java.util.List;
 

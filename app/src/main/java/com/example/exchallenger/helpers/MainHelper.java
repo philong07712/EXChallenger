@@ -1,6 +1,4 @@
-package com.example.exchallenger.Helpers;
-
-import com.example.exchallenger.Models.User;
+package com.example.exchallenger.helpers;
 
 import java.util.Map;
 

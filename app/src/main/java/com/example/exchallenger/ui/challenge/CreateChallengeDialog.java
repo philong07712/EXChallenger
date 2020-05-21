@@ -1,4 +1,4 @@
-package com.example.exchallenger.challenge;
+package com.example.exchallenger.ui.challenge;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.exchallenger.Models.ChallengeItem;
+import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.R;
 import com.example.exchallenger.utils.AppUtils;
 import com.utilityview.customview.CustomTextviewFonts;

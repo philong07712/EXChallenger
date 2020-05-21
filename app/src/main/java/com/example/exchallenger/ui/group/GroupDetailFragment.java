@@ -1,4 +1,4 @@
-package com.example.exchallenger.group;
+package com.example.exchallenger.ui.group;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -6,9 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,13 +15,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.Models.Group;
+import com.example.exchallenger.models.Group;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding3.view.RxView;
-import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.utilityview.customview.CustomTextviewFonts;
 
 import java.util.concurrent.TimeUnit;

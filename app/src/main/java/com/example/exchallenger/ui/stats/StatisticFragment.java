@@ -1,19 +1,17 @@
-package com.example.exchallenger.stats;
+package com.example.exchallenger.ui.stats;
 
 import android.graphics.Color;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Models.User;
-import com.example.exchallenger.Models.event.LogoutEvent;
+import com.example.exchallenger.helpers.UserHelper;
+import com.example.exchallenger.models.User;
+import com.example.exchallenger.models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
-import com.example.exchallenger.profile.ProfilePagerAdapter;
 import com.example.exchallenger.utils.AppUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;

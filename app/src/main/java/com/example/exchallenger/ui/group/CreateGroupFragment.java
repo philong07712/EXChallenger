@@ -1,4 +1,4 @@
-package com.example.exchallenger.group;
+package com.example.exchallenger.ui.group;
 
 import android.annotation.SuppressLint;
 import android.view.KeyEvent;
@@ -13,13 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Models.ChallengeItem;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
-import com.example.exchallenger.challenge.ChallengeAdapter;
-import com.example.exchallenger.challenge.CreateChallengeDialog;
+import com.example.exchallenger.ui.challenge.ChallengeAdapter;
+import com.example.exchallenger.ui.challenge.CreateChallengeDialog;
 import com.example.exchallenger.utils.AppUtils;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.jakewharton.rxbinding3.widget.RxTextView;
@@ -43,6 +43,9 @@ public class CreateGroupFragment extends BaseFragment {
     RecyclerView rcvChallenge;
     @BindView(R.id.btn_done)
     CustomButtonFonts btnDone;
+
+    @BindView(R.id.text3)
+    TextView tvAdmin;
     private ChallengeAdapter challengeAdapter;
 
     public static CreateGroupFragment newInstance() {
@@ -57,6 +60,7 @@ public class CreateGroupFragment extends BaseFragment {
     @SuppressLint("CheckResult")
     @Override
     protected void setUp() {
+        tvAdmin.setVisibility(View.VISIBLE);
         challengeAdapter = new ChallengeAdapter(getContext(), true);
         rcvChallenge.setAdapter(challengeAdapter);
         rcvChallenge.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));

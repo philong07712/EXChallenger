@@ -1,6 +1,4 @@
-package com.example.exchallenger.Helpers;
-
-import android.net.Uri;
+package com.example.exchallenger.helpers;
 
 import com.google.firebase.storage.FirebaseStorage;
 

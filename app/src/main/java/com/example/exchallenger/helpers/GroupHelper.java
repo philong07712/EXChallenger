@@ -1,4 +1,4 @@
-package com.example.exchallenger.Helpers;
+package com.example.exchallenger.helpers;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -6,20 +6,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.exchallenger.Listeners.AddListener;
-import com.example.exchallenger.Models.ChallengeItem;
-import com.example.exchallenger.Models.Group;
-import com.example.exchallenger.Models.GroupMember;
+import com.example.exchallenger.models.ChallengeItem;
+import com.example.exchallenger.models.Group;
+import com.example.exchallenger.models.GroupMember;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.utils.AppUtils;
 import com.example.exchallenger.utils.Constants;
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,18 +28,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 public class GroupHelper {
 
@@ -354,4 +345,17 @@ public class GroupHelper {
         });
 
     }
+
+    public void updateChallenge(String groupId, ChallengeItem ci) {
+        ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
+                .document(ci.getId())
+                .set(AppUtils.createMapFromChallengeItem(ci));
+    }
+
+    public void deleteChallenge(String groupId, ChallengeItem dataItem) {
+        ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
+                .document(dataItem.getId())
+                .delete();
+    }
+
 }

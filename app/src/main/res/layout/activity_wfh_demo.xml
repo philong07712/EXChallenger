@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/search_edit_frame"
-        android:name="com.example.exchallenger.work_from_home.WorkFromHomeFragment"
+        android:name="com.example.exchallenger.ui.work_from_home.WorkFromHomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

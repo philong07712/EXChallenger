@@ -1,4 +1,4 @@
-package com.example.exchallenger.profile;
+package com.example.exchallenger.ui.profile;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,15 +13,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Models.User;
-import com.example.exchallenger.Models.event.LogoutEvent;
+import com.example.exchallenger.helpers.UserHelper;
+import com.example.exchallenger.models.User;
+import com.example.exchallenger.models.event.LogoutEvent;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
-import com.example.exchallenger.group.CreateGroupFragment;
-import com.example.exchallenger.group.JoinGroupFragment;
-import com.example.exchallenger.stats.StatisticFragment;
+import com.example.exchallenger.ui.group.CreateGroupFragment;
+import com.example.exchallenger.ui.group.JoinGroupFragment;
+import com.example.exchallenger.ui.stats.StatisticFragment;
 import com.example.exchallenger.utils.AppUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;

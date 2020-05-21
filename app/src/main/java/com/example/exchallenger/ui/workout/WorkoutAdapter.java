@@ -1,4 +1,4 @@
-package com.example.exchallenger.Adapters;
+package com.example.exchallenger.ui.workout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.workout.WorkoutDetailActivity;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
+import com.example.exchallenger.helpers.LocalSaveHelper;
 import com.example.exchallenger.R;
 
 import java.util.List;

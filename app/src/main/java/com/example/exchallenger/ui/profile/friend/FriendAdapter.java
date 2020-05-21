@@ -1,4 +1,4 @@
-package com.example.exchallenger.profile.friend;
+package com.example.exchallenger.ui.profile.friend;
 
 import android.content.Context;
 import android.view.View;

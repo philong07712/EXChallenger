@@ -1,4 +1,4 @@
-package com.example.exchallenger.Listeners;
+package com.example.exchallenger.helpers;
 
 public interface AddListener {
     public void onAdd();

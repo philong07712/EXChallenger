@@ -1,4 +1,4 @@
-package com.example.exchallenger.workout;
+package com.example.exchallenger.ui.workout;
 
 import android.Manifest;
 import android.content.Intent;
@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.exchallenger.Adapters.WorkoutDetailAdapter;
-import com.example.exchallenger.ExerciseActivity;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
-import com.example.exchallenger.Helpers.WorkoutHelper;
+import com.example.exchallenger.ui.exercise.ExerciseActivity;
+import com.example.exchallenger.helpers.LocalSaveHelper;
+import com.example.exchallenger.helpers.WorkoutHelper;
 import com.example.exchallenger.R;
 
 import java.util.ArrayList;

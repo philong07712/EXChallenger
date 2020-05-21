@@ -1,4 +1,4 @@
-package com.example.exchallenger.profile.group;
+package com.example.exchallenger.ui.profile.group;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.exchallenger.Models.Group;
+import com.example.exchallenger.models.Group;
 import com.example.exchallenger.R;
 
 import butterknife.BindView;
@@ -19,10 +19,6 @@ import butterknife.BindView;
 import com.example.exchallenger.base.BaseRecyclerViewAdapter;
 import com.example.exchallenger.base.BaseViewHolder;
 import com.utilityview.customview.CustomTextviewFonts;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class GroupAdapter extends BaseRecyclerViewAdapter<Group> {
 

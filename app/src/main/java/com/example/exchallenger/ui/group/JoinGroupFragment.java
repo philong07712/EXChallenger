@@ -1,15 +1,13 @@
-package com.example.exchallenger.group;
+package com.example.exchallenger.ui.group;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.exchallenger.Helpers.GroupHelper;
+import com.example.exchallenger.helpers.GroupHelper;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;

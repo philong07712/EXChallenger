@@ -1,12 +1,12 @@
-package com.example.exchallenger.profile;
+package com.example.exchallenger.ui.profile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.exchallenger.profile.friend.FriendListFragment;
-import com.example.exchallenger.profile.group.GroupListFragment;
+import com.example.exchallenger.ui.profile.friend.FriendListFragment;
+import com.example.exchallenger.ui.profile.group.GroupListFragment;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public ProfilePagerAdapter(@NonNull FragmentManager fm) {

@@ -1,5 +1,6 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.profile;
 
+import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
 
 public class EmptyFragment extends BaseFragment {

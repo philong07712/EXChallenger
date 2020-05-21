@@ -1,6 +1,6 @@
-package com.example.exchallenger.Models.event;
+package com.example.exchallenger.models.event;
 
-import com.example.exchallenger.Models.User;
+import com.example.exchallenger.models.User;
 
 public class LoginSuccessEvent {
     private User user;

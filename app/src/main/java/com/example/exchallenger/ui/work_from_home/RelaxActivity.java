@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.work_from_home;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.exchallenger.R;
 import com.example.exchallenger.receivers.WorkFromHomeReceiver;
 
 import static com.example.exchallenger.receivers.WorkFromHomeReceiver.vibratePattern;

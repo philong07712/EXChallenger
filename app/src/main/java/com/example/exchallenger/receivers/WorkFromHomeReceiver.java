@@ -17,10 +17,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.exchallenger.R;
-import com.example.exchallenger.RelaxActivity;
-import com.example.exchallenger.WFHDemoActivity;
 import com.example.exchallenger.WorkFromHomeManager;
-import com.example.exchallenger.main.MainActivity;
+import com.example.exchallenger.ui.main.MainActivity;
 
 public class WorkFromHomeReceiver extends BroadcastReceiver {
     private static final String TAG = WorkFromHomeReceiver.class.getSimpleName();

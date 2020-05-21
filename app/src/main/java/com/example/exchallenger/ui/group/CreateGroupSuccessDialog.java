@@ -1,4 +1,4 @@
-package com.example.exchallenger.group;
+package com.example.exchallenger.ui.group;
 
 import android.app.Dialog;
 import android.content.ClipData;
@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.exchallenger.Models.ChallengeItem;
 import com.example.exchallenger.R;
 import com.utilityview.customview.CustomTextviewFonts;
 

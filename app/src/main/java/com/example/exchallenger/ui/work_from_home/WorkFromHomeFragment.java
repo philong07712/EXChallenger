@@ -1,14 +1,12 @@
-package com.example.exchallenger.work_from_home;
+package com.example.exchallenger.ui.work_from_home;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +22,6 @@ import com.example.exchallenger.R;
 import com.example.exchallenger.WorkFromHomeManager;
 import com.example.exchallenger.customviews.CircleProgressView;
 import com.example.exchallenger.receivers.WorkFromHomeReceiver;
-import com.example.exchallenger.working_time.WorkingTimeDialog;
 
 import java.util.Calendar;
 import java.util.Locale;

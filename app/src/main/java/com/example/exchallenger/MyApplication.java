@@ -5,11 +5,11 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Helpers.WorkoutHelper;
-import com.example.exchallenger.Models.User;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.helpers.LocalSaveHelper;
+import com.example.exchallenger.helpers.UserHelper;
+import com.example.exchallenger.helpers.WorkoutHelper;
+import com.example.exchallenger.models.User;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MyApplication extends Application {

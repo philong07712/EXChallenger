@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Listeners.AddListener;
-import com.example.exchallenger.Listeners.EditListener;
-import com.example.exchallenger.Models.User;
-import com.example.exchallenger.Models.event.LoginSuccessEvent;
+import com.example.exchallenger.MyApplication;
+import com.example.exchallenger.R;
+import com.example.exchallenger.helpers.UserHelper;
+import com.example.exchallenger.helpers.AddListener;
+import com.example.exchallenger.helpers.EditListener;
+import com.example.exchallenger.models.User;
+import com.example.exchallenger.models.event.LoginSuccessEvent;
 import com.example.exchallenger.base.BaseFragment;
 import com.example.exchallenger.utils.JSONUtilParser;
 import com.facebook.AccessToken;

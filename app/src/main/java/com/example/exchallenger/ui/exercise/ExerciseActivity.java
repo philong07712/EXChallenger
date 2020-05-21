@@ -1,4 +1,4 @@
-package com.example.exchallenger;
+package com.example.exchallenger.ui.exercise;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -17,11 +17,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.exchallenger.Helpers.GroupHelper;
-import com.example.exchallenger.Helpers.LocalSaveHelper;
-import com.example.exchallenger.Helpers.MainHelper;
-import com.example.exchallenger.Helpers.UserHelper;
-import com.example.exchallenger.Listeners.AddListener;
+import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.helpers.LocalSaveHelper;
+import com.example.exchallenger.helpers.MainHelper;
+import com.example.exchallenger.helpers.UserHelper;
+import com.example.exchallenger.helpers.AddListener;
+import com.example.exchallenger.MyApplication;
+import com.example.exchallenger.R;
 import com.example.exchallenger.customviews.CircleProgressView;
 import com.example.exchallenger.tensorflow.PosenetActivity;
 import com.google.firebase.auth.FirebaseAuth;

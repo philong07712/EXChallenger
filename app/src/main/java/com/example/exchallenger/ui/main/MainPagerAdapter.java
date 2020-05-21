@@ -1,15 +1,15 @@
-package com.example.exchallenger.main;
+package com.example.exchallenger.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.exchallenger.EmptyFragment;
-import com.example.exchallenger.workout.WorkoutFragment;
-import com.example.exchallenger.GuestFragment;
-import com.example.exchallenger.profile.ProfileFragment;
-import com.example.exchallenger.work_from_home.WorkFromHomeFragment;
+import com.example.exchallenger.ui.profile.EmptyFragment;
+import com.example.exchallenger.ui.workout.WorkoutFragment;
+import com.example.exchallenger.ui.profile.GuestFragment;
+import com.example.exchallenger.ui.profile.ProfileFragment;
+import com.example.exchallenger.ui.work_from_home.WorkFromHomeFragment;
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
     private boolean login;

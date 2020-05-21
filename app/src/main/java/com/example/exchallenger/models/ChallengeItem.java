@@ -1,4 +1,4 @@
-package com.example.exchallenger.Models;
+package com.example.exchallenger.models;
 
 import java.util.ArrayList;
 

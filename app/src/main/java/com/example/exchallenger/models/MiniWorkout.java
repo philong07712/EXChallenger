@@ -1,4 +1,4 @@
-package com.example.exchallenger.Models;
+package com.example.exchallenger.models;
 
 public class MiniWorkout {
     private String anim, introduction, miniWorkoutID, name, photo, type;

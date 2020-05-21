@@ -1,4 +1,4 @@
-package com.example.exchallenger.Factories;
+package com.example.exchallenger.helpers;
 
 import com.google.firebase.firestore.FieldValue;
 
