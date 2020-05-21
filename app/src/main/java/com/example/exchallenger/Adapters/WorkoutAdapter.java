@@ -2,6 +2,8 @@ package com.example.exchallenger.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +19,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.exchallenger.Activities.WorkoutDetailActivity;
+import com.example.exchallenger.Helpers.LocalSaveHelper;
+import com.example.exchallenger.Helpers.MainHelper;
 import com.example.exchallenger.R;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +83,11 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
                     intent.putExtra("name", list.get(position).get("name").toString());
                     intent.putExtra("workoutID", list.get(position).get("workoutID").toString());
                     intent.putExtra("photo", list.get(position).get("photo").toString());
+
+                    // save String
+                    LocalSaveHelper helper = new LocalSaveHelper(mContext);
+                    // save groupID
+                    helper.saveMap("currentWorkout", list.get(position));
                     mContext.startActivity(intent);
                 }
             });

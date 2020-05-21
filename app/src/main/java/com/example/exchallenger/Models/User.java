@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class User {
     private String email, name, phoneNumber, photo, userID;
-    private long totalPoints, numChallenger;
+    private long totalPoints, numChallenger, totalTimes;
     private Object timeStamp;
 
     public User() {
@@ -23,6 +23,7 @@ public class User {
         this.userID = userID;
         this.totalPoints = 0;
         this.numChallenger = 0;
+        this.totalTimes = 0;
         this.timeStamp = FieldValue.serverTimestamp();
     }
 
@@ -40,6 +41,14 @@ public class User {
         }
         else
             this.timeStamp = user.timeStamp;
+    }
+
+    public long getTotalTimes() {
+        return totalTimes;
+    }
+
+    public void setTotalTimes(long totalTimes) {
+        this.totalTimes = totalTimes;
     }
 
     public Object getTimeStamp() {

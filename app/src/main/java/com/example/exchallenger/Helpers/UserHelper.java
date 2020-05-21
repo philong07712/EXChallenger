@@ -65,6 +65,8 @@ public class UserHelper {
                     listener.onRead(documentSnapshot.getData());
                 }
                 else {
+
+                    Log.d(MainHelper.TAG, "User is null");
                     listener.onRead(null);
                 }
             }
@@ -93,7 +95,6 @@ public class UserHelper {
         });
     }
 
-    // add new user with unique id auto created
     public void addNewUser(final User user, final AddListener listener)
     {
         DocumentReference docRef = ref.document();

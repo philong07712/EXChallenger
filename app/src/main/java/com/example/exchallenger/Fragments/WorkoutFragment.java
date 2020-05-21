@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.exchallenger.Adapters.WorkoutAdapter;
 import com.example.exchallenger.Factories.WorkoutFactory;
@@ -16,7 +17,9 @@ import com.example.exchallenger.Helpers.GroupHelper;
 import com.example.exchallenger.Helpers.UserHelper;
 import com.example.exchallenger.Helpers.WorkoutHelper;
 import com.example.exchallenger.Listeners.AddListener;
+import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +29,7 @@ import java.util.Map;
 public class WorkoutFragment extends Fragment {
 
     RecyclerView rv_challenges, rv_daily;
-
+    TextView tv_challenge;
 
     public WorkoutFragment() {
     }
@@ -49,23 +52,30 @@ public class WorkoutFragment extends Fragment {
     private void initView(View view) {
         rv_challenges = view.findViewById(R.id.workout_challenges_rv);
         rv_daily = view.findViewById(R.id.workout_daily_rv);
+        tv_challenge = view.findViewById(R.id.tv_challenge);
         rv_daily.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
     }
 
 
     private void getData() {
-        new WorkoutHelper().getChallenges("UserID1", new WorkoutHelper.getWorkoutListener() {
-            @Override
-            public void onRead(List<Map<String, Object>> list) {
-                loadWorkoutChallenges(list);
-            }
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            new WorkoutHelper().getChallenges(uid, new WorkoutHelper.getWorkoutListener() {
+                @Override
+                public void onRead(List<Map<String, Object>> list) {
+                    loadWorkoutChallenges(list);
+                }
 
-            @Override
-            public void onCancel() {
+                @Override
+                public void onCancel() {
 
-            }
-        });
+                }
+            });
+        }
+
 
         new WorkoutHelper().getDailyWork(new WorkoutHelper.getWorkoutListener() {
             @Override
