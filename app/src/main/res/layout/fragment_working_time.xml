@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:clipToPadding="false"
-    tools:context=".working_time.WorkingTimeDialog">
+    tools:context=".ui.work_from_home.WorkingTimeDialog">
 
 
     <TextView

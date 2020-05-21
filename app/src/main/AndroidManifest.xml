@@ -24,11 +24,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.exchallenger.main.MainActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan">
            
         </activity>
-        <activity android:name=".IntroActivity">
+        <activity android:name=".ui.intro.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RelaxActivity"
+            android:name=".ui.work_from_home.RelaxActivity"
             android:showOnLockScreen="true"
             android:showWhenLocked="true"
             android:turnScreenOn="true" />
@@ -65,8 +65,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExerciseActivity"></activity>
-        <activity android:name=".Activities.WorkoutDetailActivity" />
+        <activity android:name=".ui.exercise.ExerciseActivity"></activity>
+        <activity android:name=".ui.workout.WorkoutDetailActivity" />
         <activity android:name=".WFHDemoActivity" />
 
         <meta-data

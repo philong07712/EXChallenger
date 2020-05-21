@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.exchallenger.Models.ChallengeItem;
-import com.example.exchallenger.Models.Group;
-import com.example.exchallenger.Models.GroupMember;
-import com.example.exchallenger.Models.User;
+import com.example.exchallenger.models.ChallengeItem;
+import com.example.exchallenger.models.Group;
+import com.example.exchallenger.models.GroupMember;
+import com.example.exchallenger.models.User;
 import com.example.exchallenger.MyApplication;
 
 import java.text.SimpleDateFormat;
@@ -245,5 +245,18 @@ public class AppUtils {
     public static String convertDateToString(Date date, String format) {
         SimpleDateFormat SDFoutput = new SimpleDateFormat(format, Locale.ENGLISH);
         return SDFoutput.format(date);
+    }
+
+    public static boolean isRepeat(ArrayList<Long> repeat) {
+        if (repeat.size() < 7) {
+            return false;
+        }
+        int sum = 0;
+
+        for (long value : repeat) {
+            sum += value;
+
+        }
+        return sum != 0;
     }
 }

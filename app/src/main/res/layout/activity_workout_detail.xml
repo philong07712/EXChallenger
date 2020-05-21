@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.WorkoutDetailActivity"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:context=".ui.workout.WorkoutDetailActivity">
 
     <ImageView
         android:id="@+id/workout_detail_photo"
@@ -41,6 +41,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/style_rv_workout_detail"
+        android:clipToPadding="false"
+        android:paddingTop="32dp"
+        android:paddingBottom="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,9 +59,9 @@
         android:background="@drawable/style_workout_detail_btn"
         android:drawableLeft="@drawable/ic_play_arrow_black_24dp"
         android:drawablePadding="-10dp"
-        android:paddingLeft="15dp"
-        android:gravity="center"
         android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:paddingLeft="15dp"
         android:text="Start"
         android:textAllCaps="false"
         android:textColor="@color/white"

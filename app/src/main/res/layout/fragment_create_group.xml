@@ -39,11 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:inputType="textCapWords"
-        android:singleLine="true"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
+        android:inputType="textCapWords"
         android:paddingBottom="4dp"
+        android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@id/text1" />
 
     <com.utilityview.customview.CustomTextviewFonts
@@ -57,6 +57,18 @@
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edt_group_name" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="(Hold item to edit or delete)"
+        android:textColor="#f00"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
 
     <com.utilityview.customview.CustomTextviewFonts
         android:id="@+id/btn_add"
@@ -74,7 +86,7 @@
         android:textColor="@color/blue"
         android:textSize="18sp"
         app:font_type="@string/medium"
-        app:layout_constraintTop_toBottomOf="@id/text2" />
+        app:layout_constraintTop_toBottomOf="@id/text3" />
 
     <ImageView
         android:layout_width="24dp"
@@ -90,11 +102,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_add"
         tools:itemCount="8"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false"
         tools:listitem="@layout/item_challenge" />
 
     <com.utilityview.customview.CustomButtonFonts

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/white"
-    tools:context=".ExerciseActivity">
+    tools:context=".ui.exercise.ExerciseActivity">
 
     <View
         android:id="@+id/view_place_holder_animation"
