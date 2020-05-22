@@ -104,8 +104,6 @@ public class GuestFragment extends BaseFragment {
                             String firstName = jsonUtilParser.getString("first_name", object);
                             String lastName = jsonUtilParser.getString("last_name", object);
                             String email = jsonUtilParser.getString("email", object);
-                            String gender = jsonUtilParser.getString("gender", object);
-                            String birthday = jsonUtilParser.getString("birthday", object);
                             JSONObject picture = jsonUtilParser.getJSONObject("picture", object);
                             JSONObject pictureData = jsonUtilParser.getJSONObject("data", picture);
                             String photoUrl = jsonUtilParser.getString("url", pictureData);
@@ -215,8 +213,7 @@ public class GuestFragment extends BaseFragment {
 
     @OnClick(R.id.btn_login_fb)
     public void onBtnLoginFbClicked() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_gender",
-                "user_birthday"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
 
     }
 
