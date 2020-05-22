@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/IconBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        style="@style/TextHeaderBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create New Group"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_back" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Your Group Name"
+        android:textColor="@color/text_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+
+    <com.utilityview.customview.CustomEditTextFonts
+        android:id="@+id/edt_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="textCapWords"
+        android:paddingBottom="4dp"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/text1" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Choose your group challenges"
+        android:textColor="@color/text_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_group_name" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="(Hold item to edit or delete)"
+        android:textColor="#f00"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text2" />
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/btn_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_button_blue_border_corner"
+        android:paddingLeft="20dp"
+        android:paddingTop="12dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="12dp"
+        android:text="Add challenge"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:font_type="@string/medium"
+        app:layout_constraintTop_toBottomOf="@id/text3" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_plus_circle"
+        app:layout_constraintBottom_toBottomOf="@id/btn_add"
+        app:layout_constraintEnd_toEndOf="@id/btn_add"
+        app:layout_constraintTop_toTopOf="@id/btn_add" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_challenge"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_add"
+        tools:itemCount="8"
+        tools:listitem="@layout/item_challenge" />
+
+    <com.utilityview.customview.CustomButtonFonts
+        android:id="@+id/btn_done"
+        android:layout_width="160dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_button_blue"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="Create"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:font_type="@string/bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

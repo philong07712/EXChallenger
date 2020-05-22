@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/white"
+    tools:context=".ui.exercise.ExerciseActivity">
+
+    <View
+        android:id="@+id/view_place_holder_animation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="@+id/view_place_holder_exercise_name"
+        app:layout_constraintTop_toBottomOf="@+id/view_place_holder_exercise_rep" />
+
+    <TextView
+        android:id="@+id/view_place_holder_exercise_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_count"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/view_place_holder_exercise_rep"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:layout_constraintEnd_toEndOf="@+id/view_place_holder_exercise_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_place_holder_exercise_name" />
+
+    <TextView
+        android:id="@+id/exercise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Push Up"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_rep"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <TextView
+        android:id="@+id/exercise_rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="start"
+        android:text="x25 Times"
+        android:textColor="@color/text_gray"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_img"
+        app:layout_constraintEnd_toEndOf="@+id/exercise_name"
+        app:layout_constraintStart_toStartOf="@+id/exercise_name" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/exercise_img"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
+    <FrameLayout
+        android:id="@+id/camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_exercise_giveup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_place_holder_animation" />
+
+
+    <Button
+        android:id="@+id/btn_exercise_giveup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:background="@drawable/btn_exercise_giveup"
+        android:drawableEnd="@drawable/ic_close_pink"
+        android:drawablePadding="10dp"
+        android:elevation="0dp"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
+        android:text="Give up"
+        android:textAllCaps="false"
+        android:textColor="@color/pink_danger"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_exercise_done"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/btn_exercise_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_exercise_done"
+        android:drawableEnd="@drawable/ic_check_green"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
+        android:text="Start"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_exercise_giveup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_exercise_giveup"
+        app:layout_constraintTop_toTopOf="@+id/btn_exercise_giveup"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <ProgressBar
+        android:id="@+id/pb_exercise_activity"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:elevation="100dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_exercise_done"
+        app:layout_constraintStart_toStartOf="@+id/btn_exercise_giveup"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="0"
+        android:visibility="invisible"
+        android:textColor="@android:color/black"
+        android:textSize="120sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_place_holder_animation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.exchallenger.customviews.CircleProgressView
+        android:id="@+id/circle_progress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_count"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_count" />
+
+    <TextView
+        android:id="@+id/txt_time_left"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15"
+        android:textSize="80sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/circle_progress"
+        app:layout_constraintEnd_toEndOf="@+id/txt_count"
+        app:layout_constraintStart_toStartOf="@+id/circle_progress"
+        app:layout_constraintTop_toTopOf="@+id/circle_progress" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

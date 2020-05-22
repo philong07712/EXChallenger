@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.utilityview.customview.CustomTextviewFonts
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="(Hold item to edit or delete)"
+        android:textColor="#f00"
+        android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_challenge"
+        android:layout_below="@id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:itemCount="8"
+        tools:listitem="@layout/item_challenge" />
+</RelativeLayout>

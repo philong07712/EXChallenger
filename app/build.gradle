@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -6,12 +9,20 @@ android {
 
     defaultConfig {
         applicationId "com.example.exchallenger"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    aaptOptions {
+        noCompress "tflite"
     }
 
     buildTypes {
@@ -20,8 +31,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
+
+def glideVersion = '4.8.0'
+def butterKnifeVersion = '10.2.0'
+def rxJavaVersion = '2.1.1'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -29,13 +48,62 @@ dependencies {
     // firebase analytics
     implementation 'com.google.firebase:firebase-analytics:17.4.1'
 
+    // firebase authentication
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    // firebase firestorage
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    // firebase firestore
+    implementation 'com.google.firebase:firebase-firestore:21.4.3'
+
+	implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.android.support:design:28.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "com.google.android.material:material:1.0.0"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-}
 
+    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.1"
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
+
+
+    //glide
+    implementation "com.github.bumptech.glide:glide:4.8.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.8.0"
+    implementation ('com.github.bumptech.glide:okhttp3-integration:4.8.0'){
+        exclude group: 'glide-parent'
+    }
+    api project(':customview')
+    implementation project(':posenet')
+
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+	implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:0.0.0-nightly'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly'
+    implementation 'com.airbnb.android:lottie:3.0.7'
+    implementation 'androidx.fragment:fragment-ktx:1.0.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+}
+repositories {
+    mavenCentral()
+}
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

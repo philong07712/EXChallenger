@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="color_blue">#1b76ff</color>
+    <color name="color_blue_dimmer">#acd5f7</color>
+    <color name="main_blue">#448AFF</color>
+    <color name="color_orange">#FFA41B</color>
+    <color name="color_orange_dark">#B36D02</color>
+    <color name="color_orange_dimmer">#F7CFAD</color>
+    <color name="main_blue_dark">#0655D8</color>
+    <color name="gray">#B0AEAE</color>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#007ac1</color>
+    <color name="colorAccent">#FF735E</color>
+    <color name="color_main">#03A9F4</color>
+    <color name="text_black">#333333</color>
+    <color name="color_border">#D5D5D5</color>
+    <color name="text_gray">#707070</color>
+    <color name="background_default">#FAFAFA</color>
+    <color name="blue">#2196F3</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
+
+    <color name="text_detail_color">#1B76FF</color>
+    <color name="grayLine">#9E9E9E</color>
+    <color name="btnBlue">#1B76FF</color>
+    <color name="pink_danger">#FF1B76</color>
+
+    <color name="color_facebook">#3C5A9A</color>
+    <color name="color_facebook_press">#00316b</color>
+
+    <color name="color_cyan_press">#0094cc</color>
+
+    <!-- color for button style -->
+    <color name="gradient_start_color">#4c04ff</color>
+    <color name="gradient_end_color">#18a3fe</color>
+
+    <!-- colors for tab and screen text -->
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_title_color">#000000</color>
+    <color name="intro_description_color">#656565</color>
+
 </resources>

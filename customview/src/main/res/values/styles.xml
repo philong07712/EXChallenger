@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="dropDownItemStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/bg_white_press_gray</item>
+        <item name="android:padding">12dp</item>
+        <item name="font_type">@string/medium</item>
+        <item name="android:textColor">@color/text_dropdown</item>
+    </style>
+</resources>

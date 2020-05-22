@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_border">2px</dimen>
+    <dimen name="ava_height">64dp</dimen>
+    <dimen name="text_header">20sp</dimen>
+
+    <!--dimes for design 3-->
+    <dimen name="headerTextSize">22sp</dimen>
+    <dimen name="newsMoreTextSize">12sp</dimen>
+    <dimen name="loginCardRadius">20dp</dimen>
+    <dimen name="loginViewsMargin">20dp</dimen>
+    <dimen name="signup_text_margin_top">10dp</dimen>
+    <dimen name="radius_workout">12dp</dimen>
+    <dimen name="padding_button_small">10dp</dimen>
+    <dimen name="height_ava_group">56dp</dimen>
+</resources>

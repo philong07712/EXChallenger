@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:bottomRightRadius="@dimen/radius_workout"
+        android:bottomLeftRadius="@dimen/radius_workout"/>
+
+    <solid android:color="#66000000"/>
+</shape>
