@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -149,11 +151,26 @@ public class GroupDetailFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 popup.dismiss();
-                if (isAdmin) {
-                    deleteGroup();
-                } else {
-                    leaveGroup();
-                }
+                new AlertDialog.Builder(getContext())
+                        .setMessage(isAdmin?"Do you really want to delete group?":"Do you really want to leave?")
+                        .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(isAdmin?"Delete":"Leave", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (isAdmin) {
+                                    deleteGroup();
+                                } else {
+                                    leaveGroup();
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
 
             }
         });

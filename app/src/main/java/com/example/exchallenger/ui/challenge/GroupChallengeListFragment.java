@@ -1,5 +1,6 @@
 package com.example.exchallenger.ui.challenge;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -103,7 +105,23 @@ public class GroupChallengeListFragment extends BaseFragment {
         }
 
         if (item.getItemId() == 1) {//delete
-            MyApplication.getInstance().getGroupHelper().deleteChallenge(groupId, challengeAdapter.getDataItem(item.getGroupId()));
+            new AlertDialog.Builder(getContext())
+                    .setMessage("Do you really want to delete this challenge?")
+                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MyApplication.getInstance().getGroupHelper()
+                                    .deleteChallenge(groupId, challengeAdapter.getDataItem(item.getGroupId()));
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
             return true;
         }
 
