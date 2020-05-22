@@ -47,5 +47,6 @@
     <string name="stop">Stop</string>
     <string name="outside_office_hours">Outside office hours</string>
     <string name="empty_group" >You haven\'t joined any groups yet\nCreate a new group or join one</string>
+    <string name="unavailable_feature">This feature is not available now. Please come back later.</string>
 
 </resources>

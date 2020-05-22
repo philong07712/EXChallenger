@@ -115,7 +115,18 @@ public class GroupChallengeListFragment extends BaseFragment {
                 new CreateChallengeDialog.OnSubmitListener() {
                     @Override
                     public void onSubmit(int pos, ChallengeItem challengeItem) {
-                        MyApplication.getInstance().getGroupHelper().updateChallenge(groupId, ci);
+                        challengeItem.setId(ci.getId());
+                        MyApplication.getInstance().getGroupHelper().updateChallenge(groupId, challengeItem, new GroupHelper.CustomCompleteListener() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onFailure(String message) {
+
+                            }
+                        });
                     }
                 });
         createChallengeDialog.show(getChildFragmentManager(), null);

@@ -10,6 +10,7 @@ import com.example.exchallenger.helpers.LocalSaveHelper;
 import com.example.exchallenger.helpers.UserHelper;
 import com.example.exchallenger.helpers.WorkoutHelper;
 import com.example.exchallenger.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MyApplication extends Application {
@@ -43,6 +44,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userHelper = new UserHelper();
         workoutHelper = new WorkoutHelper();
         prefsHelper = new LocalSaveHelper(this);

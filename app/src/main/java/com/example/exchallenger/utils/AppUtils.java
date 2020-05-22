@@ -105,6 +105,7 @@ public class AppUtils {
     public static Group convertMapToGroup(Map<String, Object> map) {
         Group group = new Group();
         group.setName((String) map.get("name"));
+        group.setAdmin((String) map.get("admin"));
         group.setGroupKey((String) map.get("groupKey"));
         group.setKey((String) map.get("key"));
         group.setPhoto((String) map.get("photo"));
@@ -258,5 +259,9 @@ public class AppUtils {
 
         }
         return sum != 0;
+    }
+
+    public static boolean isAdmin(String admin) {
+        return MyApplication.firebaseUser != null && MyApplication.firebaseUser.getUid().equals(admin);
     }
 }

@@ -6,7 +6,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
@@ -15,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.exchallenger.helpers.GroupHelper;
 import com.example.exchallenger.models.Group;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
@@ -33,6 +39,8 @@ public class GroupDetailFragment extends BaseFragment {
     private static final String K_GROUP = "group";
     @BindView(R.id.iv_back)
     ImageView ivBack;
+    @BindView(R.id.iv_setting)
+    ImageView ivSetting;
     @BindView(R.id.tv_group)
     CustomTextviewFonts tvGroup;
     @BindView(R.id.iv_avatar)
@@ -47,6 +55,8 @@ public class GroupDetailFragment extends BaseFragment {
     ViewPager viewPager;
     private GroupDetailPagerAdapter groupDetailPagerAdapter;
     private Group group;
+    private PopupWindow popup;
+    private boolean isAdmin;
 
     public static GroupDetailFragment newInstance(Group group) {
         GroupDetailFragment groupFragment = new GroupDetailFragment();
@@ -69,6 +79,8 @@ public class GroupDetailFragment extends BaseFragment {
             getActivity().onBackPressed();
             return;
         }
+        isAdmin = MyApplication.firebaseUser != null && MyApplication.firebaseUser.getUid().equals(group.getAdmin());
+        createMenuPopup();
         tvGroup.setText(group.getName());
         tvCode.setText(group.getKey());
         tvCount.setText(group.getMembers() != null ? group.getMembers().size() + " members" : "");
@@ -127,6 +139,64 @@ public class GroupDetailFragment extends BaseFragment {
 
     }
 
+    public void createMenuPopup() {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.popup_delete, null);
+        popup = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+        TextView btnLeave = view.findViewById(R.id.btn_delete);
+        btnLeave.setText(isAdmin ? "Delete Group" : "Leave Group");
+        btnLeave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                if (isAdmin) {
+                    deleteGroup();
+                } else {
+                    leaveGroup();
+                }
+
+            }
+        });
+
+    }
+
+    private void deleteGroup() {
+        MyApplication.getInstance().getGroupHelper()
+                .deleteGroup(group, new GroupHelper.CustomCompleteListener() {
+                    @Override
+                    public void onSuccess() {
+                        if (getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void leaveGroup() {
+        MyApplication.getInstance().getGroupHelper().leaveGroup(group, MyApplication.firebaseUser.getUid(), new GroupHelper.CustomCompleteListener() {
+            @Override
+            public void onSuccess() {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @OnClick(R.id.btn_copy)
     public void onBtnCopyClicked() {
         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -135,5 +205,10 @@ public class GroupDetailFragment extends BaseFragment {
             clipboard.setPrimaryClip(clip);
             Toast.makeText(getContext(), "Copied code to clipboard", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @OnClick(R.id.iv_setting)
+    public void onClickSetting() {
+        popup.showAsDropDown(ivSetting, 0, 0);
     }
 }

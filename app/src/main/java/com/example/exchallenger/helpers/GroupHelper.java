@@ -10,6 +10,7 @@ import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.models.Group;
 import com.example.exchallenger.models.GroupMember;
 import com.example.exchallenger.MyApplication;
+import com.example.exchallenger.ui.group.GroupDetailFragment;
 import com.example.exchallenger.utils.AppUtils;
 import com.example.exchallenger.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -346,16 +347,77 @@ public class GroupHelper {
 
     }
 
-    public void updateChallenge(String groupId, ChallengeItem ci) {
-        ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
-                .document(ci.getId())
-                .set(AppUtils.createMapFromChallengeItem(ci));
+    public void updateChallenge(String groupId, ChallengeItem ci, CustomCompleteListener listener) {
+        DocumentReference docRef = ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
+                .document(ci.getId());
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Log.d("ALOALO", documentSnapshot.getData().toString());
+
+                docRef.update(AppUtils.createMapFromChallengeItem(ci))
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                listener.onSuccess();
+                                Log.d("ALOALO", groupId);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("ALOALO", e.getMessage());
+                                listener.onFailure(e.getMessage());
+                            }
+                        });
+            }
+        });
     }
 
     public void deleteChallenge(String groupId, ChallengeItem dataItem) {
         ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
                 .document(dataItem.getId())
                 .delete();
+    }
+
+    public void deleteGroup(Group group, CustomCompleteListener customCompleteListener) {
+        ref.document(group.getGroupKey()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        customCompleteListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        customCompleteListener.onFailure(e.getMessage());
+                    }
+                });
+    }
+
+    public void leaveGroup(Group group, String uid, CustomCompleteListener customCompleteListener) {
+
+
+        ref.document(group.getGroupKey())
+                .update("members", FieldValue.arrayRemove(uid))
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        ref.document(group.getGroupKey())
+                                .collection(Constants.PATH_RANKING)
+                                .document(uid)
+                                .delete();
+                        customCompleteListener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        customCompleteListener.onFailure(e.getMessage());
+                    }
+                });
     }
 
 }

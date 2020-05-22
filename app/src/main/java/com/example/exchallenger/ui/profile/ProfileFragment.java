@@ -152,8 +152,6 @@ public class ProfileFragment extends BaseFragment {
 
         tvTimes.setText(String.format("Total workout time: %.1f minutes", Long.valueOf(user.getTotalTimes()).doubleValue() / 60));
         showRankView(user.getTotalPoints());
-
-
     }
 
     private void showRankView(long totalPoints) {

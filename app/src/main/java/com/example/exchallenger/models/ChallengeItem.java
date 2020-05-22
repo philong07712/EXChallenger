@@ -17,6 +17,9 @@ public class ChallengeItem {
     private String id;
     private boolean isDone;
 
+    public ChallengeItem() {
+    }
+
     public ChallengeItem(String type, int number, int hour, int minute, ArrayList<Long> repeat, String unit,
                          int point, String photo) {
         this.type = type;

@@ -56,7 +56,6 @@
         android:id="@+id/tv_your_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your rank: 2"
         android:textColor="@color/color_main"
         android:textSize="16sp"
         app:font_type="@string/medium"

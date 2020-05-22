@@ -204,10 +204,12 @@ public class GuestFragment extends BaseFragment {
 
     @OnClick(R.id.btnSignUp)
     public void onBtnSignUpClicked() {
+        Toast.makeText(getContext(), R.string.unavailable_feature, Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btnToLogin)
     public void onBtnToLoginClicked() {
+        Toast.makeText(getContext(), R.string.unavailable_feature, Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btn_login_fb)
