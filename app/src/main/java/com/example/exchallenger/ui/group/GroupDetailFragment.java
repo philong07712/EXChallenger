@@ -23,10 +23,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.exchallenger.helpers.GroupHelper;
+import com.example.exchallenger.models.ChallengeItem;
 import com.example.exchallenger.models.Group;
 import com.example.exchallenger.MyApplication;
 import com.example.exchallenger.R;
 import com.example.exchallenger.base.BaseFragment;
+import com.example.exchallenger.ui.challenge.CreateChallengeDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.utilityview.customview.CustomTextviewFonts;
@@ -147,19 +149,28 @@ public class GroupDetailFragment extends BaseFragment {
         popup = new PopupWindow(view, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
         TextView btnLeave = view.findViewById(R.id.btn_delete);
         btnLeave.setText(isAdmin ? "Delete Group" : "Leave Group");
+        TextView btnAdd = view.findViewById(R.id.btn_add);
+        btnAdd.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+                showCreateChallengeDialog();
+            }
+        });
         btnLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup.dismiss();
                 new AlertDialog.Builder(getContext())
-                        .setMessage(isAdmin?"Do you really want to delete group?":"Do you really want to leave?")
+                        .setMessage(isAdmin ? "Do you really want to delete group?" : "Do you really want to leave?")
                         .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setNegativeButton(isAdmin?"Delete":"Leave", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(isAdmin ? "Delete" : "Leave", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (isAdmin) {
@@ -227,5 +238,27 @@ public class GroupDetailFragment extends BaseFragment {
     @OnClick(R.id.iv_setting)
     public void onClickSetting() {
         popup.showAsDropDown(ivSetting, 0, 0);
+    }
+
+    private void showCreateChallengeDialog() {
+        CreateChallengeDialog createChallengeDialog = CreateChallengeDialog.newInstance(null, -1,
+                new CreateChallengeDialog.OnSubmitListener() {
+                    @Override
+                    public void onSubmit(int pos, ChallengeItem challengeItem) {
+                        MyApplication.getInstance().getGroupHelper()
+                                .addGroupChallenge(group.getGroupKey(), challengeItem, new GroupHelper.CustomCompleteListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(String message) {
+
+                                    }
+                                });
+                    }
+                });
+        createChallengeDialog.show(getChildFragmentManager(), null);
     }
 }

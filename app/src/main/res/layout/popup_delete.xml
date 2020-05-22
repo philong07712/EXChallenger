@@ -13,6 +13,21 @@
         android:orientation="vertical">
 
         <com.utilityview.customview.CustomTextviewFonts
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_trans_press_gray"
+            android:drawablePadding="6dp"
+            android:gravity="end"
+            android:padding="12dp"
+            android:visibility="gone"
+            android:text="Add Challenge"
+            android:textAllCaps="false"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            app:font_type="@string/medium" />
+
+        <com.utilityview.customview.CustomTextviewFonts
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -18,6 +18,7 @@ import com.example.exchallenger.helpers.EditListener;
 import com.example.exchallenger.models.User;
 import com.example.exchallenger.models.event.LoginSuccessEvent;
 import com.example.exchallenger.base.BaseFragment;
+import com.example.exchallenger.utils.AppUtils;
 import com.example.exchallenger.utils.JSONUtilParser;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -169,9 +170,9 @@ public class GuestFragment extends BaseFragment {
             public void onRead(Map<String, Object> user) {
                 if (user != null) {
                     Log.d(TAG, "User existed" + user.toString());
-                    newUser.setNumChallenge((long) user.get("numChallenge"));
-                    newUser.setTotalPoints((long) user.get("totalPoints"));
-                    newUser.setTotalTimes((long) user.get("totalTimes"));
+                    newUser.setNumChallenge(AppUtils.getIntFromFirebaseMap(user,"numChallenge"));
+                    newUser.setTotalPoints(AppUtils.getIntFromFirebaseMap(user,"totalPoints"));
+                    newUser.setTotalTimes(AppUtils.getIntFromFirebaseMap(user,"totalTimes"));
                     newUser.setUserID(uid);
                     MyApplication.getInstance().getUserHelper().editUserInfo(
                             uid,

@@ -375,6 +375,25 @@ public class GroupHelper {
         });
     }
 
+    public void addGroupChallenge(String groupId, ChallengeItem challengeItem, CustomCompleteListener listener) {
+        CollectionReference collectionReference = ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT);
+        collectionReference.add(AppUtils.createMapFromChallengeItem(challengeItem))
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        listener.onSuccess();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        listener.onFailure(e.getMessage());
+
+                    }
+                });
+
+    }
+
     public void deleteChallenge(String groupId, ChallengeItem dataItem) {
         ref.document(groupId).collection(Constants.PATH_MINI_WORKOUT)
                 .document(dataItem.getId())
