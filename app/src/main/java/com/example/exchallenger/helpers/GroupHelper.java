@@ -89,7 +89,7 @@ public class GroupHelper {
                     }
                     listener.onRead(groups);
                 } else {
-                    Log.d(MainHelper.TAG, "Group list is null");
+                    listener.onRead(new ArrayList<>());
                 }
             }
         });

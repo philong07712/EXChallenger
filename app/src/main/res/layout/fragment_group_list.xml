@@ -13,22 +13,22 @@
 
         <ImageView
             android:id="@+id/iv_empty"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:visibility="gone"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="64dp"
-            android:src="@drawable/ic_meeting" />
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_meeting"
+            android:visibility="gone" />
 
         <com.utilityview.customview.CustomTextviewFonts
             android:id="@+id/tv_empty"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="322dp"
+            android:layout_marginTop="240dp"
             android:gravity="center_horizontal"
             android:text="@string/empty_group"
             android:textSize="14sp"
+            android:visibility="gone"
             app:font_type="@string/medium" />
 
         <androidx.recyclerview.widget.RecyclerView

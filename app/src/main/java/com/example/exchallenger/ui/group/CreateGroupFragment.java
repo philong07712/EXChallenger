@@ -1,6 +1,7 @@
 package com.example.exchallenger.ui.group;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,11 +112,27 @@ public class CreateGroupFragment extends BaseFragment {
         }
 
         if (item.getItemId() == 1) {//delete
-            challengeAdapter.getDataList().remove(item.getGroupId());
-            challengeAdapter.notifyItemRemoved(item.getGroupId());
-            if (challengeAdapter.getDataList().size() == 0) {
-                btnDone.setEnabled(false);
-            }
+            new AlertDialog.Builder(getContext())
+                    .setMessage("Do you really want to delete this challenge?")
+                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            challengeAdapter.getDataList().remove(item.getGroupId());
+                            challengeAdapter.notifyItemRemoved(item.getGroupId());
+                            if (challengeAdapter.getDataList().size() == 0) {
+                                btnDone.setEnabled(false);
+                            }
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
             return true;
         }
 
